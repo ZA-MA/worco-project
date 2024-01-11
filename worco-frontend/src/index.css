@@ -11,3 +11,110 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+html {
+  --dark-grey: #2b2b2b;
+  --grey: #5f6368;
+  --black: #111215;
+  --white: #f1f3f4;
+  --pink: #ff00ff;
+  --red: #ff1400;
+  --safety-red: #c5221f;
+  --green: #00ff00;
+  --yellow: #ffff00;
+  --cyan: #00ffff;
+  --blue: #0000ff;
+  --sky-blue: #8AB4F8;
+  font-family: Montserrat, sans-serif;
+}
+
+html,body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: Montserrat, sans-serif;
+  background-color: #F2F2F2;
+  width: 100%;
+  color: #111111;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+button{
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+  width: auto;
+  cursor: pointer;
+}
+*,*:after,*:before {
+  box-sizing: border-box;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #404040 #d2d2d2;
+}
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+*::-webkit-scrollbar-track {
+  background-color: #d0d0d0;
+}
+
+*::-webkit-scrollbar-track:hover {
+  background-color: #d2d2d2;
+}
+
+*::-webkit-scrollbar-track:active {
+  background-color: #d2d2d2;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #404040;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #5d5d5d;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: #404040;
+}
+
+.disable-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.enable-select {
+  -webkit-touch-callout: default;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}

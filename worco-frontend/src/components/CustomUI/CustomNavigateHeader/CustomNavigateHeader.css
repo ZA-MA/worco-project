@@ -1,0 +1,15 @@
+.navigate-header{
+    width: 100%;
+    display: inline-grid;
+    justify-content: space-between;
+    align-items: center;
+    grid-template-columns: 60px auto 60px;
+}
+
+.navigate-header img{
+    filter: drop-shadow(0px 4px 5px rgba(129, 129, 129, 0.70));
+}
+
+.navigate-header img:first-child{
+    cursor: pointer;
+}

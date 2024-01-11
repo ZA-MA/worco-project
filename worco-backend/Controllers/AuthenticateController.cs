@@ -114,8 +114,8 @@ namespace JWTRefreshToken.NET6._0.Controllers
                                 signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
                         var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-                        HttpContext.Response.Cookies.Append("token", encodedJwt);
-                        HttpContext.Response.Cookies.Append("Email", user.email);
+                        HttpContext.Response.Cookies.Append("token", encodedJwt, new Microsoft.AspNetCore.Http.CookieOptions { Expires = expires });
+                        HttpContext.Response.Cookies.Append("Email", user.email, new Microsoft.AspNetCore.Http.CookieOptions { Expires = expires });
 
                         return Ok(new
                         {

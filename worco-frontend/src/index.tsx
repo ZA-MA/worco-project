@@ -6,6 +6,7 @@ import React, {createContext} from 'react';
 import Store from './store/store'
 
 import Layout from "./components/Layout/Layout";
+import {disableScaling} from "./functions/disableScaling";
 
 
 
@@ -15,23 +16,20 @@ interface IStore {
 
 const store = new Store();
 
-export const Context = createContext<IStore>({
-    store,
-})
+export const Context = createContext<IStore>({store})
+
+disableScaling()
 
 ReactDOM.render(
-    // <HashRouter>
     <HashRouter>
-        <ModalState>
-                <div className={"content"}>
-                    <Layout/>
-                </div>
-                {/*<Footer/>*/}
-        </ModalState>
+        <Context.Provider value={{store}}>
+            <Layout/>
+        </Context.Provider>
     </HashRouter>
     ,
-    document.getElementById('root')
+    document.body
 );
+
 
 
 

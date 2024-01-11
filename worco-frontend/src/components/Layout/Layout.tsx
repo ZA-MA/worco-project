@@ -6,6 +6,7 @@ import UserLayout from "./UserLayout/UserLayout";
 import CompanyLayout from "./CompanyLayout/CompanyLayout";
 import AdminLayout from "./AdminLayout/AdminLayout";
 import GuestLayout from "./GuestLayout/GuestLayout";
+import Header from "../Header/Header";
 
 function Layout(){
     const {store} = useContext(Context)
@@ -19,11 +20,12 @@ function Layout(){
     },[])
 
     return(
-        <div className={"layout-div"}>
+        <>
+            {((store.role === 'User' || store.role === 'Company' || store.role === 'Admin') && (store.isAuth)) && <Header/>}
             {(store.role === 'Guest' || !store.isAuth) &&  <GuestLayout/>}
             {(store.role === 'User' && (store.isAuth)) && <UserLayout/>}
             {(store.role === 'Company' && (store.isAuth)) && <CompanyLayout/>}
             {(store.role === 'Admin' && (store.isAuth)) && <AdminLayout/>}
-        </div>
+        </>
     )
 }export default observer (Layout)

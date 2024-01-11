@@ -1,4 +1,4 @@
-import {makeObservable, observable, runInAction} from "mobx";
+import {makeAutoObservable, makeObservable, observable, runInAction} from "mobx";
 import {IUser} from "../models/user/IUser";
 import AuthenticateService from "../services/AuthenticateService";
 import { configure } from "mobx"
@@ -10,6 +10,10 @@ configure({
 const {ApiRoutes:{hubs}} = require("../Routes/apiRoutes");
 
 export default class Store{
+    constructor() {
+        makeAutoObservable(this)
+    }
+
     user = {} as IUser;
     @observable isAuth = false;
     @observable isAuthLoading = true;
@@ -21,12 +25,6 @@ export default class Store{
     @observable imgServer = 'https://pictureservice.ru/';
     @observable helpNumber:string = '';
 
-
-
-
-    constructor() {
-        makeObservable(this)
-    }
     setAuth(bool: boolean) {
         this.isAuth = bool;
     }
@@ -54,24 +52,16 @@ export default class Store{
     setHelpNumber(str: string) {
         this.helpNumber = str;
     }
-    async login(email:string, password:string){
-        try{
-
+    async login(data:object){
             this.setLogout(false)
-            const response = await AuthenticateService.login(email, password)
+            const response = await AuthenticateService.login(data)
             //localStorage.setItem('token', response.data.token)
             this.setAuth(true)
             // localStorage.setItem('userId', response.data.user.id)
             this.setRole(response.data.role)
             this.setUser(response.data.user)
             this.setHelpNumber(response.data.helpNumber)
-            return response.status
-        }catch (e:any) {
-            console.log(e.response)
-        }finally
-        {
-            this.setAuthLoading(false)
-        }
+            return response
     }
 
     // async register(userinfo: any, URL:string):Promise<boolean>{
@@ -94,9 +84,11 @@ export default class Store{
         try{
             // const response = await AuthService.logout()
             this.setLogout(true)
-            localStorage.removeItem('token');
+            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "Email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            /*localStorage.removeItem('token');*/
             let userId = localStorage.getItem('userId') ?? "";
-            localStorage.removeItem('userId')
+            /*localStorage.removeItem('userId')*/
             this.setAuth(false)
             this.setRole("Guest")
             this.setUser({} as IUser)
@@ -111,10 +103,8 @@ export default class Store{
     async checkAuth(){
         if (!this.Logout){
             try {
-
                 this.setLogout(false)
                 const response = await AuthenticateService.checkAuth()
-                localStorage.setItem('token', response.data.token)
                 this.setAuth(true)
                 this.setRole(response.data.role)
                 this.setUser(response.data.user)

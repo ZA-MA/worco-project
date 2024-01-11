@@ -7,8 +7,8 @@ const {ApiRoutes: { Authenticate }} = require("../Routes/apiRoutes");
 
 export default class AuthenticateService {
     //Login function
-    static async login(email:string, password:string):Promise<AxiosResponse<AuthResponse>>{
-        return $api.post<AuthResponse>(Authenticate.LOGIN, {email, password})
+    static async login(data:object):Promise<AxiosResponse<AuthResponse>>{
+        return $api.post<AuthResponse>(Authenticate.LOGIN, data)
     }
     //Registration
 

@@ -23,11 +23,8 @@ function GuestLayout(){
     },[])*/
 
     return(
-        <div className={"user-layout"}>
-            <div className={"user-header"}>
-                {/*<Header CartitemsNumber={store.CartItemsNumber}/>*/}
-            </div>
-            <div className={"user-content"}>
+        <div className={"guest-layout"}>
+            <div className={"guest-content"}>
                 <Context.Provider value={{store}}>
                     <ContextProviderContainer/>
                 </Context.Provider>

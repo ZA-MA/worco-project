@@ -4,4 +4,8 @@ export const SpaRoutes = {
     MAIN: "/main",
     LOGIN: "/login",
     REGISTRATION: "/registration",
+
+    USER:{
+        PROFILE: "/profile",
+    }
 }

@@ -1,0 +1,35 @@
+.loggedIn{
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 50px auto;
+}
+
+.loggedIn-header{
+    text-align: center;
+    font-size: 32px;
+}
+
+.loggedIn-content{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.loggedIn-content button{
+    width: 100%;
+    height: 48px;
+    border-radius: 12px;
+    background: #404040;
+    color: #FFFFFF;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    transition: 300ms;
+}
+
+.loggedIn-content button:hover{
+    background: #606060;
+    color: #FFF;
+}

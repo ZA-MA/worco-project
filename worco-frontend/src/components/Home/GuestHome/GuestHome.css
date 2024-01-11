@@ -1,0 +1,14 @@
+.guestHome-content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.guestHome-topBlock{
+    width: 100%;
+}
+
+.guestHome-topBlock img{
+    width: 100%;
+    object-fit: cover;
+}

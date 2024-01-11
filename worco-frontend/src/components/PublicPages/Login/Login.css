@@ -1,0 +1,117 @@
+.login-content{
+    max-width: 600px;
+    height: 100dvh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-header img:first-child:hover{
+    background-image: url("/public/Pictures/blackArrow.svg");
+}
+
+.login-form{
+    margin-top: 25px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px 60px 50px 60px;
+    border-radius: 30px;
+    background: #D0D0D0;
+    box-shadow: 0px 4px 35px 0px rgba(0, 0, 0, 0.40);
+}
+
+.login-text{
+    color: #111;
+    text-align: center;
+
+    font-size: 31px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.login-input-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.login-input-hint{
+    color: #111;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.login-button-enter{
+    cursor: pointer;
+
+    width: 100%;
+    height: 48px;
+    border-radius: 12px;
+    background: #404040;
+    color: #FFFFFF;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    transition: 300ms;
+    /*border: 1px solid transparent;*/
+}
+
+.login-button-enter[data-canEnter="true"]:hover{
+    background: #606060;
+    color: #FFF;
+    /*border-color: #111111;*/
+}
+
+.login-button-enter[data-canEnter="false"]{
+    background: #818181;
+    color: #FFFFFF;
+}
+
+.login-button-registration{
+    margin-top: 5px;
+    cursor: pointer;
+    width: 100%;
+    height: 48px;
+    border-radius: 12px;
+    border: 1px solid #404040;
+    transition: 300ms;
+}
+
+.login-button-registration:hover{
+    background-color: #606060;
+    border-color: #606060;
+    color: #FFF;
+}
+
+.login-forgotPass{
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.login-rememberMe{
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+}
+.login-rememberMe input{
+    all: unset;
+    margin: 0;
+    width: 15px;
+    height: 15px;
+
+    border: 1px solid #404040;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.login-rememberMe input:checked{
+    background-color: #404040;
+    outline: 2px solid #D0D0D0;
+    outline-offset: -3px;
+}

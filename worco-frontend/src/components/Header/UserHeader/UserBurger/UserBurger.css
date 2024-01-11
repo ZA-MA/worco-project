@@ -1,0 +1,113 @@
+.burgerUser{
+
+}
+
+.burgerUser-button{
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 15px;
+    background-color: brown;
+    object-fit: cover;
+}
+
+.burgerUser-button img{
+
+}
+
+.burgerUser-content{
+    padding: 20px;
+    box-shadow: inset 0 12px 10px -10px rgba(0, 0, 0, 0.25);
+    background-color: #D0D0D0;
+    position: absolute;
+    left: 0;
+    top: 70px;
+    width: 300px;
+    height: calc(100dvh - 70px);
+    transition: 500ms;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+}
+
+.burger-open{
+    animation: animShowBurger forwards 500ms;
+}
+
+.burger-close{
+    display: none;
+    animation: animHideBurger forwards 500ms;
+}
+
+@keyframes animShowBurger {
+    from{transform: translatex(-100%); display: none}
+    to {transform: translatex(0%); display: flex}
+}
+
+@keyframes animHideBurger {
+    from{transform: translatex(0%); display: flex}
+    to {transform: translatex(-100%); display: none}
+}
+
+.burgerUser-info{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 15px;
+}
+
+.burgerUser-info-image{
+    cursor: pointer;
+    background-color: #FFFFFF;
+    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.25);
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 100%;
+    transition: 300ms;
+}
+
+.burgerUser-info-image:hover{
+    filter: blur(1px);
+    opacity: 60%;
+}
+
+.burgerUser-info-names{
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.burgerUser-links{
+
+    display: inline-flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.burgerUser-link{
+    all: unset;
+    cursor: pointer;
+    height: 48px;
+    display: inline-flex;
+    background-color: #EFEFEF;
+    align-items: center;
+    justify-content: left;
+    gap: 15px;
+    border-radius: 12px;
+    padding: 0 21px;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    transition: 300ms;
+}
+
+.burgerUser-link:hover{
+    background-color: #FFFFFF;
+}
+
+.burgerUser-link img{
+    width: 25px;
+    height: 25px;
+    background-color: #5d5d5d;
+    border-radius: 9px;
+}

@@ -6,10 +6,10 @@ import GuestHome from "./GuestHome/GuestHome";
 const Home = () => {
     const {store} = useContext(Context)
     return (
-        <div>
+        <>
             {(store.role === 'Guest' || !store.isAuth) &&  <GuestHome/>}
             {(store.role === 'User' && (store.isAuth)) && <UserHome/>}
-        </div>
+        </>
     );
 };
 

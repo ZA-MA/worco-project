@@ -1,0 +1,71 @@
+.headerGuest{
+    margin: 20px;
+    display: inline-flex;
+    justify-content: space-between;
+}
+
+.log-buttons{
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 20%;
+    height: 40px;
+    border-radius: 20px;
+    background: #EFEFEF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+
+}
+
+.login-button, .registration-button{
+    all: unset;
+    width: calc(50% + 20px);
+    text-align: center;
+    height: 40px;
+    cursor: pointer;
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-button{
+    margin-left: -20px;
+    background-color: transparent;
+    transform: skew(-45deg, 0);
+    transition: 300ms;
+}
+
+.registration-button{
+    margin-right: -20px;
+    background-color: #2F2F2F;
+    transform: skew(-45deg , 0 );
+    color: #EFEFEF;
+    transition: 300ms;
+}
+
+.login-button div{
+    margin-left: 20px;
+    white-space: nowrap;
+    transform: skew(45deg, 0);
+}
+
+.registration-button div{
+    margin-right: 20px;
+    white-space: nowrap;
+    transform: skew(45deg, 0);
+}
+
+.login-button:hover{
+    width: 100%;
+}
+
+.registration-button:hover{
+    width: 100%;
+}
+
+/*body:has(.a:hover) .b {*/
+
+/*}*/
+

@@ -1,0 +1,80 @@
+.interactiveMap{
+    width: 100%;
+    height: inherit;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+
+.interactiveMap-panel{
+    width: 100%;
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 50px;
+    background-color: #c5c5c5;
+    position: absolute;
+    top: 0;
+    z-index: 5;
+    box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.25);
+    align-items: center;
+    justify-items: center;
+}
+
+.interactiveMap-panel-places{
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-around;
+}
+
+.interactiveMap-panel-floor{
+
+}
+
+.interactiveMap-panel-filter{
+    width: 100%;
+    display: inline-flex;
+    justify-content: right;
+    margin-right: 20%;
+}
+
+.interactiveMap-content{
+
+}
+
+.interactiveMap-content img{
+    object-fit: cover;
+    width: 100%;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    height: auto;
+}
+
+.interactiveMap-content svg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.interactiveMap-place circle{
+    position: relative;
+}
+.interactiveMap-place circle:hover{
+    fill: #61dafb;
+}
+.interactiveMap-place foreignObject{
+    position: absolute;
+    z-index: 3;
+    background: #61dafb;
+    display: none;
+}
+
+.interactiveMap-place:hover foreignObject{
+    display: block;
+}

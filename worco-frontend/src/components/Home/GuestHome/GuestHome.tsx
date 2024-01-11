@@ -1,6 +1,8 @@
 import React, {useContext} from 'react';
 import $api from "../../../api/axios";
 import {Context} from "../../../index";
+import "./GuestHome.css";
+import Header from "../../Header/Header";
 
 const GuestHome = () => {
     const {store} = useContext(Context)
@@ -9,21 +11,9 @@ const GuestHome = () => {
         "password": "123.Ru",
         "rememberMe": true
     }
-    // fetch("https://localhost:5001/Authenticate/login",
-    //     {
-    //         method: "POST",
-    //         headers: {"Content-Type": "application/json"},
-    //         credentials: "include",
-    //         body: JSON.stringify({
-    //             "email": "max@gmail.com",
-    //             "password": "123.Ru",
-    //             "rememberMe": true
-    //         })
-    //
-    //     })
 
     const a = async () => {
-        await store.login("max@gmail.com", "123.Ru")
+        // await store.login("max@gmail.com", "123.Ru")
     }
 
     const b = async () => {
@@ -31,10 +21,11 @@ const GuestHome = () => {
     }
 
     return (
-        <div>
-            guestHome
-            <button onClick={a}>Login</button>
-            <button onClick={b}>2asd</button>
+        <div className={"guestHome-content"}>
+            <Header/>
+            <div className={"guestHome-topBlock"}>
+                <img src={"Pictures/topBlockImage.png"}/>
+            </div>
         </div>
     );
 };
