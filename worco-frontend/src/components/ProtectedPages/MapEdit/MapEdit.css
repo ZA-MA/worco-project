@@ -1,0 +1,63 @@
+.interactiveMapEdit-panel-floor{
+    width: 40%;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+}
+
+.interactiveMapEdit-panel-floor-btn{
+    position: absolute;
+    right: -80px;
+    display: inline-flex;
+    gap: 5px;
+}
+
+.interactiveMapEdit-panel-floor button{
+    padding: 5px;
+    width: 32px;
+    height: 32px;
+    background-color: #EFEFEF;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.25);
+}
+
+.interactiveMapEdit-panel-floor button div{
+    width: 22px;
+    height: 22px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.interactiveMapEdit-panel-floor button:first-child div{
+    background-image: url("/public/Pictures/editIcon.svg");
+}
+
+.interactiveMapEdit-panel-floor button:last-child div{
+    background-image: url("/public/Pictures/plusCircle.svg");
+}
+
+.interactiveMapEdit-panel-floor button:hover{
+    background: #606060;
+    color: #FFF;
+}
+
+.interactiveMapEdit-panel-floor button:first-child:hover div{
+    background-image: url("/public/Pictures/editIconHover.svg");
+}
+
+.interactiveMapEdit-panel-floor button:last-child:hover div{
+    background-image: url("/public/Pictures/plusCircleHover.svg");
+}
+
+.interactiveMapEdit-panel-editPosition{
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 20px;
+    white-space: nowrap;
+}
+
+.interactiveMapEdit-panel-editPosition button:first-child{
+    width: 20px;
+}

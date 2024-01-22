@@ -1,8 +1,5 @@
-.burgerUser{
 
-}
-
-.burgerUser-button{
+.burger-button{
     cursor: pointer;
     width: 40px;
     height: 40px;
@@ -11,11 +8,11 @@
     object-fit: cover;
 }
 
-.burgerUser-button img{
+.burger-button img{
 
 }
 
-.burgerUser-content{
+.burger-content{
     padding: 20px;
     box-shadow: inset 0 12px 10px -10px rgba(0, 0, 0, 0.25);
     background-color: #D0D0D0;
@@ -49,7 +46,7 @@
     to {transform: translatex(-100%); display: none}
 }
 
-.burgerUser-info{
+.burger-info{
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -58,7 +55,7 @@
     gap: 15px;
 }
 
-.burgerUser-info-image{
+.burger-info-image{
     cursor: pointer;
     background-color: #FFFFFF;
     box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.25);
@@ -69,24 +66,24 @@
     transition: 300ms;
 }
 
-.burgerUser-info-image:hover{
+.burger-info-image:hover{
     filter: blur(1px);
     opacity: 60%;
 }
 
-.burgerUser-info-names{
+.burger-info-names{
     font-size: 20px;
     font-weight: 400;
 }
 
-.burgerUser-links{
+.burger-links{
 
     display: inline-flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.burgerUser-link{
+.burger-link{
     all: unset;
     cursor: pointer;
     height: 48px;
@@ -101,11 +98,11 @@
     transition: 300ms;
 }
 
-.burgerUser-link:hover{
+.burger-link:hover{
     background-color: #FFFFFF;
 }
 
-.burgerUser-link img{
+.burger-link img{
     width: 25px;
     height: 25px;
     background-color: #5d5d5d;

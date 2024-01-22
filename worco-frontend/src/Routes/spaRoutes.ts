@@ -7,5 +7,13 @@ export const SpaRoutes = {
 
     USER:{
         PROFILE: "/profile",
+    },
+
+    COMPANY:{
+        PROFILE: "/profile",
+    },
+
+    ADMIN: {
+        INTERACTIVE_MAP_EDIT: "/interactiveMapEdit"
     }
 }

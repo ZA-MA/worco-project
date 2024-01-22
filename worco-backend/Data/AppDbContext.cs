@@ -13,5 +13,8 @@ namespace worco_backend.Data
         public DbSet<Login> Login { get; set; }
         public DbSet<Accaunt> Accaunt { get; set; }
         public DbSet<Roles> Roles { get; set; }
+        public DbSet<Maps> Maps { get; set; }
+        public DbSet<Places> Places { get; set; }
+        public DbSet<Places_elements> Places_elements { get; set; }
     }
 }

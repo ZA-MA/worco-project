@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import "./LoggedIn.css"
 import {useNavigate} from "react-router-dom";
 import {Context} from "../../../index";
+import Button from "../../UI/Button/Button";
 const LoggedIn = () => {
     const {store} = useContext(Context)
     const navigate = useNavigate();
@@ -16,15 +17,15 @@ const LoggedIn = () => {
                 Вы уже авторизованы
             </div>
             <div className={"loggedIn-content"}>
-                <button onClick={() => navigate(-1)}>
+                <Button type={"black"} onClick={() => navigate(-1)}>
                     Вернуться назад
-                </button>
-                <button onClick={() => navigate("/")}>
+                </Button>
+                <Button type={"black"} onClick={() => navigate("/")}>
                     Перейти на главную страницу
-                </button>
-                <button onClick={logout}>
+                </Button>
+                <Button type={"white2"} onClick={logout}>
                     Выйти из системы
-                </button>
+                </Button>
             </div>
         </div>
     );

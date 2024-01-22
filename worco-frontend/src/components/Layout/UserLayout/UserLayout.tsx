@@ -8,9 +8,9 @@ const UserLayout = () => {
 
     return (
         <div className={"user-content"}>
-        <Context.Provider value={{store}}>
-            <ContextProviderContainer/>
-        </Context.Provider>
+            <Context.Provider value={{store}}>
+                <ContextProviderContainer/>
+            </Context.Provider>
         </div>
     );
 };

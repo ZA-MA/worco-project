@@ -2,8 +2,8 @@ import React, {useContext} from "react";
 import App from "./App";
 import {Context} from "./index";
 import {observer} from "mobx-react-lite";
-import {ErrorPage} from "./components/CustomUI/ErrorPage/ErrorPage";
-import {Loader} from "./components/CustomUI/Loader/Loader";
+import {ErrorPage} from "./components/UI/ErrorPage/ErrorPage";
+import {Loader} from "./components/UI/Loader/Loader";
 
 const ContextProviderContainer = () => {
     const {store} = useContext(Context)

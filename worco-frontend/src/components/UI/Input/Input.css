@@ -1,4 +1,4 @@
-.custom-input{
+.input{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -20,7 +20,7 @@ input[type=number][data-numberButtons="false"]::-webkit-inner-spin-button{
     display: none;
 }
 
-.custom-input-field{
+.input-field{
     all: unset;
     appearance: none;
     font-family: "Montserrat", sans-serif;
@@ -38,22 +38,22 @@ input[type=number][data-numberButtons="false"]::-webkit-inner-spin-button{
     box-sizing: border-box;
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
 }
-.custom-input-field[data-size="small"]{
+.input-field[data-size="small"]{
     height: 48px;
     font-size: 18px;
     border-radius: 12px;
 }
-.custom-input-field[data-size="large"]{
+.input-field[data-size="large"]{
     height: 60px;
     font-size: 18px;
     border-radius: 12px;
 }
-.custom-input-image{
+.input-image{
     position: absolute;
     right: 21px;
     color: #333333;
 }
-.сustom-input-error{
+.input-error{
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -62,12 +62,12 @@ input[type=number][data-numberButtons="false"]::-webkit-inner-spin-button{
     right: 21px;
 
 }
-.сustom-input-error-image{
+.input-error-image{
     color: #333333;
     width: 20px;
     height: 20px;
 }
-.сustom-input-error-text{
+.input-error-text{
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -88,7 +88,7 @@ input[type=number][data-numberButtons="false"]::-webkit-inner-spin-button{
     white-space: nowrap;
 
 }
-/*.сustom-input-error-text::after {*/
+/*.input-error-text::after {*/
 /*    content: "";*/
 /*    position: absolute;*/
 /*    bottom: 100%;*/
@@ -98,15 +98,11 @@ input[type=number][data-numberButtons="false"]::-webkit-inner-spin-button{
 /*    border-style: solid;*/
 /*    border-color:transparent  transparent #333333 transparent;*/
 /*}*/
-.сustom-input-error:hover .сustom-input-error-text{
+.input-error:hover .input-error-text{
     visibility: visible;
 }
-.сustom-input-error:target .сustom-input-error-text{
+.input-error:target .input-error-text{
     visibility: visible;
-}
-
-.password input{
-    -webkit-text-security: disc !important;
 }
 
 .password img{

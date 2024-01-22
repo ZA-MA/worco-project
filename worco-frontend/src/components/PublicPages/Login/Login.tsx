@@ -1,10 +1,12 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import "./Login.css"
-import CustomInput from "../../CustomUI/CustomInput/CustomInput";
-import CustomNavigateHeader from "../../CustomUI/CustomNavigateHeader/CustomNavigateHeader";
+import Input from "../../UI/Input/Input";
+import NavigateHeader from "../../UI/NavigateHeader/NavigateHeader";
 import {Context} from "../../../index";
 import {useLocation, useNavigate} from "react-router-dom";
 import LoggedIn from "../../ProtectedPages/LoggedIn/LoggedIn";
+import Button from "../../UI/Button/Button";
+import {observer} from "mobx-react-lite";
 
 
 const Login = () => {
@@ -71,13 +73,13 @@ const Login = () => {
         <>
             {store.isAuth? <LoggedIn/> :
                 <div className={"login-content"}>
-                    <CustomNavigateHeader/>
+                    <NavigateHeader/>
                     <form className={"login-form"} autoComplete={"off"}>
                         <div className={"login-text"}>Вход</div>
 
                         <div className={"login-input-container"}>
                             <div className={"login-input-hint"}>Электронная почта</div>
-                            <CustomInput
+                            <Input
                                 value={login}
                                 inputSize={"small"} type={"text"}
                                 onChange={(e) => {
@@ -90,7 +92,7 @@ const Login = () => {
 
                         <div className={"login-input-container"}>
                             <div className={"login-input-hint"}>Пароль</div>
-                            <CustomInput
+                            <Input
                                 value={password}
                                 inputSize={"small"} type={"password"} icon={true}
                                 onChange={(e) => {
@@ -107,14 +109,14 @@ const Login = () => {
                         </div>
 
 
-                        <button className={"login-button-enter"}
+                        <Button type={"black"}
                                 data-canEnter={canEnter}
                                 onClick={Login}
                                 disabled={!canEnter}
                         >
                             Войти
-                        </button>
-                        <button className={"login-button-registration"}>Зарегистрироваться</button>
+                        </Button>
+                        <Button type={"white2"} onClick={() => navigate("/registration")}>Зарегистрироваться</Button>
 
                         <div className={"login-forgotPass"}>Забыли пароль?</div>
                     </form>
@@ -123,4 +125,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default observer(Login);

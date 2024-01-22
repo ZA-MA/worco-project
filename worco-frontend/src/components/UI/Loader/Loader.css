@@ -1,0 +1,10 @@
+#loader-container{
+    position: absolute;
+    width: 100%;
+    height: 100dvh;
+    z-index: 100;
+    background-color: #EFEFEF;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}

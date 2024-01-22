@@ -1,9 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import {Context} from "../../../index";
+import ContextProviderContainer from "../../../ContextProviderContainer";
 
 const AdminLayout = () => {
+    const {store} = useContext(Context)
     return (
-        <div>
-            
+        <div className={"admin-content"}>
+            <Context.Provider value={{store}}>
+                <ContextProviderContainer/>
+            </Context.Provider>
         </div>
     );
 };

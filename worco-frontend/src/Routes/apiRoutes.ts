@@ -7,6 +7,16 @@ export const ApiRoutes = {
         REFRESH_TOKEN: "/Authenticate/refresh-token",
         USER_INFO: "/Authenticate/userInfo",
         //FAVORITES: "/favorites",
+    },
+
+    InteractiveMap:{
+        GET_MAPS: "/InteractiveMap/GetMaps",
+        GET_MAP: "/InteractiveMap/GetInteractiveMap"
+    },
+
+    InteractiveMapEdit:{
+        SavePositionPlaces: "/InteractiveMapEdit/SavePositionPlaces",
+        GetPlacesElements: "/InteractiveMapEdit/GetPlacesElements"
     }
 
 }

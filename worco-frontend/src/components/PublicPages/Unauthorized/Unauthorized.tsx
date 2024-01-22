@@ -1,6 +1,7 @@
 import React from 'react';
 import "./Unauthorized.css"
 import {useNavigate} from "react-router-dom";
+import Button from "../../UI/Button/Button";
 
 const Unauthorized = () => {
     const navigate = useNavigate()
@@ -10,12 +11,12 @@ const Unauthorized = () => {
                 У вас нет доступа к этой странице
             </div>
             <div className={"loggedIn-content"}>
-                <button onClick={() => navigate(-1)}>
+                <Button type={"black"} onClick={() => navigate(-1)}>
                     Вернуться назад
-                </button>
-                <button onClick={() => navigate("/")}>
+                </Button>
+                <Button type={"black"} onClick={() => navigate("/")}>
                     Перейти на главную страницу
-                </button>
+                </Button>
             </div>
         </div>
     );

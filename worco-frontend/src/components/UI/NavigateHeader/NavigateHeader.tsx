@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import "./CustomNavigateHeader.css"
+import "./NavigateHeader.css"
 
 interface ICustomNavigateHeader{
     Text?: string;
 }
 
-const CustomNavigateHeader = ({Text}: ICustomNavigateHeader) => {
+const NavigateHeader = ({Text}: ICustomNavigateHeader) => {
     const [src, setSrc] = useState("Pictures/whiteArrow.svg")
     return (
         <div className={"navigate-header"}>
@@ -18,4 +18,4 @@ const CustomNavigateHeader = ({Text}: ICustomNavigateHeader) => {
     );
 };
 
-export default CustomNavigateHeader;
+export default NavigateHeader;

@@ -1,6 +1,6 @@
 .interactiveMap{
     width: 100%;
-    height: inherit;
+    height: calc(100dvh - 70px);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -25,12 +25,15 @@
 
 .interactiveMap-panel-places{
     width: 100%;
-    display: inline-flex;
-    justify-content: space-around;
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    gap: 25px;
+    padding: 0 20px;
 }
 
 .interactiveMap-panel-floor{
-
+    width: 40%;
 }
 
 .interactiveMap-panel-filter{
@@ -62,7 +65,19 @@
     overflow: visible;
 }
 
+.interactiveMap-place{
+    position: relative;
+}
+
+.interactiveMap-place image{
+    max-width: 50px;
+    position: relative;
+    object-fit: cover;
+}
+
 .interactiveMap-place circle{
+    width: 20px;
+    height: 20px;
     position: relative;
 }
 .interactiveMap-place circle:hover{
@@ -70,9 +85,11 @@
 }
 .interactiveMap-place foreignObject{
     position: absolute;
+    top: 20px;
     z-index: 3;
     background: #61dafb;
     display: none;
+    margin-top: 50px;
 }
 
 .interactiveMap-place:hover foreignObject{

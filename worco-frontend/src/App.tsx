@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {Routes, Route} from "react-router-dom";
-import Map from "./components/Map/Map";
+import Map from "./components/ProtectedPages/Map/Map";
 import Test from "./components/Test/Test";
 import RequireAuth from "./components/Auth/RequireAuth";
 import Main from "./components/PublicPages/Main/Main";
@@ -11,6 +11,7 @@ import Home from "./components/Home/Home";
 import Login from "./components/PublicPages/Login/Login";
 import LoggedIn from "./components/ProtectedPages/LoggedIn/LoggedIn";
 import {observer} from "mobx-react-lite";
+import MapEdit from "./components/ProtectedPages/MapEdit/MapEdit";
 
 
 const ROLES = {
@@ -33,8 +34,14 @@ function App() {
                     <Route path={SpaRoutes.MAIN} element={<Main/>}/>
                 </Route>*/}
                 {/*<Route path={SpaRoutes.REGISTRATION} element={<Main/>}/>*/}
-                <Route element={<RequireAuth allowedRole={[ROLES.User]}/>}>
+                <Route element={<RequireAuth allowedRole={ROLES.User}/>}>
                     <Route path={SpaRoutes.Home} element={<Home/>}/>
+                </Route>
+
+                <Route element={<RequireAuth allowedRole={ROLES.Admin}/>}>
+                    <Route path={SpaRoutes.Home} element={<Home/>}/>
+                    <Route path={SpaRoutes.ADMIN.INTERACTIVE_MAP_EDIT} element={<MapEdit/>}/>
+                    <Route path={SpaRoutes.MAIN} element={<Main/>}/>
                 </Route>
             </Routes>
         </>

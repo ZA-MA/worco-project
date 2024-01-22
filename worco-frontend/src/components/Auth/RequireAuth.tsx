@@ -4,7 +4,7 @@ import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import './../../index.css';
 import {SpaRoutes} from "../../Routes/spaRoutes";
-import {Loader} from "../CustomUI/Loader/Loader";
+import {Loader} from "../UI/Loader/Loader";
 
 const RequireAuth = ({ allowedRole }:any) => {
     const {store} = useContext(Context)

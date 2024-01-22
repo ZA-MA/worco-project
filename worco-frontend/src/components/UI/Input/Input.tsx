@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import "./CustomInput.css"
+import "./Input.css"
 import InputMask from "react-input-mask";
 
-interface ICustomInput {
+interface IInput {
     type?: string
     name?: string,
     value?: any,
@@ -23,13 +23,13 @@ interface ICustomInput {
     ref?: any
 }
 
-function CustomInput(
+function Input(
     {
         type = "text", name, value, placeHolder,
         onChange, icon, error, errorMsg, mask = "",
         styleInputField = "", disabled=false,
         required=false, inputSize, min, max, step, numberButtons = true, ref
-    }: ICustomInput) {
+    }: IInput) {
     const [isRevealPwd, setIsRevealPwd] = useState(false);
 
 
@@ -37,12 +37,12 @@ function CustomInput(
     return (
         <>
             {type === "text" &&
-                <div className={"custom-input"}>
+                <div className={"input"}>
                     <input
                         ref={ref}
                         required={required}
                         style={{paddingRight: icon && errorMsg? "80px" : icon || errorMsg? "50px" : "21px", borderColor: errorMsg ? "#db2020" : ""}}
-                        className={"custom-input-field " + styleInputField}
+                        className={"input-field " + styleInputField}
                         type={"text"}
                         name={name}
                         value={value}
@@ -52,28 +52,28 @@ function CustomInput(
                         data-size={inputSize}
                     />
                     {errorMsg &&
-                        <div className={"сustom-input-error"} style={{right: icon? "50px" : "21px"}}>
+                        <div className={"input-error"} style={{right: icon? "50px" : "21px"}}>
                             <img
-                                className={"сustom-input-error-image"}
+                                className={"input-error-image"}
                                 src={"/Pictures/errorIcon.svg"}
                             />
-                            <div className={"сustom-input-error-text"}>
+                            <div className={"input-error-text"}>
                                 {errorMsg.map((e: any) => <div>{e}</div>)}
                             </div>
                         </div>
                     }
                     {icon &&
-                        <img className={"custom-input-image"}
+                        <img className={"input-image"}
                              src={"/Pictures/InputIcon.svg"}
                         />
                     }
                 </div>
             }
             {type === "number" &&
-                <div className={"custom-input"} style={{borderColor: error ? "#db2020" : ""}}>
+                <div className={"input"} style={{borderColor: error ? "#db2020" : ""}}>
                     <input
                         style={{paddingRight: icon && errorMsg? "80px" : icon || errorMsg? "50px" : "21px", borderColor: errorMsg ? "#db2020" : ""}}
-                        className={"custom-input-field"}
+                        className={"input-field"}
                         data-numberButtons={numberButtons}
                         type={"number"}
                         name={name}
@@ -88,28 +88,28 @@ function CustomInput(
                         step={step}
                     />
                     {errorMsg &&
-                        <div className={"сustom-input-error"} style={{right: icon? "50px" : "21px"}}>
+                        <div className={"input-error"} style={{right: icon? "50px" : "21px"}}>
                             <img
-                                className={"сustom-input-error-image"}
+                                className={"input-error-image"}
                                 src={"/Pictures/errorIcon.svg"}
                             />
-                            <div className={"сustom-input-error-text"}>
+                            <div className={"input-error-text"}>
                                 {errorMsg.map((e: any) => <div>{e}</div>)}
                             </div>
                         </div>
                     }
                     {icon &&
-                        <img className={"custom-input-image"}
+                        <img className={"input-image"}
                              src={"/Pictures/InputIcon.svg"}
                         />
                     }
                 </div>
             }
             {type === "telephone" &&
-                <div className={"custom-input"} style={{borderColor: error ? "#db2020" : ""}}>
+                <div className={"input"} style={{borderColor: error ? "#db2020" : ""}}>
                     <InputMask
                         style={{paddingRight: icon && errorMsg? "80px" : icon || errorMsg? "50px" : "21px", borderColor: errorMsg ? "#db2020" : ""}}
-                        className={"custom-input-field"}
+                        className={"input-field"}
                         mask="+7 (999) 999-99-99" //+7 (999) 999-99-99
                         name={name}
                         value={value}
@@ -119,28 +119,28 @@ function CustomInput(
                         data-size={inputSize}
                     />
                     {errorMsg &&
-                        <div className={"сustom-input-error"} style={{right: icon? "50px" : "21px"}}>
+                        <div className={"input-error"} style={{right: icon? "50px" : "21px"}}>
                             <img
-                                className={"сustom-input-error-image"}
+                                className={"input-error-image"}
                                 src={"/Pictures/errorIcon.svg"}
                             />
-                            <div className={"сustom-input-error-text"}>
+                            <div className={"input-error-text"}>
                                 {errorMsg.map((e: any) => <div>{e}</div>)}
                             </div>
                         </div>
                     }
                     {icon &&
-                        <img className={"custom-input-image"}
+                        <img className={"input-image"}
                              src={"/Pictures/InputIcon.svg"}
                         />
                     }
                 </div>
             }
             {type === "inputMask" &&
-                <div className={"custom-input"} style={{borderColor: error ? "#db2020" : ""}}>
+                <div className={"input"} style={{borderColor: error ? "#db2020" : ""}}>
                     <InputMask
                         style={{paddingRight: icon && errorMsg? "80px" : icon || errorMsg? "50px" : "21px", borderColor: errorMsg ? "#db2020" : ""}}
-                        className={"custom-input-field"}
+                        className={"input-field"}
                         mask={mask}
                         name={name}
                         value={value}
@@ -150,18 +150,18 @@ function CustomInput(
                         data-size={inputSize}
                     />
                     {errorMsg &&
-                        <div className={"сustom-input-error"} style={{right: icon? "50px" : "21px"}}>
+                        <div className={"input-error"} style={{right: icon? "50px" : "21px"}}>
                             <img
-                                className={"сustom-input-error-image"}
+                                className={"input-error-image"}
                                 src={"/Pictures/errorIcon.svg"}
                             />
-                            <div className={"сustom-input-error-text"}>
+                            <div className={"input-error-text"}>
                                 {errorMsg.map((e: any) => <div>{e}</div>)}
                             </div>
                         </div>
                     }
                     {icon &&
-                        <img className={"custom-input-image"}
+                        <img className={"input-image"}
                              src={"/Pictures/InputIcon.svg"}
                         />
                     }
@@ -169,11 +169,11 @@ function CustomInput(
             }
             {
                 type === "password" &&
-                <div className={"custom-input password"} style={{borderColor: error ? "#db2020" : ""}}>
+                <div className={"input password"} style={{borderColor: error ? "#db2020" : ""}}>
                     <input
                         style={{paddingRight: icon && errorMsg? "80px" : icon || errorMsg? "50px" : "21px", borderColor: errorMsg ? "#db2020" : ""}}
                         name={name}
-                        className={"custom-input-field"}
+                        className={"input-field"}
                         type={isRevealPwd ? "text" : "password"}
                         onChange={onChange}
                         value={value}
@@ -182,19 +182,19 @@ function CustomInput(
                         data-size={inputSize}
                     />
                     {errorMsg &&
-                        <div className={"сustom-input-error"} style={{right: icon? "50px" : "21px"}}>
+                        <div className={"input-error"} style={{right: icon? "50px" : "21px"}}>
                             <img
-                                className={"сustom-input-error-image"}
+                                className={"input-error-image"}
                                 src={"/Pictures/errorIcon.svg"}
                             />
-                            <div className={"сustom-input-error-text"}>
+                            <div className={"input-error-text"}>
                                 {errorMsg.map((e: any) => <div>{e}</div>)}
                             </div>
                         </div>
                     }
                     {icon &&
                         <img
-                            className={"custom-input-image"}
+                            className={"input-image"}
                             src={isRevealPwd ? "/Pictures/closeEye.svg" : "/Pictures/openEye.svg"}
                             onClick={() => setIsRevealPwd(prevState => !prevState)}
                         />
@@ -206,4 +206,4 @@ function CustomInput(
 
 };
 
-export default CustomInput;
+export default Input;
