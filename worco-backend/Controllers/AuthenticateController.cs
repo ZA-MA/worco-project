@@ -56,7 +56,7 @@ namespace JWTRefreshToken.NET6._0.Controllers
             {
                 return StatusCode(StatusCodes.Status511NetworkAuthenticationRequired, new ResponseView { Status = "Error_1", Message = "Mail not found." });
             }
-            var user = db.Accaunt.Where(a => a.email == email).FirstOrDefault();
+            var user = db.Account.Where(a => a.email == email).FirstOrDefault();
             if (user == null)
             {
                 return StatusCode(StatusCodes.Status511NetworkAuthenticationRequired, new ResponseView { Status = "Error_2", Message = "User not found." });
@@ -94,7 +94,7 @@ namespace JWTRefreshToken.NET6._0.Controllers
                 if(login != null) { 
                     if (login.password == HashHelper.hashPassword(model.password))
                     {
-                        var user = await db.Accaunt.Where(a => a.login_id == login.id).FirstOrDefaultAsync();
+                        var user = await db.Account.Where(a => a.login_id == login.id).FirstOrDefaultAsync();
                         string role = (await db.Roles.Where(r => r.id == user.role_id).FirstOrDefaultAsync()).role;
 
                         var identity = GetIdentity(user.firstName + " " + user.patronymic , role);
@@ -200,9 +200,9 @@ namespace JWTRefreshToken.NET6._0.Controllers
 
             if(login_id == 0 || login_id == null) { return StatusCode(StatusCodes.Status500InternalServerError, new ResponseView { Status = "Error_2", Message = "Something went wrong" }); }
 */
-            var user = new Accaunt
+            var user = new Account
             {
-                id = db.Accaunt.Count()+1,
+                id = db.Account.Count()+1,
                 login_id = login_id,
                 role_id = 2,
                 email = email,
@@ -211,7 +211,7 @@ namespace JWTRefreshToken.NET6._0.Controllers
                 patronymic = patronymic
             };
 
-            db.Accaunt.Add(user);
+            db.Account.Add(user);
 
             await db.SaveChangesAsync();
 

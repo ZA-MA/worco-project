@@ -13,18 +13,98 @@ export interface IMap{
     height: number
 }
 
+export interface IElement {
+    id: number,
+    type: string,
+    image: string,
+    width: number,
+    height: number,
+    indicator_visible: boolean,
+    indicator_x: number,
+    indicator_y: number,
+    indicator_size: number
+}
+
+export interface INewElement {
+    id?: number,
+    type?: string,
+    image?: string,
+    width?: number,
+    height?: number,
+    indicator_visible?: boolean,
+    indicator_x?: number,
+    indicator_y?: number,
+    indicator_size?: number
+}
+
 export interface IPlace{
     id: number,
-    name: string,
-    image: string,
-    accaunt_id: null,
-    activity: boolean,
+    number_place: number | null,
+    can_bron: boolean,
     visible: boolean,
-    status_bron: boolean,
     x: number,
     y: number,
+    opt_conditioner: boolean,
+    opt_printer: boolean,
+    opt_scanner: boolean,
+    price: number,
+
+    name: string,
+    image: string,
     width: number,
-    height: number
+    height: number,
+    indicator_visible: boolean,
+    indicator_x: number,
+    indicator_y: number,
+    indicator_size: number
+}
+
+export interface IMeetingRoom{
+    id: number,
+    number_place: number,
+    can_bron: boolean,
+    visible: boolean,
+    x: number,
+    y: number,
+    opt_conditioner: boolean,
+    opt_projector: boolean,
+    opt_tv: boolean,
+    opt_soundproof: boolean,
+    price: number,
+
+    name: string,
+    image: string,
+    width: number,
+    height: number,
+    indicator_visible: boolean,
+    indicator_x: number,
+    indicator_y: number,
+    indicator_size: number
+}
+
+export interface IOffice{
+    id: number,
+    number_place: number,
+    can_bron: boolean,
+    visible: boolean,
+    x: number,
+    y: number,
+    opt_conditioner: boolean,
+    opt_printer: boolean,
+    opt_scanner: boolean,
+    opt_video_control: boolean,
+    opt_internet: boolean,
+    opt_add_equipment: boolean,
+    price: number,
+
+    name: string,
+    image: string,
+    width: number,
+    height: number,
+    indicator_visible: boolean,
+    indicator_x: number,
+    indicator_y: number,
+    indicator_size: number
 }
 
 export interface IInteractiveMap{
@@ -32,10 +112,14 @@ export interface IInteractiveMap{
     places: IPlace[]
 }
 
-export interface IPlaceElement{
-    id: number,
-    name: string,
-    image: string,
+
+
+export interface IHint{
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
     width: number,
     height: number
 }
+

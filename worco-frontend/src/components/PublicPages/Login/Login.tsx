@@ -81,7 +81,7 @@ const Login = () => {
                             <div className={"login-input-hint"}>Электронная почта</div>
                             <Input
                                 value={login}
-                                inputSize={"small"} type={"text"}
+                                inputSize={"medium"} type={"text"}
                                 onChange={(e) => {
                                     setLogin(e.target.value)
                                     setErrorLogin(undefined)
@@ -94,7 +94,7 @@ const Login = () => {
                             <div className={"login-input-hint"}>Пароль</div>
                             <Input
                                 value={password}
-                                inputSize={"small"} type={"password"} icon={true}
+                                inputSize={"medium"} type={"password"} icon={true}
                                 onChange={(e) => {
                                     setPassword(e.target.value)
                                     setErrorPassword(undefined)

@@ -1,0 +1,46 @@
+.addEditPlace{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(17, 17, 17, 0.7);
+    z-index: 1000;
+    font-size: 18px;
+}
+
+.addEditPlace-content{
+    width: 500px;
+    height: 300px;
+    background-color: #EFEFEF;
+    border-radius: 12px;
+    box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.25);
+    padding: 20px;
+}
+
+.addEditPlace-editable{
+    margin-top: 20px;
+}
+
+.addEditPlace-namePlace{
+    width: 40%;
+    display: inline-flex;
+    gap: 5px;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.addEditPlace-settings{
+    margin-top: 20px;
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.addEditPlace-placeElem{
+    width: 150px;
+    aspect-ratio: 1;
+}

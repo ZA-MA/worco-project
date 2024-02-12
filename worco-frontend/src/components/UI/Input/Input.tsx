@@ -15,7 +15,7 @@ interface IInput {
     styleInputField?: string,
     disabled?: boolean,
     required?: boolean,
-    inputSize?: "large" | "small",
+    inputSize?: "large" | "small" | "medium",
     min?: string,
     max?: string,
     step?: string,

@@ -61,3 +61,109 @@
 .interactiveMapEdit-panel-editPosition button:first-child{
     width: 20px;
 }
+
+.interactiveMap-hintPos{
+    position: absolute;
+    z-index: 1000;
+    outline: 2px solid rgba(255, 0, 0, 0.53);
+    outline-offset: -1px;
+}
+
+.interactiveMap-hintPos[data-showHint="false"]{
+    visibility: collapse;
+}
+
+.interactiveMap-hintPos[data-showHint="true"]{
+    visibility: visible;
+}
+
+.mapEdit-newElem{
+    pointer-events: none;
+    position: absolute;
+    z-index: 10000;
+}
+
+.mapEdit-newElem[data-canAdd="false"]{
+    background-color: red;
+}
+
+.mapEdit-newElem-confirm{
+    display: flex;
+    align-items: end;
+    overflow: visible;
+}
+
+.mapEdit-newElem-confirm-content{
+    width: inherit;
+    height: 40px;
+    position: absolute;
+    top: 10px;
+    border: 0px solid #cc3333;
+    z-index: 3;
+    background: #EFEFEF;
+    border-radius: 12px;
+    box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.25);
+    display: inline-flex;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+.mapEdit-newElem-confirm-arrow {
+    content:'';
+    width: 10px;
+    height: 10px;
+    z-index: 10;
+    position: absolute;
+    left: 50%;
+    display: block;
+    background: transparent;
+    border-left: 10px dashed transparent;
+    border-right: 10px dashed transparent;
+    border-bottom: 7px solid #EFEFEF;
+    overflow: visible;
+
+    transform: translate(-50%);
+}
+
+.mapEdit-newElem-confirm-content button{
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.15);
+}
+
+.mapEdit-newElem-confirm-content button:first-child:hover{
+    background-color: #6db65a;
+}
+
+.mapEdit-newElem-confirm-content button:last-child:hover{
+    background-color: #b24747;
+}
+
+.mapEdit-newElem-confirm-content button:first-child div{
+    width: 12px;
+    height: 12px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url("/public/Pictures/okIcon.svg");
+}
+
+.mapEdit-newElem-confirm-content button:last-child div{
+    width: 12px;
+    height: 12px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url("/public/Pictures/crossIcon.svg");
+}
+
+.mapEdit-newElem-confirm-content button:first-child:hover div{
+    background-image: url("/public/Pictures/okIconWhite.svg");
+}
+
+.mapEdit-newElem-confirm-content button:last-child:hover div{
+    background-image: url("/public/Pictures/crossIconWhite.svg");
+}

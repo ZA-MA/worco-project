@@ -8,16 +8,11 @@ const AdminHeader = () => {
 
     return (
         <div className={"headerAdmin"}>
-            <div className={"headerUser-info"}>
-                <Burger/>
-                <img className={"headerUser-info-image"}/>
-                <div className={"headerUser-info-names"}>
-                    <div>{store.user.lastName} {store.user.firstName}</div>
-                    <div>{store.user.email}</div>
-                </div>
-            </div>
+
+            <Burger/>
+
             <Link to={"/"} className={"headerUser-logo"}>
-                <img src={"Pictures/logo.svg"} />
+                <img src={"Pictures/logoAdminPanel.svg"} />
             </Link>
             <div className={"headerUser-notify"}>
                 <img src={"Pictures/alarm.svg"}/>

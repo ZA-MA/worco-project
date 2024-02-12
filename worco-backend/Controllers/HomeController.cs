@@ -23,7 +23,6 @@ namespace worco_backend.Controllers
         {
             using (var serviceScope = ServiceActivator.GetScope())
             {
-                
                 return Ok(db.Login.ToList());
             }
         }

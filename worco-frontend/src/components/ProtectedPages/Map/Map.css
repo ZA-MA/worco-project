@@ -83,7 +83,7 @@
 .interactiveMap-place circle:hover{
     fill: #61dafb;
 }
-.interactiveMap-place foreignObject{
+.interactiveMap-place-info{
     position: absolute;
     top: 20px;
     z-index: 3;
@@ -92,6 +92,6 @@
     margin-top: 50px;
 }
 
-.interactiveMap-place:hover foreignObject{
+.interactiveMap-place:hover .interactiveMap-place-info{
     display: block;
 }

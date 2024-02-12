@@ -4,13 +4,24 @@
     width: 40px;
     height: 40px;
     border-radius: 15px;
-    background-color: brown;
-    object-fit: cover;
+    padding: 5px 10px 5px 0px;
+    transition: 300ms;
 }
 
-.burger-button img{
-
+.burger-button svg{
+    transition: width 300ms;
 }
+
+.burger-button svg rect{
+    transition: width 300ms;
+}
+
+/*.burger-button svg[data-isOpen="true"] rect:first-child{*/
+/*    width: 10px;*/
+/*    transition: width 300ms;*/
+/*}*/
+
+
 
 .burger-content{
     padding: 20px;

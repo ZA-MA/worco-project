@@ -59,10 +59,14 @@ const Burger = () => {
     return (
         <>
             <div className={"burger-button"} onClick={handlerBurger} >
-                <img src={""}/>
+                <svg width="30" height="30" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect y="8.4071" width={isOpen? 10 : 15} height="5.18471" rx="2.59236" fill="#404040"/>
+                    <rect y="16.8156" width={isOpen? 12 : 22} height="5.18471" rx="2.59236" fill="#404040"/>
+                    <rect width={isOpen? 12 : 22} height="5.18471" rx="2.59236" fill="#404040"/>
+                </svg>
             </div>
 
-            <div className={`burger-content ${isOpen?"burger-open" : "burger-close"}`} onClick={() => console.log(123)} ref={ref} >
+            <div className={`burger-content ${isOpen?"burger-open" : "burger-close"}`} ref={ref} >
                 <div className={"burger-info"}>
                     <img src={"Pictures/NiceImage.png"} className={"burger-info-image"}/>
 

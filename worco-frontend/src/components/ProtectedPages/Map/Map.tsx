@@ -95,7 +95,7 @@ const Map = () => {
             listPlaces.push(
                     <g className={"interactiveMap-place"} key={index}>
                         <image href={p.image} width={p.width} x={p.x} y={p.y}></image>
-                        <foreignObject className="node" width="300" height="100" x={p.x + p.width/2 - 150} y={p.y + p.height}>
+                        <foreignObject className="interactiveMap-place-info" width="300" height="100" x={p.x + p.width/2 - 150} y={p.y + p.height}>
                             <div style={{border: "1px green solid"}}>I'm a div inside a SVG.</div>
                         </foreignObject>
                     </g>
