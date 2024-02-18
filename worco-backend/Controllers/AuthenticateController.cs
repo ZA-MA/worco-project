@@ -56,12 +56,14 @@ namespace JWTRefreshToken.NET6._0.Controllers
             {
                 return StatusCode(StatusCodes.Status511NetworkAuthenticationRequired, new ResponseView { Status = "Error_1", Message = "Mail not found." });
             }
-            var user = db.Account.Where(a => a.email == email).FirstOrDefault();
+            var user = db.Accounts.Where(a => a.email == email).Include(a => a.login).Include(a => a.role).FirstOrDefault();
             if (user == null)
             {
                 return StatusCode(StatusCodes.Status511NetworkAuthenticationRequired, new ResponseView { Status = "Error_2", Message = "User not found." });
             }
-            string role = (await db.Roles.Where(r => r.id == user.role_id).FirstOrDefaultAsync()).role;
+            
+            string role = user.role.role;
+            
             return Ok(new
             {
                 /*Token = new JwtSecurityTokenHandler().WriteToken(token),
@@ -94,8 +96,8 @@ namespace JWTRefreshToken.NET6._0.Controllers
                 if(login != null) { 
                     if (login.password == HashHelper.hashPassword(model.password))
                     {
-                        var user = await db.Account.Where(a => a.login_id == login.id).FirstOrDefaultAsync();
-                        string role = (await db.Roles.Where(r => r.id == user.role_id).FirstOrDefaultAsync()).role;
+                        var user = db.Accounts.Where(a => a.login == login).Include(a => a.login).Include(a => a.role).FirstOrDefault();
+                        string role = user.role.role;
 
                         var identity = GetIdentity(user.firstName + " " + user.patronymic , role);
 
@@ -202,7 +204,7 @@ namespace JWTRefreshToken.NET6._0.Controllers
 */
             var user = new Account
             {
-                id = db.Account.Count()+1,
+                id = db.Accounts.Count()+1,
                 login_id = login_id,
                 role_id = 2,
                 email = email,
@@ -211,7 +213,7 @@ namespace JWTRefreshToken.NET6._0.Controllers
                 patronymic = patronymic
             };
 
-            db.Account.Add(user);
+            db.Accounts.Add(user);
 
             await db.SaveChangesAsync();
 

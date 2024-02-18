@@ -17,14 +17,14 @@ const AddEditPlace = ({place, isAdd, onClose}:IAddEditPlace) => {
             <NavigateHeader Text={isAdd? "Добавление" : "Редактирование"} size={"small"} onClick={onClose}/>
             <div className={"addEditPlace-editable"}>
                 <div className={"addEditPlace-namePlace"}>
-                    {place.name} №<Input type={"number"} inputSize={"small"} errorMsg={["sad"]} max={"100"}/>
+                    {place.element.type} №<Input type={"number"} inputSize={"small"} errorMsg={["sad"]} max={"100"}/>
                 </div>
 
                 <div className={"addEditPlace-settings"}>
                     <div className={"addEditPlace-placeElem"} >
-                        <svg viewBox={`0 0 ${place.width} ${place.height}`}>
-                            <image href={place.image} x={0} y={0} width={place.width}/>
-                            <circle className={"circle"} cx={place.width/2} cy={place.height/2} r="10" fill={"black"} stroke="#000000" strokeWidth="2"/>
+                        <svg viewBox={`0 0 ${place.element.width} ${place.element.height}`}>
+                            <image href={place.element.image} x={0} y={0} width={place.element.width}/>
+                            <circle className={"circle"} cx={place.element.width/2} cy={place.element.height/2} r="10" fill={"black"} stroke="#000000" strokeWidth="2"/>
                         </svg>
                     </div>
                     <div className={"addEditPlace-settings-va"}>

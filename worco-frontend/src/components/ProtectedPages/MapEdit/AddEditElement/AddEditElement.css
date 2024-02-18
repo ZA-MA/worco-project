@@ -1,4 +1,4 @@
-.addEditElement-bg{
+.addEditElement-bg {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -10,16 +10,15 @@
     font-size: 18px;
 }
 
-.addEditElement{
+.addEditElement {
     width: 800px;
-    height: 600px;
     background-color: #EFEFEF;
     border-radius: 12px;
     box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.25);
     padding: 20px;
 }
 
-.addEditElement-content{
+.addEditElement-content {
     margin-top: 20px;
     width: 100%;
     display: inline-flex;
@@ -27,20 +26,20 @@
     gap: 20px;
 }
 
-.addEditElement-name{
+.addEditElement-name {
     width: 50%;
     display: inline-flex;
     align-items: center;
     gap: 10px;
 }
 
-.addEditElement-preview-settings-container{
+.addEditElement-preview-settings-container {
     width: 100%;
     display: inline-flex;
     justify-content: space-between;
 }
 
-.addEditElement-preview-container{
+.addEditElement-preview-container {
     width: 45%;
     display: flex;
     flex-direction: column;
@@ -48,7 +47,7 @@
 
 }
 
-.addEditElement-photo-image{
+.addEditElement-photo-image {
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -58,17 +57,17 @@
     border-radius: 15px;
 }
 
-.addEditElement-photo-image-dragEnter{
+.addEditElement-photo-image-dragEnter {
     border-color: transparent;
     outline: 3px dashed black;
     outline-offset: 0;
 }
 
-.addEditElement-previewNhints{
+.addEditElement-preview-hints {
     position: relative;
 }
 
-.addEditElement-preview{
+.addEditElement-preview {
     width: 300px;
     height: 300px;
     position: relative;
@@ -78,29 +77,36 @@
     align-items: center;
 }
 
-.addEditElement-preview svg{
+.addEditElement-preview svg {
     object-fit: cover;
     border: 1px solid #5d5d5d;
 
 }
 
-.addEditElement-preview svg g:first-child{
+.addEditElement-preview svg g:first-child {
     outline: solid 1px rgba(128, 128, 128, 0.75);
 }
 
-.addEditElement-preview svg image{
+.addEditElement-preview svg image {
 
 }
 
-.addEditElement-preview-settings{
-    margin-top: 30px;
+.addEditElement-preview-settings {
     width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.addEditElement-preview-settings-content {
+    margin-top: 30px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.addEditElement-preview-settings div{
+.addEditElement-preview-settings-content div {
     display: inline-flex;
     justify-content: space-between;
     align-items: center;
@@ -108,12 +114,12 @@
     white-space: nowrap;
 }
 
-.addEditElement-preview-settings div .input,
-.addEditElement-preview-settings div div{
+.addEditElement-preview-settings-content div .input,
+.addEditElement-preview-settings-content div div {
     width: 40%;
 }
 
-.addEditElement-preview-pos{
+.addEditElement-preview-pos {
     pointer-events: none;
     width: 300px;
     height: 300px;
@@ -121,6 +127,7 @@
     top: 0;
 
 }
+
 .addEditElement-preview-pos svg {
 
     object-fit: cover;
@@ -128,21 +135,58 @@
     /*border: 1px solid rgba(128, 128, 128, 0.75);*/
 }
 
-.addEditElement-hintPos{
+.addEditElement-hintPos {
     pointer-events: none;
     position: absolute;
     z-index: 10000;
     overflow: visible;
 }
 
-.addEditElement-hintPos line{
+.addEditElement-hintPos line {
 
 }
 
-.addEditElement-hintPos foreignObject{
+.addEditElement-hintPos foreignObject {
     z-index: 10000;
     text-align: center;
     position: absolute;
 
     background-color: #ff1400;
+}
+
+.addEditElement-buttons {
+    width: 100%;
+    display: inline-flex;
+    gap: 20px;
+    justify-content: right;
+}
+
+.addEditElement-buttons button {
+    width: 30%;
+}
+
+.addEditElement-buttons-delete {
+    padding: 5px;
+    width: 32px!important;
+    height: 32px!important;
+    background-color: #EFEFEF;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.25);
+}
+
+.addEditElement-buttons-delete div {
+    width: 22px;
+    height: 22px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url("/public/Pictures/trash.svg");
+}
+
+.addEditElement-buttons-delete:hover{
+    background: #606060;
+    color: #FFF;
+}
+
+.addEditElement-buttons-delete:hover div {
+    background-image: url("/public/Pictures/trashWhite.svg");
 }

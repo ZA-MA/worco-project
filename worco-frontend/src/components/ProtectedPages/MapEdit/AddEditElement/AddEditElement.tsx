@@ -7,24 +7,36 @@ import Input from "../../../UI/Input/Input";
 import {ConfigProvider, Switch} from "antd";
 import Draggable, {DraggableData, DraggableEvent} from "react-draggable";
 import Button from "../../../UI/Button/Button";
+import GlobalService from "../../../../services/GlobalService";
+import InteractiveMapEditService from "../../../../services/InteractiveMapEditService";
 
 interface IAddEditElement {
     onClose: () => void,
     elementProps?: IElement,
-    isAdd: boolean
+    isAdd: boolean,
+    onAddEditEnd: () => void
 }
 
-const AddEditElement = ({onClose, elementProps, isAdd}: IAddEditElement) => {
+const AddEditElement = ({onClose, elementProps, isAdd, onAddEditEnd}: IAddEditElement) => {
     const [element, setElement] = useState<IElement | INewElement>()
-    if (!isAdd && elementProps) setElement(elementProps)
+
 
     const [elementFile, setElementFile] = useState<File>()
-    const [elementPreview, setElementPreview] = useState<string>()
+    const [elementPreview, setElementPreview] = useState<string | undefined>(elementProps?.image ? elementProps.image : undefined)
 
     const [drag, setDrag] = useState(false)
     const inputRef = useRef(null);
 
     const [onlyIndicator, setOnlyIndicator] = useState(false)
+
+    useEffect(() => {
+        if (!isAdd && elementProps) {
+            setElement(elementProps)
+            setElementPreview(elementProps?.image)
+            setOnlyIndicator(elementProps.only_indicator)
+        }
+
+    }, [])
 
     const selectProductPicture = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files || event.target.files.length === 0) {
@@ -59,9 +71,6 @@ const AddEditElement = ({onClose, elementProps, isAdd}: IAddEditElement) => {
         setDrag(false)
     }
 
-    let indicator_x = 0
-    let indicator_y = 0
-
     const onDragIndicator = (event: DraggableEvent, data: DraggableData) => {
         setElement({...element, indicator_x: data.x, indicator_y: data.y})
     }
@@ -77,7 +86,7 @@ const AddEditElement = ({onClose, elementProps, isAdd}: IAddEditElement) => {
 
     useEffect(() => {
         if (!elementFile) {
-            setElementPreview(undefined)
+            //setElementPreview(undefined)
             return
         }
 
@@ -91,14 +100,13 @@ const AddEditElement = ({onClose, elementProps, isAdd}: IAddEditElement) => {
                     ...element,
                     width: img.width,
                     height: img.height,
-                    indicator_visible: true,
+                    only_indicator: false,
                     indicator_size: Math.floor(img.height / 3),
                     indicator_x: img.width / 2,
                     indicator_y: img.height / 2
                 })
         }
         img.src = objectUrl
-
 
         // free memory when ever this component is unmounted
         return () => URL.revokeObjectURL(objectUrl)
@@ -107,10 +115,118 @@ const AddEditElement = ({onClose, elementProps, isAdd}: IAddEditElement) => {
     const [scale, setScale] = useState<number>(0)
 
     useEffect(() => {
-        if(element?.width && element.height)
-            if(element?.width >= element?.height) setScale(300 / element.width)
+        if (element?.width && element.height)
+            if (element?.width >= element?.height) setScale(300 / element.width)
             else setScale(300 / element.height)
     }, [element?.width, element?.height])
+
+    const onlyIndicatorVis = (e: boolean) => {
+        if (e) {
+            setOnlyIndicator(e)
+            setElement(
+                {
+                    ...element,
+                    width: 300,
+                    height: 300,
+                    only_indicator: true,
+                    indicator_size: 300 / 2,
+                    indicator_x: 300 / 2,
+                    indicator_y: 300 / 2
+                })
+        } else {
+            setOnlyIndicator(e)
+
+        }
+    }
+
+    const onChangeSettings = (type: "width" | "height" | "indicator_size", value: number) => {
+        switch (type) {
+            case "width":
+                !onlyIndicator ?
+                    setElement({...element, width: value}) :
+                    setElement({
+                        ...element,
+                        width: value,
+                        height: value,
+                        indicator_size: value / 2,
+                        indicator_x: value / 2,
+                        indicator_y: value / 2
+                    })
+                break;
+            case "height":
+                !onlyIndicator ?
+                    setElement({...element, height: value}) :
+                    setElement({
+                        ...element,
+                        width: value,
+                        height: value,
+                        indicator_size: value / 2,
+                        indicator_x: value / 2,
+                        indicator_y: value / 2
+                    })
+                break;
+            case "indicator_size":
+                !onlyIndicator ?
+                    setElement({...element, indicator_size: value}) :
+                    setElement({
+                        ...element,
+                        width: value * 2,
+                        height: value * 2,
+                        indicator_size: value,
+                        indicator_x: value,
+                        indicator_y: value
+                    })
+                break;
+        }
+    }
+
+    const onSave = async () => {
+        if (isAdd) {
+            if (element !== undefined) {
+                var newElement = element
+                if (!onlyIndicator && elementFile) {
+                    const formData = new FormData();
+                    formData.append('image', elementFile);
+                    newElement.image = await GlobalService.addNewImage(formData).then(r => r.data.data.link)
+                }
+                await InteractiveMapEditService.addUpdateElement(newElement)
+            }
+        } else {
+            if (element !== undefined) {
+                var updateElement = element
+                if (updateElement.image !== elementProps?.image && elementFile) {
+                    const formData = new FormData();
+                    formData.append('image', elementFile);
+                    updateElement.image = await GlobalService.addNewImage(formData).then(r => r.data.data.link)
+                }
+                await InteractiveMapEditService.addUpdateElement(updateElement)
+            }
+        }
+        onAddEditEnd()
+        onClose()
+    }
+
+    const onDelete = () => {
+        if (window.confirm("Вы точно хотите удалить этот элемент?")) {
+            if(element?.id)
+            InteractiveMapEditService.deleteElement(element?.id)
+                .then((r) => {
+                    if (r.status === 200) {
+                        alert("Элемент удален")
+                        onAddEditEnd()
+                        onClose()
+                    }
+                })
+                .catch((error) => {
+                    if(error.response.data.status === "Error_1")
+                        alert("Такого элемента не существует")
+                    else if(error.response.data.status === "Error_2")
+                        alert("Этот элемент нельзя удалить, так как этот он уже используется")
+                    else
+                        alert("Что-то пошло не так, попробуйте позже")
+                })
+        }
+    }
 
     return (
         <div className={"addEditElement-bg"}>
@@ -122,6 +238,7 @@ const AddEditElement = ({onClose, elementProps, isAdd}: IAddEditElement) => {
                     <div className={"addEditElement-name"}> Тип <DropDown
                         options={[{name: "Место"}, {name: "Переговорная"}, {name: "Кабинет"}]} value={element?.type}
                         onChange={(val) => setElement({...element, type: val})} placeHolder={"Выберите название"}
+                        disabled={!!element?.type}
                         size={"small"}/></div>
 
                     <div className={"addEditElement-preview-settings-container"}>
@@ -134,13 +251,17 @@ const AddEditElement = ({onClose, elementProps, isAdd}: IAddEditElement) => {
                                 onDragLeave={dragLeave}
                                 onDrop={isAdd && element?.type ? fileDrop : () => undefined}
                             >
-                                {elementPreview ?
+                                {elementPreview || onlyIndicator ?
                                     // {x: element?.width? element?.width / 2 : 0, y: element?.height? element?.height / 2 : 0}
-                                    <div className={"addEditElement-previewNhints"}>
+                                    <div className={"addEditElement-preview-hints"}>
                                         <div className={"addEditElement-preview"}>
-                                            <svg viewBox={`0 0 ${element?.width} ${element?.height}`} style={element?.width && element.height&& element?.width >= element.height? {width: "100%"} : {height: "100%"}}>
+                                            <svg viewBox={`0 0 ${element?.width} ${element?.height}`}
+                                                 style={element?.width && element.height && element?.width >= element.height ? {width: "100%"} : {height: "100%"}}>
 
+                                                {!onlyIndicator &&
                                                     <image href={elementPreview} x={0} y={0} width={element?.width}/>
+                                                }
+
 
                                                 {element?.width && element.height && element.indicator_size &&
                                                     <Draggable
@@ -162,73 +283,76 @@ const AddEditElement = ({onClose, elementProps, isAdd}: IAddEditElement) => {
                                                     >
                                                         <circle className={"circle"}
                                                                 r={element?.indicator_size} fill={"black"}
-                                                                stroke="#000000" strokeWidth="2"/>
+                                                                stroke="#000000" strokeWidth="0"/>
                                                     </Draggable>
                                                 }
-                                                <g className={"addEditElement-hintPos"}>
-                                                    <line
-                                                        x1={0}
-                                                        y1={element?.indicator_y}
-                                                        x2={element?.indicator_size && element.indicator_x && element.indicator_x - element.indicator_size}
-                                                        y2={element?.indicator_y}
-                                                        strokeWidth={element?.indicator_size && element?.width && element?.height ? 1 / (300 / element.width) : 1}
-                                                        stroke={element?.height && element.indicator_y && element?.height / 2 === element.indicator_y ? "red" : "orange"}></line>
-                                                    {/*<foreignObject
-                                                        width={ 15 / scale}
-                                                        height={10 / scale}
-                                                        x={0}
-                                                        y={element?.width && element.indicator_y ? element.indicator_y - 5 / (300 / element.width) : 1}>
-                                                        <div>123</div>
-                                                    </foreignObject>*/}
-                                                </g>
-                                                <g className={"addEditElement-hintPos"}>
-                                                    <line
-                                                        x1={element?.indicator_x}
-                                                        y1={0}
-                                                        x2={element?.indicator_x}
-                                                        y2={element?.indicator_y && element.indicator_size && element?.indicator_y - element.indicator_size}
-                                                        strokeWidth={element?.indicator_size && element?.width && element?.height ? 1 / (300 / element.width) : 1}
-                                                        stroke={element?.width && element.indicator_x && element?.width / 2 === element.indicator_x ? "red" : "orange"}></line>
-                                                    {/*<foreignObject*/}
-                                                    {/*    width={ 15 / scale}*/}
-                                                    {/*    height={10 / scale}*/}
-                                                    {/*    x={element?.width && element.indicator_x ? element.indicator_x - 8 / (300 / element.width) : 1}*/}
-                                                    {/*    y={0}>*/}
-                                                    {/*    <div>123</div>*/}
-                                                    {/*</foreignObject>*/}
-                                                </g>
-                                                <g className={"addEditElement-hintPos"}>
-                                                    <line
-                                                        x1={element?.indicator_x}
-                                                        y1={element?.indicator_size && element.indicator_y && element?.indicator_y + element.indicator_size}
-                                                        x2={element?.indicator_x}
-                                                        y2={element?.height}
-                                                        strokeWidth={element?.indicator_size && element?.width && element?.height ? 1 / (300 / element.width) : 1}
-                                                        stroke={element?.width && element.indicator_x && element?.width / 2 === element.indicator_x ? "red" : "orange"}></line>
-                                                    {/*<foreignObject
+                                                {!onlyIndicator &&
+                                                    <>
+                                                        <g className={"addEditElement-hintPos"}>
+                                                            <line
+                                                                x1={0}
+                                                                y1={element?.indicator_y}
+                                                                x2={element?.indicator_size && element.indicator_x && element.indicator_x - element.indicator_size}
+                                                                y2={element?.indicator_y}
+                                                                strokeWidth={element?.indicator_size && element?.width && element?.height ? 1 / (300 / element.width) : 1}
+                                                                stroke={element?.height && element.indicator_y && element?.height / 2 === element.indicator_y ? "red" : "orange"}></line>
+                                                            {/*<foreignObject
+                                                            width={ 15 / scale}
+                                                            height={10 / scale}
+                                                            x={0}
+                                                            y={element?.width && element.indicator_y ? element.indicator_y - 5 / (300 / element.width) : 1}>
+                                                            <div>123</div>
+                                                        </foreignObject>*/}
+                                                        </g>
+                                                        <g className={"addEditElement-hintPos"}>
+                                                            <line
+                                                                x1={element?.indicator_x}
+                                                                y1={0}
+                                                                x2={element?.indicator_x}
+                                                                y2={element?.indicator_y && element.indicator_size && element?.indicator_y - element.indicator_size}
+                                                                strokeWidth={element?.indicator_size && element?.width && element?.height ? 1 / (300 / element.width) : 1}
+                                                                stroke={element?.width && element.indicator_x && element?.width / 2 === element.indicator_x ? "red" : "orange"}></line>
+                                                            {/*<foreignObject*/}
+                                                            {/*    width={ 15 / scale}*/}
+                                                            {/*    height={10 / scale}*/}
+                                                            {/*    x={element?.width && element.indicator_x ? element.indicator_x - 8 / (300 / element.width) : 1}*/}
+                                                            {/*    y={0}>*/}
+                                                            {/*    <div>123</div>*/}
+                                                            {/*</foreignObject>*/}
+                                                        </g>
+                                                        <g className={"addEditElement-hintPos"}>
+                                                            <line
+                                                                x1={element?.indicator_x}
+                                                                y1={element?.indicator_size && element.indicator_y && element?.indicator_y + element.indicator_size}
+                                                                x2={element?.indicator_x}
+                                                                y2={element?.height}
+                                                                strokeWidth={element?.indicator_size && element?.width && element?.height ? 1 / (300 / element.width) : 1}
+                                                                stroke={element?.width && element.indicator_x && element?.width / 2 === element.indicator_x ? "red" : "orange"}></line>
+                                                            {/*<foreignObject
                                                         width={ 15 / scale}
                                                         height={10 / scale}
                                                         x={element?.width && element.indicator_x ? element.indicator_x - 8 / (300 / element.width) : 1}
                                                         y={element?.height && element?.height - 10 / scale}>
                                                         <div>123</div>
                                                     </foreignObject>*/}
-                                                </g>
-                                                <g className={"addEditElement-hintPos"}>
-                                                    <line
-                                                        x1={element?.indicator_size && element.indicator_x && element.indicator_x + element.indicator_size}
-                                                        y1={element?.indicator_y}
-                                                        x2={element?.width && element?.width - 1}
-                                                        y2={element?.indicator_y}
-                                                        strokeWidth={element?.indicator_size && element?.width && element?.height ? 1 / (300 / element.width) : 1}
-                                                        stroke={element?.height && element.indicator_y && element?.height / 2 === element.indicator_y ? "red" : "orange"}></line>
-                                                    {/*<foreignObject
+                                                        </g>
+                                                        <g className={"addEditElement-hintPos"}>
+                                                            <line
+                                                                x1={element?.indicator_size && element.indicator_x && element.indicator_x + element.indicator_size}
+                                                                y1={element?.indicator_y}
+                                                                x2={element?.width && element?.width - 1}
+                                                                y2={element?.indicator_y}
+                                                                strokeWidth={element?.indicator_size && element?.width && element?.height ? 1 / (300 / element.width) : 1}
+                                                                stroke={element?.height && element.indicator_y && element?.height / 2 === element.indicator_y ? "red" : "orange"}></line>
+                                                            {/*<foreignObject
                                                         width={ 15 / scale}
                                                         height={10 / scale}
                                                         x={element?.width && element?.width - 15 / scale}
                                                         y={element?.width && element.indicator_y ? element.indicator_y - 5 / scale : 1}>
                                                         <div>123</div>
                                                     </foreignObject>*/}
-                                                </g>
+                                                        </g>
+                                                    </>}
                                             </svg>
                                         </div>
                                         {/*<div className={"addEditElement-preview-pos"}>*/}
@@ -242,74 +366,86 @@ const AddEditElement = ({onClose, elementProps, isAdd}: IAddEditElement) => {
                                     <div className={"addEditElement-photo-image-text"}>Поместите сюда фото</div>
                                 }
                             </div>
-                            <input
-                                disabled={!element?.type}
-                                ref={inputRef}
-                                style={{display: 'none'}}
-                                type="file"
+                            {isAdd &&
+                                <>
+                                    <input
+                                        disabled={!element?.type}
+                                        ref={inputRef}
+                                        style={{display: 'none'}}
+                                        type="file"
 
-                                name={"profilePicture"}
-                                onChange={selectProductPicture}
-                                accept="image/*"
-                            />
-                            <Button size={"small"} type={"white2"} disabled={!element?.type}
-                                    onClick={onBtnPictureClick}>Обзор</Button>
+                                        name={"profilePicture"}
+                                        onChange={selectProductPicture}
+                                        accept="image/jpeg, image/png"
+                                    />
+
+                                    <Button size={"small"} type={"white2"} disabled={!element?.type || onlyIndicator}
+                                            onClick={onBtnPictureClick}>Обзор</Button>
+                                </>
+                            }
                         </div>
-                        <div className={"addEditElement-preview-settings"}>
-                            <div className={"addEditElement-preview-settings-width"}>
-                                Ширина элемента <Input type={"number"} inputSize={"small"} value={element?.width}
-                                                       onChange={(event) => setElement({
-                                                           ...element,
-                                                           width: Number(event.target.value)
-                                                       })}/>
-                            </div>
-                            <div className={"addEditElement-preview-settings-height"}>
-                                Высота элемента <Input type={"number"} inputSize={"small"} value={element?.height}
-                                                       onChange={(event) => setElement({
-                                                           ...element,
-                                                           height: Number(event.target.value)
-                                                       })}/>
-                            </div>
-                            <div className={"addEditElement-preview-settings-width"}>
-                                Размер индикатора <Input type={"number"} inputSize={"small"} disabled={!element?.type}
-                                                         value={element?.indicator_size}
-                                                         onChange={(event) => setElement({
-                                                             ...element,
-                                                             indicator_size: Number(event.target.value)
-                                                         })}/>
-                            </div>
-                            <div className={"addEditElement-preview-settings-height"}>
-                                Только индикатор
-                                <div>
-                                    <ConfigProvider
-                                        theme={{
-                                            token: {
 
-                                                fontFamily: "Montserrat",
-                                                colorPrimary: '#404040',
-                                                colorPrimaryActive: "#404040",
-                                                borderRadius: 10,
-                                                colorBgContainer: '#EFEFEF',
-                                            },
-                                        }}
-                                    >
-                                        <Switch disabled={!element?.type} onChange={(e) => setOnlyIndicator(e)}/>
-                                    </ConfigProvider>
+                        <div className={"addEditElement-preview-settings"}>
+                            <div className={"addEditElement-preview-settings-content"}>
+                                <div className={"addEditElement-preview-settings-width"}>
+                                    Ширина элемента <Input type={"number"} inputSize={"small"} value={element?.width}
+                                                           disabled={!element?.type}
+                                                           onChange={(event) => onChangeSettings("width", Number(event.target.value))}/>
                                 </div>
-                            </div>
-                            <div className={"addEditElement-preview-settings-height"}>
-                                <div>
-                                    <Button onClick={indicatorCenter} disabled={!element?.type}
-                                            size={"small"}> Отцентровать индикатор</Button>
+                                <div className={"addEditElement-preview-settings-height"}>
+                                    Высота элемента <Input type={"number"} inputSize={"small"} value={element?.height}
+                                                           disabled={!element?.type}
+                                                           onChange={(event) => onChangeSettings("height", Number(event.target.value))}/>
                                 </div>
+                                <div className={"addEditElement-preview-settings-width"}>
+                                    Размер индикатора <Input type={"number"} inputSize={"small"}
+                                                             disabled={!element?.type}
+                                                             value={element?.indicator_size}
+                                                             onChange={(event) => onChangeSettings("indicator_size", Number(event.target.value))}/>
+                                </div>
+                                {isAdd &&
+                                    <div className={"addEditElement-preview-settings-height"}>
+                                        Только индикатор
+                                        <div>
+                                            <ConfigProvider
+                                                theme={{
+                                                    token: {
+
+                                                        fontFamily: "Montserrat",
+                                                        colorPrimary: '#404040',
+                                                        colorPrimaryActive: "#404040",
+                                                        borderRadius: 10,
+                                                        colorBgContainer: '#EFEFEF',
+                                                    },
+                                                }}
+                                            >
+                                                <Switch disabled={!element?.type}
+                                                        onChange={(e) => onlyIndicatorVis(e)}/>
+                                            </ConfigProvider>
+                                        </div>
+                                    </div>
+                                }
+                                {!onlyIndicator &&
+                                    <div className={"addEditElement-preview-settings-height"}>
+                                        <div>
+                                            <Button onClick={indicatorCenter} disabled={!element?.type}
+                                                    size={"small"}> Отцентровать индикатор</Button>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                             <div className={"addEditElement-buttons"}>
-                                <Button onClick={() => undefined} type={"black"} size={"small"}>
-                                    {isAdd? "Добавить" : "Сохранить"}
+                                <button className={"addEditElement-buttons-delete"} onClick={onDelete}>
+                                    <div></div>
+                                </button>
+                                <Button onClick={onClose} type={"white2"} size={"small"}>
+                                    Отменить
+                                </Button>
+                                <Button onClick={onSave} type={"black"} size={"small"}>
+                                    {isAdd ? "Добавить" : "Сохранить"}
                                 </Button>
                             </div>
                         </div>
-
                     </div>
                 </div>
 

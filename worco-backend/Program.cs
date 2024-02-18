@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using worco_backend.Auth;
 using cosmetic_project_backend.Controllers;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,7 @@ builder.Services.AddCors(options =>
         //builder.WithHeaders("accept", "Content-Type: application/json", "https://localhost", "Access-Control-Allow-Credentials: true");
     });
 });*/
+
 
 
 var connectionString = builder.Configuration.GetConnectionString("MySQLConnection");
@@ -76,7 +78,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddAuthorization();
-
+/*builder.Services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+            });*/
 var app = builder.Build();
 
 ServiceActivator.Configure(app.Services);

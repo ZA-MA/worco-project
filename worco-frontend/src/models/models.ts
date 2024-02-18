@@ -19,10 +19,14 @@ export interface IElement {
     image: string,
     width: number,
     height: number,
-    indicator_visible: boolean,
+    only_indicator: boolean,
     indicator_x: number,
     indicator_y: number,
-    indicator_size: number
+    indicator_size: number,
+
+    places: IPlace[]
+    meeting_rooms: IMeetingRoom[],
+    offices: IOffice[]
 }
 
 export interface INewElement {
@@ -31,7 +35,7 @@ export interface INewElement {
     image?: string,
     width?: number,
     height?: number,
-    indicator_visible?: boolean,
+    only_indicator?: boolean,
     indicator_x?: number,
     indicator_y?: number,
     indicator_size?: number
@@ -49,14 +53,7 @@ export interface IPlace{
     opt_scanner: boolean,
     price: number,
 
-    name: string,
-    image: string,
-    width: number,
-    height: number,
-    indicator_visible: boolean,
-    indicator_x: number,
-    indicator_y: number,
-    indicator_size: number
+    element: IElement
 }
 
 export interface IMeetingRoom{
@@ -72,14 +69,7 @@ export interface IMeetingRoom{
     opt_soundproof: boolean,
     price: number,
 
-    name: string,
-    image: string,
-    width: number,
-    height: number,
-    indicator_visible: boolean,
-    indicator_x: number,
-    indicator_y: number,
-    indicator_size: number
+    element: IElement
 }
 
 export interface IOffice{
@@ -97,19 +87,14 @@ export interface IOffice{
     opt_add_equipment: boolean,
     price: number,
 
-    name: string,
-    image: string,
-    width: number,
-    height: number,
-    indicator_visible: boolean,
-    indicator_x: number,
-    indicator_y: number,
-    indicator_size: number
+    element: IElement
 }
 
 export interface IInteractiveMap{
     map: IMap,
-    places: IPlace[]
+    places: IPlace[],
+    meetingRooms: IMeetingRoom[],
+    offices: IOffice[]
 }
 
 

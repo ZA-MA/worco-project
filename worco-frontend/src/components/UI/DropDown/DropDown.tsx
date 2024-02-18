@@ -45,7 +45,7 @@ const DropDown = ({options, value, onChange, name, placeHolder, size, errorMsg, 
 
     return (
         <div className={"dropDown"} ref={refDropDown}>
-            <div className={"dropDown-content"} onClick={() => setShow(!show)} data-size={size}>
+            <div className={"dropDown-content"} onClick={() => !disabled? setShow(!show) : undefined} data-size={size}>
                 <div className={"dropDown-value"} data-value={value&&true}>
                     {value? value : placeHolder}
                 </div>

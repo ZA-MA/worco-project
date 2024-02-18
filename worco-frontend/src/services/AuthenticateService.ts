@@ -13,7 +13,6 @@ export default class AuthenticateService {
     //Registration
 
     static async register(userinfo: any, URL: string) {
-
         return $api.post(URL, userinfo, { headers: { "Content-Type": "multipart/form-data" } })
     }
     //Logout

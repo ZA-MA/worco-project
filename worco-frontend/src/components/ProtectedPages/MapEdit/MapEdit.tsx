@@ -44,6 +44,8 @@ const MapEdit = () => {
 
     const [addEditPlacePopup, setAddEditPlacePopup] = useState<JSX.Element | null>(null)
 
+    const [elements, setElements] = useState<IElement[]>()
+
     const refMap = useRef<HTMLDivElement | null>(null)
 
     // function downloadSVG() {
@@ -86,7 +88,17 @@ const MapEdit = () => {
         InteractiveMapService.getMap({"Info1": mapSel})
             .then((r) => {
                 setInteractiveMap(r.data)
-                setPlaces(r.data.places)
+                setPlaces(r.data.map.places)
+            })
+            .catch()
+            .finally(() => store.DataLoadingOFF())
+    }
+
+    const getElements = () => {
+        store.DataLoadingON()
+        InteractiveMapEditService.getPlacesElements()
+            .then((r) => {
+                setElements(r.data)
             })
             .catch()
             .finally(() => store.DataLoadingOFF())
@@ -113,8 +125,8 @@ const MapEdit = () => {
                     let positionElem = {
                         top: places[i].y,
                         left: places[i].x,
-                        bottom: places[i].y + Number(places[i].height),
-                        right: places[i].x + Number(places[i].width)
+                        bottom: places[i].y + Number(places[i].element.height),
+                        right: places[i].x + Number(places[i].element.width)
                     }
                     let positionTarget = {
                         top: data.y,
@@ -122,8 +134,8 @@ const MapEdit = () => {
                         bottom: data.y + Number(height),
                         right: data.x + Number(width)
                     }
-                    let pCenterUD = Math.floor(((positionTarget.left + Number(width) / 2) - (positionElem.left + Number(places[i].width) / 2)) * 10 ) / 10
-                    let pCenterLR = Math.floor(((positionTarget.top + Number(height) / 2) - (positionElem.top + Number(places[i].height) / 2)) * 10) / 10
+                    let pCenterUD = Math.floor(((positionTarget.left + Number(width) / 2) - (positionElem.left + Number(places[i].element.width) / 2)) * 10 ) / 10
+                    let pCenterLR = Math.floor(((positionTarget.top + Number(height) / 2) - (positionElem.top + Number(places[i].element.height) / 2)) * 10) / 10
 
                     if (positionTarget.bottom > positionElem.top && // Если позиция нижней части элемента больше позиции верхней чайти окна, то элемент виден сверху
                         positionTarget.top < positionElem.bottom && // Если позиция верхней части элемента меньше позиции нижней чайти окна, то элемент виден снизу
@@ -137,11 +149,11 @@ const MapEdit = () => {
                             setShowHint(true)
                             setHint({
                                 width: 1,
-                                height: (positionTarget.top + Number(width) / 2) - (positionElem.top + Number(places[i].height) / 2),
-                                x1: positionElem.left + Number(places[i].width) / 2,
-                                y1: positionElem.top + Number(places[i].height) / 2,
-                                x2: positionElem.left + Number(places[i].width) / 2,
-                                y2: positionElem.top + Number(places[i].height) / 2 + (positionTarget.top + Number(width) / 2) - (positionElem.top + Number(places[i].height) / 2)
+                                height: (positionTarget.top + Number(width) / 2) - (positionElem.top + Number(places[i].element.height) / 2),
+                                x1: positionElem.left + Number(places[i].element.width) / 2,
+                                y1: positionElem.top + Number(places[i].element.height) / 2,
+                                x2: positionElem.left + Number(places[i].element.width) / 2,
+                                y2: positionElem.top + Number(places[i].element.height) / 2 + (positionTarget.top + Number(width) / 2) - (positionElem.top + Number(places[i].element.height) / 2)
                             })
 
                         } else if (positionTarget.top < positionElem.top) {
@@ -149,11 +161,11 @@ const MapEdit = () => {
                             setShowHint(true)
                             setHint({
                                 width: 1,
-                                height: (positionElem.top + Number(places[i].height) / 2) - (positionTarget.top + Number(width) / 2),
+                                height: (positionElem.top + Number(places[i].element.height) / 2) - (positionTarget.top + Number(width) / 2),
                                 x1: positionTarget.left + Number(width) / 2,
                                 y1: positionTarget.top + Number(height) / 2,
                                 x2: positionTarget.left + Number(width) / 2,
-                                y2: positionElem.top + Number(places[i].height) / 2
+                                y2: positionElem.top + Number(places[i].element.height) / 2
                             })
                         }
                     } else if (pCenterLR <= 0.5 && pCenterLR >= -0.5) {
@@ -163,8 +175,8 @@ const MapEdit = () => {
                             setHint({
                                 width: 1,
                                 height: 1,
-                                x1: (positionElem.left + Number(places[i].width) / 2),
-                                y1: positionElem.top + Number(places[i].height) / 2,
+                                x1: (positionElem.left + Number(places[i].element.width) / 2),
+                                y1: positionElem.top + Number(places[i].element.height) / 2,
                                 x2: positionTarget.left + Number(width) / 2,
                                 y2: positionTarget.top + Number(height) / 2
                             })
@@ -176,8 +188,8 @@ const MapEdit = () => {
                                 height: 1,
                                 x1: (positionTarget.left + Number(width) / 2),
                                 y1: positionTarget.top + Number(height) / 2,
-                                x2: positionElem.left + Number(places[i].width) / 2,
-                                y2: positionElem.top + Number(places[i].height) / 2
+                                x2: positionElem.left + Number(places[i].element.width) / 2,
+                                y2: positionElem.top + Number(places[i].element.height) / 2
                             })
                         }
                     }
@@ -211,14 +223,17 @@ const MapEdit = () => {
                 key={p.id}
                 disabled={!canEditPosition}
                 grid={[1, 1]}
-                onDrag={(e, data) => DragPlace(e, data, p.id, p.width, p.height)}
+                onDrag={(e, data) => DragPlace(e, data, p.id, p.element.width, p.element.height)}
                 onStop={(e, data) => onDragStop(e, data, p.id)}
             >
                 <g className={"interactiveMap-place"} key={p.id} id={`place-${p.id}`} data-id={p.id}
-                   data-width={p.width} data-height={p.height}>
-                    <image href={p.image} width={p.width} x={0} y={0}/>
-                    <circle className={"circle"} cx={p.width / 2} cy={p.height / 2} r="10" fill={"black"}
-                            stroke="#000000" strokeWidth="2"/>
+                   data-width={p.element.width} data-height={p.element.height}>
+                    {!p.element.only_indicator && <image href={p.element.image} width={p.element.width} x={0} y={0}/>}
+                    <circle className={"circle"}
+                            cx={p.element.indicator_x}
+                            cy={p.element.indicator_y}
+                            r={p.element.indicator_size}
+                            fill={"black"} stroke="#000000" strokeWidth="0"/>
                 </g>
             </Draggable>
         )
@@ -240,13 +255,13 @@ const MapEdit = () => {
             }
         }
         //console.log(data)
-        InteractiveMapEditService.savePositionPlaces({List: data})
+        InteractiveMapEditService.savePositionPlaces({ListPlaces: data})
     }
 
     const addNewElemStart = (e: DraggableEvent, data: DraggableData, dataElem: IElement) => {
         setNewElemShow(true)
         let newId = 0;
-        if (places) {
+        if (places && places.length > 0) {
             newId = places.reduce((acc, curr) => acc.id > curr.id ? acc : curr).id + 1
         }
         setPosNewElem({x: 0, y: 0})
@@ -263,14 +278,7 @@ const MapEdit = () => {
             opt_scanner: false,
             price: 0,
 
-            name: dataElem.type,
-            image: dataElem.image,
-            width: dataElem.width,
-            height: dataElem.height,
-            indicator_visible: dataElem.indicator_visible,
-            indicator_x: dataElem.indicator_x,
-            indicator_y: dataElem.indicator_y,
-            indicator_size: dataElem.indicator_size
+            element: dataElem
         })
     }
 
@@ -316,14 +324,14 @@ const MapEdit = () => {
                     let positionElem = {
                         top: Number(places[i].y),
                         left: Number(places[i].x),
-                        bottom: Number(places[i].y) + Number(places[i].height),
-                        right: Number(places[i].x) + Number(places[i].width)
+                        bottom: Number(places[i].y) + Number(places[i].element.height),
+                        right: Number(places[i].x) + Number(places[i].element.width)
                     }
                     let positionTarget = {
-                        top: y - newElemProps.height / 2,
-                        left: x - newElemProps.width / 2,
-                        bottom: y - newElemProps.height / 2 + Number(newElemProps.height),
-                        right: x - newElemProps.width / 2 + Number(newElemProps.width)
+                        top: y - newElemProps.element.height / 2,
+                        left: x - newElemProps.element.width / 2,
+                        bottom: y - newElemProps.element.height / 2 + Number(newElemProps.element.height),
+                        right: x - newElemProps.element.width / 2 + Number(newElemProps.element.width)
                     }
 
                     if (positionTarget.bottom > positionElem.top && // Если позиция нижней части элемента больше позиции верхней чайти окна, то элемент виден сверху
@@ -346,7 +354,11 @@ const MapEdit = () => {
     const [addEditElementPopup, setAddEditElementPopup] = useState<JSX.Element | null>(null)
 
     const AddNewElement = () => {
-        setAddEditElementPopup(<AddEditElement onClose={() => setAddEditElementPopup(null)} isAdd={true}/>)
+        setAddEditElementPopup(<AddEditElement onClose={() => setAddEditElementPopup(null)} onAddEditEnd={() => {getMap(); getElements()}} isAdd={true}/>)
+    }
+
+    const EditElement = (element: IElement) => {
+        setAddEditElementPopup(<AddEditElement onClose={() => setAddEditElementPopup(null)} onAddEditEnd={() => {getMap(); getElements()}} elementProps={element} isAdd={false}/>)
     }
 
     useEffect(() => {
@@ -354,8 +366,10 @@ const MapEdit = () => {
     }, [])
 
     useEffect(() => {
-        if (mapSel && mapSel !== "Выберите карту")
+        if (mapSel && mapSel !== "Выберите карту"){
             getMap()
+            getElements()
+        }
     }, [mapSel])
 
     //console.log(window.innerWidth / window.innerHeight) 100-
@@ -396,8 +410,16 @@ const MapEdit = () => {
                         </button>
                     </div>
                 </div>
-                <MapElements addNewElemStart={addNewElemStart} addNewElemDrag={addNewElemDrag}
-                             addNewElemStop={addNewElemStop} openAddElement={AddNewElement} openEditElement={() => undefined}/>
+                {elements &&
+                    <MapElements addNewElemStart={addNewElemStart} addNewElemDrag={addNewElemDrag}
+                                 addNewElemStop={addNewElemStop} openAddElement={AddNewElement}
+                                 openEditElement={(elem) => EditElement(elem)}
+                                 elementsArray={elements}
+                                 elementsUpdate={getElements}
+                                 newElementShow={(bool: boolean) => !bool&& setNewElemProps(undefined) }
+                    />
+                }
+
             </div>
             {/*1509 903*/}
             {interactiveMap?.map &&
@@ -433,24 +455,26 @@ const MapEdit = () => {
                                     axis={"both"}
                                     scale={scale / 100}
                                     defaultPosition={{
-                                        x: Math.floor(newElemProps.x - newElemProps.width / 2),
-                                        y: Math.floor(newElemProps.y - newElemProps.height / 2)
+                                        x: Math.floor(newElemProps.x - newElemProps.element.width / 2),
+                                        y: Math.floor(newElemProps.y - newElemProps.element.height / 2)
                                     }}
                                     key={newElemProps.id}
                                     grid={[2, 2]}
-                                    onDrag={(e, data) => DragPlace(e, data, newElemProps.id, newElemProps.width, newElemProps.height)}
+                                    onDrag={(e, data) => DragPlace(e, data, newElemProps.id, newElemProps.element.width, newElemProps.element.height)}
                                     onStop={() => setShowHint(false)}
                                 >
                                     <g className={"interactiveMap-place"} key={newElemProps.id}
                                        id={`place-${newElemProps.id}`}
-                                       data-id={newElemProps.id} data-width={newElemProps.width}
-                                       data-height={newElemProps.height}>
-                                        <image href={newElemProps.image} width={newElemProps.width} x={0} y={0}/>
-                                        <circle className={"circle"} cx={newElemProps.width / 2}
-                                                cy={newElemProps.height / 2} r="10"
-                                                fill={"black"} stroke="#000000" strokeWidth="2"/>
+                                       data-id={newElemProps.id} data-width={newElemProps.element.width}
+                                       data-height={newElemProps.element.height}>
+                                        {!newElemProps.element.only_indicator && <image href={newElemProps.element.image} width={newElemProps.element.width} x={0} y={0}/>}
+                                        <circle className={"circle"}
+                                                cx={newElemProps.element.indicator_x}
+                                                cy={newElemProps.element.indicator_y}
+                                                r={newElemProps.element.indicator_size}
+                                                fill={"black"} stroke="#000000" strokeWidth="0"/>
                                         <foreignObject className={"mapEdit-newElem-confirm"} width="70" height="55"
-                                                       x={newElemProps.width / 2 - 35} y={newElemProps.height + 10}>
+                                                       x={newElemProps.element.width / 2 - 35} y={newElemProps.element.height + 10}>
                                             <div className="mapEdit-newElem-confirm-arrow"></div>
                                             <div className={"mapEdit-newElem-confirm-content"}>
                                                 <button onClick={addNewPlaceHandler}>
@@ -477,17 +501,19 @@ const MapEdit = () => {
             }
             {newElemShow && newElemProps &&
                 <div className={"mapEdit-newElem"} style={{
-                    width: newElemProps.width * scale / 100,
-                    height: newElemProps.height * scale / 100,
-                    top: `${posNewElem.y - newElemProps.height * scale / 100 / 2}px`,
-                    left: `${posNewElem.x - newElemProps.width * scale / 100 / 2}px`
+                    width: newElemProps.element.width * scale / 100,
+                    height: newElemProps.element.height * scale / 100,
+                    top: `${posNewElem.y - newElemProps.element.height * scale / 100 / 2}px`,
+                    left: `${posNewElem.x - newElemProps.element.width * scale / 100 / 2}px`
                 }} data-canAdd={canAdd}>
-                    <svg viewBox={`0 0 ${newElemProps.width * scale / 100} ${newElemProps.height * scale / 100}`}
-                         width={newElemProps.width * scale / 100}>
-                        <image href={newElemProps.image} x={0} y={0} width={newElemProps.width * scale / 100}/>
-                        <circle className={"circle"} cx={newElemProps.width * scale / 100 / 2}
-                                cy={newElemProps.height * scale / 100 / 2} r={10 * scale / 100} fill={"black"}
-                                stroke="#000000" strokeWidth="2"/>
+                    <svg viewBox={`0 0 ${newElemProps.element.width * scale / 100} ${newElemProps.element.height * scale / 100}`}
+                         width={newElemProps.element.width * scale / 100}>
+                        {!newElemProps.element.only_indicator && <image href={newElemProps.element.image} x={0} y={0} width={newElemProps.element.width * scale / 100}/>}
+                        <circle className={"circle"}
+                                cx={newElemProps.element.indicator_x * scale / 100}
+                                cy={newElemProps.element.indicator_y * scale / 100}
+                                r={newElemProps.element.indicator_size * scale / 100}
+                                fill={"black"} stroke="#000000" strokeWidth="0"/>
                     </svg>
                 </div>
             }

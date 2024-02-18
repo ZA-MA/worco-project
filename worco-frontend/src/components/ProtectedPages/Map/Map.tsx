@@ -94,8 +94,11 @@ const Map = () => {
         if(p.visible)
             listPlaces.push(
                     <g className={"interactiveMap-place"} key={index}>
-                        <image href={p.image} width={p.width} x={p.x} y={p.y}></image>
-                        <foreignObject className="interactiveMap-place-info" width="300" height="100" x={p.x + p.width/2 - 150} y={p.y + p.height}>
+                        <image href={p.element.image} width={p.element.width} x={p.x} y={p.y}></image>
+                        <circle className={"circle"} cx={p.x + p.element.width / 2}
+                                cy={p.y + p.element.height / 2} r="10"
+                                fill={"black"} stroke="#000000" strokeWidth="0"/>
+                        <foreignObject className="interactiveMap-place-info" width="300" height="100" x={p.x + p.element.width/2 - 150} y={p.y + p.element.height}>
                             <div style={{border: "1px green solid"}}>I'm a div inside a SVG.</div>
                         </foreignObject>
                     </g>

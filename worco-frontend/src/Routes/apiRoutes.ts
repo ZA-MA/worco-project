@@ -16,7 +16,10 @@ export const ApiRoutes = {
 
     InteractiveMapEdit:{
         SavePositionPlaces: "/InteractiveMapEdit/SavePositionPlaces",
-        GetPlacesElements: "/InteractiveMapEdit/GetPlacesElements"
+        GetPlacesElements: "/InteractiveMapEdit/GetPlacesElements",
+        AddUpdateElement: "/InteractiveMapEdit/AddUpdateElement",
+        DeleteElement: "/InteractiveMapEdit/DeleteElement",
+
     }
 
 }
