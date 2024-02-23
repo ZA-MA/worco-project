@@ -9,6 +9,7 @@ using worco_backend.Auth;
 using cosmetic_project_backend.Controllers;
 using System.Text.Json.Serialization;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -40,10 +41,16 @@ builder.Services.AddCors(options =>
     });
 });*/
 
-var connectionString = builder.Configuration.GetConnectionString("MySQLConnection");
-builder.Services.AddDbContext<AppDbContext>(options => {
+/*var connectionString = builder.Configuration.GetConnectionString("MySQLConnection");
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-});
+});*/
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(
+    builder.Configuration.GetConnectionString("MySQLConnection")),
+    contextLifetime: ServiceLifetime.Transient,
+    optionsLifetime: ServiceLifetime.Transient);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
