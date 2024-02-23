@@ -48,7 +48,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });*/
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(
-    builder.Configuration.GetConnectionString("MySQLConnection")),
+    builder.Configuration.GetConnectionString("ConnectionDB")),
     contextLifetime: ServiceLifetime.Transient,
     optionsLifetime: ServiceLifetime.Transient);
 
