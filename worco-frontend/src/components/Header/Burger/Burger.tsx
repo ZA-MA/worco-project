@@ -18,6 +18,10 @@ const Burger = () => {
 
     const ref = useRef(null)
 
+    const handlerBurger = () =>{
+        setTimeout(() => setIsOpen(!isOpen),  350)
+    }
+
     let list:JSX.Element[] = [];
 
     if(store.role === "User")
@@ -41,16 +45,14 @@ const Burger = () => {
     else if(store.role === "Admin")
         AdminBurgerList.forEach((i:IBurgerList, index) =>  {
             list.push(
-                <Link to={i.link} className={"burger-link"} key={index}>
+                <Link to={i.link} className={"burger-link"} key={index} onClick={handlerBurger}>
                     <img/>
                     <div className={"burger-link-text"}>{i.name}</div>
                 </Link>
             )
         })
 
-    const handlerBurger = () =>{
-        setTimeout(() => setIsOpen(!isOpen),  450)
-    }
+
 
     useOnClickOutside(ref, () => {
         if(isOpen) handlerBurger()

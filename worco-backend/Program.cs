@@ -21,7 +21,7 @@ builder.Services.AddCors(options =>
     {
         policy.AllowAnyHeader()
             .AllowAnyMethod()
-            .WithOrigins("https://localhost:3000")
+            .WithOrigins("https://localhost:3000", "https://localhost:3001")
             .AllowCredentials();
 
 
@@ -39,8 +39,6 @@ builder.Services.AddCors(options =>
         //builder.WithHeaders("accept", "Content-Type: application/json", "https://localhost", "Access-Control-Allow-Credentials: true");
     });
 });*/
-
-
 
 var connectionString = builder.Configuration.GetConnectionString("MySQLConnection");
 builder.Services.AddDbContext<AppDbContext>(options => {

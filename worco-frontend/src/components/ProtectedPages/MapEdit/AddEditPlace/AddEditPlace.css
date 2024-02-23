@@ -11,36 +11,71 @@
 }
 
 .addEditPlace-content{
-    width: 500px;
-    height: 300px;
+    width: min-content;
+    max-width: 700px;
     background-color: #EFEFEF;
     border-radius: 12px;
     box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.25);
     padding: 20px;
 }
 
-.addEditPlace-editable{
-    margin-top: 20px;
-}
-
-.addEditPlace-namePlace{
-    width: 40%;
-    display: inline-flex;
-    gap: 5px;
-    align-items: center;
-    white-space: nowrap;
-}
-
-.addEditPlace-settings{
-    margin-top: 20px;
+.addEditPlace-preview-settings-container{
     width: 100%;
+    height: min-content;
     display: inline-flex;
-    justify-content: space-between;
-    align-items: center;
+    gap: 30px;
+}
+
+.addEditPlace-preview-container{
+    display: flex;
+    flex-direction: column;
     gap: 20px;
 }
 
-.addEditPlace-placeElem{
-    width: 150px;
+.addEditPlace-preview{
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    width: 300px;
+    height: 300px;
     aspect-ratio: 1;
+}
+
+.addEditPlace-preview-position{
+    display: inline-flex;
+    gap: 20px;
+}
+
+.addEditPlace-preview-position div{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.addEditPlace-settings-container{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.addEditPlace-settings{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+}
+
+.addEditPlace-settings div{
+    display: inline-flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.addEditPlace-buttons{
+    margin-top: 20px;
+    width: 100%;
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: right;
 }

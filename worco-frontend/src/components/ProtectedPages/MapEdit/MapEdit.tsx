@@ -348,7 +348,7 @@ const MapEdit = () => {
 
     const addNewPlaceHandler = () => {
         if(newElemProps)
-            setAddEditPlacePopup(<AddEditPlace place={newElemProps} isAdd={true} onClose={() => setAddEditPlacePopup(null)}/>)
+            setAddEditPlacePopup(<AddEditPlace placeProps={newElemProps} isAdd={true} onClose={() => setAddEditPlacePopup(null)}/>)
     }
 
     const [addEditElementPopup, setAddEditElementPopup] = useState<JSX.Element | null>(null)
