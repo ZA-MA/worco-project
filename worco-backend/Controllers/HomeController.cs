@@ -11,18 +11,14 @@ namespace worco_backend.Controllers
     public class HomeController : ControllerBase
     {
 
-        AppDbContext db;
-        public HomeController(AppDbContext context)
-        {
-            db = context;
-        }
-
         [HttpGet]
         [Route("[action]")]
         public async Task<IActionResult> GetL()
         {
             using (var serviceScope = ServiceActivator.GetScope())
             {
+                var db = serviceScope.ServiceProvider.GetService<AppDbContext>();
+
                 return Ok(db.Login.ToList());
             }
         }

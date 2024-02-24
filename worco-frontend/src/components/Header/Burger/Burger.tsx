@@ -8,6 +8,7 @@ import useOnClickOutside from "../../../hooks/useOnClickOutside";
 import {IBurgerList} from "../../../models/models";
 import {CompanyBurgerList} from "../../../data/BurgerData/CompanyBurgerList";
 import {AdminBurgerList} from "../../../data/BurgerData/AdminBurgerList";
+import Button from "../../UI/Button/Button";
 
 const Burger = () => {
     const {store} = useContext(Context)
@@ -69,16 +70,21 @@ const Burger = () => {
             </div>
 
             <div className={`burger-content ${isOpen?"burger-open" : "burger-close"}`} ref={ref} >
-                <div className={"burger-info"}>
-                    <img src={"Pictures/NiceImage.png"} className={"burger-info-image"}/>
+                <div className={"burger-content-top"}>
+                    <div className={"burger-info"}>
+                        <img src={"Pictures/NiceImage.png"} className={"burger-info-image"}/>
 
-                    <div className={"burger-info-names"}>
-                       {store.user.lastName} {store.user.firstName}
+                        <div className={"burger-info-names"}>
+                           {store.user.lastName} {store.user.firstName}
+                        </div>
+                    </div>
+
+                    <div className={"burger-links"}>
+                        {list}
                     </div>
                 </div>
-
-                <div className={"burger-links"}>
-                    {list}
+                <div className={"burger-content-bottom"}>
+                    <Button onClick={() => store.logout()} type={"white1"} size={"small"}>Выйти</Button>
                 </div>
             </div>
         </>
