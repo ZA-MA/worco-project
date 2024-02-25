@@ -22,5 +22,6 @@ namespace worco_backend.Models
         public Element element { get; set; }
         [JsonIgnore]
         public Map? map { get; set; }
+        public List<ReservationsOffices>? reservationsOffices { get; set; }
     }
 }

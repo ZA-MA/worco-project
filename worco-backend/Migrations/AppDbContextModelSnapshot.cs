@@ -323,14 +323,30 @@ namespace worcobackend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("account_id")
+                    b.Property<int?>("account_id")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("accountid")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("end_datetime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("place_id")
+                    b.Property<bool>("is_delete_meeting_room")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("is_paid")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("meeting_room_id")
                         .HasColumnType("integer");
+
+                    b.Property<int>("meeting_room_number")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("name_map")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("price")
                         .HasColumnType("integer");
@@ -339,6 +355,10 @@ namespace worcobackend.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("id");
+
+                    b.HasIndex("accountid");
+
+                    b.HasIndex("meeting_room_id");
 
                     b.ToTable("ReservationsMeetingRooms");
                 });
@@ -351,13 +371,29 @@ namespace worcobackend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("account_id")
+                    b.Property<int?>("account_id")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("accountid")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("end_datetime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("place_id")
+                    b.Property<bool>("is_delete_office")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("is_paid")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("name_map")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("office_id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("office_number")
                         .HasColumnType("integer");
 
                     b.Property<int>("price")
@@ -367,6 +403,10 @@ namespace worcobackend.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("id");
+
+                    b.HasIndex("accountid");
+
+                    b.HasIndex("office_id");
 
                     b.ToTable("ReservationsOffices");
                 });
@@ -379,13 +419,29 @@ namespace worcobackend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("account_id")
+                    b.Property<int?>("account_id")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("accountid")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("end_datetime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("place_id")
+                    b.Property<bool>("is_delete_place")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("is_paid")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("name_map")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("place_id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("place_number")
                         .HasColumnType("integer");
 
                     b.Property<int>("price")
@@ -395,6 +451,10 @@ namespace worcobackend.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("id");
+
+                    b.HasIndex("accountid");
+
+                    b.HasIndex("place_id");
 
                     b.ToTable("ReservationsPlaces");
                 });
@@ -492,6 +552,51 @@ namespace worcobackend.Migrations
                     b.Navigation("map");
                 });
 
+            modelBuilder.Entity("worco_backend.Models.ReservationsMeetingRooms", b =>
+                {
+                    b.HasOne("worco_backend.Models.Account", "account")
+                        .WithMany()
+                        .HasForeignKey("accountid");
+
+                    b.HasOne("worco_backend.Models.MeetingRoom", "meetingRoom")
+                        .WithMany("reservationsMeetingRooms")
+                        .HasForeignKey("meeting_room_id");
+
+                    b.Navigation("account");
+
+                    b.Navigation("meetingRoom");
+                });
+
+            modelBuilder.Entity("worco_backend.Models.ReservationsOffices", b =>
+                {
+                    b.HasOne("worco_backend.Models.Account", "account")
+                        .WithMany()
+                        .HasForeignKey("accountid");
+
+                    b.HasOne("worco_backend.Models.Office", "office")
+                        .WithMany("reservationsOffices")
+                        .HasForeignKey("office_id");
+
+                    b.Navigation("account");
+
+                    b.Navigation("office");
+                });
+
+            modelBuilder.Entity("worco_backend.Models.ReservationsPlaces", b =>
+                {
+                    b.HasOne("worco_backend.Models.Account", "account")
+                        .WithMany()
+                        .HasForeignKey("accountid");
+
+                    b.HasOne("worco_backend.Models.Place", "place")
+                        .WithMany("reservationsPlaces")
+                        .HasForeignKey("place_id");
+
+                    b.Navigation("account");
+
+                    b.Navigation("place");
+                });
+
             modelBuilder.Entity("worco_backend.Models.Element", b =>
                 {
                     b.Navigation("meetingRooms");
@@ -508,6 +613,21 @@ namespace worcobackend.Migrations
                     b.Navigation("offices");
 
                     b.Navigation("places");
+                });
+
+            modelBuilder.Entity("worco_backend.Models.MeetingRoom", b =>
+                {
+                    b.Navigation("reservationsMeetingRooms");
+                });
+
+            modelBuilder.Entity("worco_backend.Models.Office", b =>
+                {
+                    b.Navigation("reservationsOffices");
+                });
+
+            modelBuilder.Entity("worco_backend.Models.Place", b =>
+                {
+                    b.Navigation("reservationsPlaces");
                 });
 #pragma warning restore 612, 618
         }

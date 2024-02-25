@@ -66,7 +66,20 @@ namespace worco_backend.Data
                  .WithMany(x => x.offices)
                  .HasForeignKey(x => x.element_id);
 
-            
+            modelBuilder.Entity<ReservationsPlaces>()
+                .HasOne(x => x.place)
+                .WithMany(x => x.reservationsPlaces)
+                .HasForeignKey(x => x.place_id);
+
+            modelBuilder.Entity<ReservationsMeetingRooms>()
+                .HasOne(x => x.meetingRoom)
+                .WithMany(x => x.reservationsMeetingRooms)
+                .HasForeignKey(x => x.meeting_room_id);
+
+            modelBuilder.Entity<ReservationsOffices>()
+                 .HasOne(x => x.office)
+                 .WithMany(x => x.reservationsOffices)
+                 .HasForeignKey(x => x.office_id);
 
         }
     }

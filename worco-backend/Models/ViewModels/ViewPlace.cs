@@ -12,4 +12,5 @@
         public List<Place> ListPlaces { get; set;}
     }
 
+    public class ViewPlaceInfo { public int id { get; set; } }
 }

@@ -136,6 +136,22 @@ namespace worco_backend.Controllers
 
         [HttpPost]
         [Route("[action]")]
+        public async Task<IActionResult> GetPlaceInfo(ViewPlaceInfo model)
+        {
+            using (var serviceScope = ServiceActivator.GetScope())
+            {
+                var db = serviceScope.ServiceProvider.GetService<AppDbContext>();
+
+                var place = db.Places.Where(p => p.id == model.id).FirstOrDefault();
+
+                if (place == null) { return StatusCode(StatusCodes.Status500InternalServerError, new ResponseView { Status = "Error_1", Message = "Could not find place." }); }
+
+                return Ok(new { place = place });
+            }
+        }
+
+        [HttpPost]
+        [Route("[action]")]
         public async Task<IActionResult> AddUpdatePlace(ViewDeleteElement elem)
         {
             using (var serviceScope = ServiceActivator.GetScope())
