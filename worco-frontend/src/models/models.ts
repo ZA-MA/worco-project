@@ -52,7 +52,9 @@ export interface IPlace{
     opt_printer: boolean,
     opt_scanner: boolean,
     price: number,
+    map_id: number,
 
+    element_id: number
     element: IElement
 }
 
@@ -68,7 +70,9 @@ export interface IMeetingRoom{
     opt_tv: boolean,
     opt_soundproof: boolean,
     price: number,
+    map_id: number,
 
+    element_id: number
     element: IElement
 }
 
@@ -86,7 +90,9 @@ export interface IOffice{
     opt_internet: boolean,
     opt_add_equipment: boolean,
     price: number,
+    map_id: number,
 
+    element_id: number
     element: IElement
 }
 

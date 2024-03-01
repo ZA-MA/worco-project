@@ -1,38 +1,71 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import "./AddEditPlace.css"
-import {IPlace} from "../../../../models/models";
+import {IMeetingRoom, IOffice, IPlace} from "../../../../models/models";
 import NavigateHeader from "../../../UI/NavigateHeader/NavigateHeader";
 import Input from "../../../UI/Input/Input";
 import {ConfigProvider, Switch} from "antd";
 import DropDown from "../../../UI/DropDown/DropDown";
 import Draggable from "react-draggable";
 import Button from "../../../UI/Button/Button";
+import InteractiveMapEditService from "../../../../services/InteractiveMapEditService";
+import {Context} from "../../../../index";
 
 interface IAddEditPlace {
-    placeProps: IPlace,
-    isAdd: boolean
-    onClose: () => void
+    placeProps: IPlace | IMeetingRoom | IOffice,
+    placeId?: number | undefined,
+    isAdd: boolean,
+    onClose: () => void,
+    onUpdateData: () => void,
+    is_now_bron?: boolean,
+    is_any_bron?: boolean
 }
 
-const AddEditPlace = ({placeProps, isAdd, onClose}: IAddEditPlace) => {
+const AddEditPlace = ({placeProps, placeId, isAdd, onClose, is_now_bron, is_any_bron, onUpdateData}: IAddEditPlace) => {
     const [place, setPlace] = useState(placeProps)
+
+    const {store} = useContext(Context)
 
     const onSave = () => {
 
+        InteractiveMapEditService.addUpdatePlace(place)
+            .then(() => {
+                if(isAdd)
+                    alert("Рабочее пространство успешно добавлено")
+                else
+                    alert("Рабочее пространство успешно изменено")
+                onClose()
+                onUpdateData()
+            })
+            .catch(() => alert("Что-то пошло не так"))
     }
     const onDelete = () => {
-
+        if(window.confirm("Вы точно хотите удалить это рабочее пространство?")){
+            InteractiveMapEditService.deletePlace(place.id)
+                .then(() => {
+                    alert("Рабочее пространство удалено")
+                    onClose()
+                    onUpdateData()
+                })
+                .catch(() => alert("Что-то пошло не так"))
+        }
     }
 
     return (
         <div className={"addEditPlace"}>
             <div className={"addEditPlace-content"}>
                 <NavigateHeader onClick={onClose} size={"small"}
-                                Text={isAdd ? `Добавление нового ${place.element.type}` : "Редактирование элемента"}/>
-                <div className={"addEditPlace-name"}> Тип: {place.element.type}</div>
-
+                                Text={isAdd ? `Добавление нового рабочего пространства` : "Редактирование рабочего пространства"}/>
                 <div className={"addEditPlace-preview-settings-container"}>
                     <div className={"addEditPlace-preview-container"}>
+                        <div className={"addEditPlace-name"}>
+                            <div>
+                                Тип: {place.element.type}
+                            </div>
+                            <div className={"addEditPlace-number"}>
+                                №<Input type={"number"} inputSize={"small"} value={place.number_place} onChange={(e) => setPlace({...place, number_place: Number(e.target.value)})}/>
+                            </div>
+
+                        </div>
                         <div className={"addEditPlace-preview"}>
                             <svg viewBox={`0 0 ${place.element.width} ${place.element.height}`}
                                  style={place.element.width && place.element.height && place.element.width >= place.element.height ? {width: "100%"} : {height: "100%"}}>
@@ -47,16 +80,27 @@ const AddEditPlace = ({placeProps, isAdd, onClose}: IAddEditPlace) => {
                             </svg>
                         </div>
                         <div className={"addEditPlace-preview-position"}>
-                            <div>x <Input type={"number"} inputSize={"small"}/></div>
-                            <div>y <Input type={"number"} inputSize={"small"}/></div>
+                            <div>
+                                x
+                                <Input type={"number"} inputSize={"small"} value={place.x} onChange={(e) => setPlace({...place, x: Number(e.target.value)})}/>
+                            </div>
+                            <div>
+                                y
+                                <Input type={"number"} inputSize={"small"} value={place.y} onChange={(e) => setPlace({...place, y: Number(e.target.value)})}/>
+                            </div>
                         </div>
                     </div>
                     <div className={"addEditPlace-settings-container"}>
+
                         <div className={"addEditPlace-settings"}>
+                            <div className={"addEditPlace-warning"}>
+                                {is_now_bron? <div>Это место сейчас забронировано</div> :
+                                    is_any_bron && <div>На это место есть бронирования</div>
+                                }
+                            </div>
                             <ConfigProvider
                                 theme={{
                                     token: {
-
                                         fontFamily: "Montserrat",
                                         colorPrimary: '#404040',
                                         colorPrimaryActive: "#404040",
@@ -70,38 +114,65 @@ const AddEditPlace = ({placeProps, isAdd, onClose}: IAddEditPlace) => {
                                     <Switch value={place.opt_conditioner}
                                             onChange={(e) => setPlace({...place, opt_conditioner: e})}/>
                                 </div>
-                                <div>
-                                    Доступ к принтеру
-                                    <Switch value={place.opt_conditioner}
-                                            onChange={(e) => setPlace({...place, opt_conditioner: e})}/>
-                                </div>
-                                <div>
-                                    Доступ к сканнеру
-                                    <Switch value={place.opt_conditioner}
-                                            onChange={(e) => setPlace({...place, opt_conditioner: e})}/>
-                                </div>
+                                {place.element.type !== "Переговорная" &&
+                                    <div>
+                                        Принтер
+                                        <Switch value={"opt_printer" in place ? place.opt_printer : false}
+                                                onChange={(e) => setPlace({...place, opt_printer: e})}/>
+                                    </div>
+                                }
+                                {place.element.type !== "Переговорная" &&
+                                    <div>
+                                        Сканнер
+                                        <Switch value={"opt_scanner" in place ? place.opt_scanner : false}
+                                                onChange={(e) => setPlace({...place, opt_scanner: e})}/>
+                                    </div>
+                                }
+                                {place.element.type === "Переговорная" &&
+                                    <div>
+                                        Проектор
+                                        <Switch value={"opt_projector" in place ? place.opt_projector : false}
+                                                onChange={(e) => setPlace({...place, opt_projector: e})}/>
+                                    </div>
+                                }
+                                {place.element.type === "Переговорная" &&
+                                    <div>
+                                        Телевизор
+                                        <Switch value={"opt_tv" in place ? place.opt_tv : false}
+                                                onChange={(e) => setPlace({...place, opt_tv: e})}/>
+                                    </div>
+                                }
+                                {place.element.type === "Переговорная" &&
+                                    <div>
+                                        Звуконепроницаемые стены
+                                        <Switch value={"opt_soundproof" in place ? place.opt_soundproof : false}
+                                                onChange={(e) => setPlace({...place, opt_soundproof: e})}/>
+                                    </div>
+                                }
                                 <div>
                                     Можно забронировать
-                                    <Switch value={place.opt_conditioner}
-                                            onChange={(e) => setPlace({...place, opt_conditioner: e})}/>
+                                    <Switch value={place.can_bron}
+                                            onChange={(e) => setPlace({...place, can_bron: e})}/>
                                 </div>
                                 <div>
                                     Видимый
-                                    <Switch value={place.opt_conditioner}
-                                            onChange={(e) => setPlace({...place, opt_conditioner: e})}/>
+                                    <Switch value={place.visible}
+                                            onChange={(e) => setPlace({...place, visible: e})}/>
                                 </div>
                                 <div>
                                     Цена
-                                    <Input type={"number"} inputSize={"small"}/>
+                                    <Input type={"number"} inputSize={"small"} value={place.price} onChange={(val) => setPlace({...place, price: Number(val.target.value)})}/>
                                 </div>
 
 
                             </ConfigProvider>
                         </div>
                         <div className={"addEditPlace-buttons"}>
-                            <button className={"addEditElement-buttons-delete"} onClick={onDelete}>
-                                <div></div>
-                            </button>
+                            {!isAdd &&
+                                <button className={"addEditElement-buttons-delete"} onClick={onDelete}>
+                                    <div></div>
+                                </button>
+                            }
                             <Button onClick={onClose} type={"white2"} size={"small"}>
                                 Отменить
                             </Button>

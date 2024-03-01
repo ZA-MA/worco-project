@@ -14,7 +14,7 @@ interface IAddEditElement {
     onClose: () => void,
     elementProps?: IElement,
     isAdd: boolean,
-    onAddEditEnd: () => void
+    onAddEditEnd: () => void,
 }
 
 const AddEditElement = ({onClose, elementProps, isAdd, onAddEditEnd}: IAddEditElement) => {
@@ -221,7 +221,7 @@ const AddEditElement = ({onClose, elementProps, isAdd, onAddEditEnd}: IAddEditEl
                     if(error.response.data.status === "Error_1")
                         alert("Такого элемента не существует")
                     else if(error.response.data.status === "Error_2")
-                        alert("Этот элемент нельзя удалить, так как этот он уже используется")
+                        alert("Этот элемент нельзя удалить, так как он уже используется")
                     else
                         alert("Что-то пошло не так, попробуйте позже")
                 })
@@ -235,11 +235,14 @@ const AddEditElement = ({onClose, elementProps, isAdd, onAddEditEnd}: IAddEditEl
                                 Text={isAdd ? "Добавление нового элемента" : "Редактирование элемента"}/>
                 <div className={"addEditElement-content"}>
 
-                    <div className={"addEditElement-name"}> Тип <DropDown
+                    <div className={"addEditElement-name"}>
+                        Тип
+                        <DropDown
                         options={[{name: "Место"}, {name: "Переговорная"}, {name: "Кабинет"}]} value={element?.type}
                         onChange={(val) => setElement({...element, type: val})} placeHolder={"Выберите название"}
                         disabled={!!element?.type}
-                        size={"small"}/></div>
+                        size={"small"}/>
+                    </div>
 
                     <div className={"addEditElement-preview-settings-container"}>
                         <div className={"addEditElement-preview-container"}>
@@ -435,9 +438,11 @@ const AddEditElement = ({onClose, elementProps, isAdd, onAddEditEnd}: IAddEditEl
                                 }
                             </div>
                             <div className={"addEditElement-buttons"}>
-                                <button className={"addEditElement-buttons-delete"} onClick={onDelete}>
-                                    <div></div>
-                                </button>
+                                {!isAdd &&
+                                    <button className={"addEditElement-buttons-delete"} onClick={onDelete}>
+                                        <div></div>
+                                    </button>
+                                }
                                 <Button onClick={onClose} type={"white2"} size={"small"}>
                                     Отменить
                                 </Button>

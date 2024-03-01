@@ -1,4 +1,6 @@
-﻿namespace worco_backend.Models
+﻿using System.Text.Json.Serialization;
+
+namespace worco_backend.Models
 {
     public class ReservationsPlaces
     {
@@ -12,7 +14,9 @@
         public DateTime end_datetime { get; set; }
         public int price { get; set; }
         public bool is_paid { get; set; }
+        [JsonIgnore]
         public Account? account { get; set; }
+        [JsonIgnore]
         public Place? place { get; set; }
     }
 }

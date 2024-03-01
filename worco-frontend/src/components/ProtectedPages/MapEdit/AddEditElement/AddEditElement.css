@@ -12,6 +12,22 @@
 
 .addEditPlace-name{
     margin: 20px 0;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.addEditPlace-number{
+    width: 100px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.addEditPlace-warning{
+    color: #de0000;
+    white-space: nowrap;
 }
 
 .addEditElement {

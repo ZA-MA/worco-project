@@ -53,7 +53,7 @@ const MapElements = ({
                     if(error.response.data.status === "Error_1")
                         alert("Такого элемента не существует")
                     else if(error.response.data.status === "Error_2")
-                        alert("Этот элемент нельзя удалить, так как этот он уже используется")
+                        alert("Этот элемент нельзя удалить, так как он уже используется")
                     else
                         alert("Что-то пошло не так, попробуйте позже")
                 })

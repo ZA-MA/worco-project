@@ -15,5 +15,8 @@ namespace worco_backend.Models
         public bool in_company { get; set; }
         public Login login { get; set; }
         public Role role { get; set; }
+        public List<ReservationsPlaces>? reservationsPlaces { get; set; }
+        public List<ReservationsMeetingRooms>? reservationsMeetingRooms { get; set; }
+        public List<ReservationsOffices>? reservationsOffices { get; set; }
     }
 }

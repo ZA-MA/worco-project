@@ -326,9 +326,6 @@ namespace worcobackend.Migrations
                     b.Property<int?>("account_id")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("accountid")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("end_datetime")
                         .HasColumnType("timestamp with time zone");
 
@@ -356,7 +353,7 @@ namespace worcobackend.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("accountid");
+                    b.HasIndex("account_id");
 
                     b.HasIndex("meeting_room_id");
 
@@ -372,9 +369,6 @@ namespace worcobackend.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
                     b.Property<int?>("account_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("accountid")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("end_datetime")
@@ -404,7 +398,7 @@ namespace worcobackend.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("accountid");
+                    b.HasIndex("account_id");
 
                     b.HasIndex("office_id");
 
@@ -420,9 +414,6 @@ namespace worcobackend.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
                     b.Property<int?>("account_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("accountid")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("end_datetime")
@@ -452,7 +443,7 @@ namespace worcobackend.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("accountid");
+                    b.HasIndex("account_id");
 
                     b.HasIndex("place_id");
 
@@ -555,8 +546,8 @@ namespace worcobackend.Migrations
             modelBuilder.Entity("worco_backend.Models.ReservationsMeetingRooms", b =>
                 {
                     b.HasOne("worco_backend.Models.Account", "account")
-                        .WithMany()
-                        .HasForeignKey("accountid");
+                        .WithMany("reservationsMeetingRooms")
+                        .HasForeignKey("account_id");
 
                     b.HasOne("worco_backend.Models.MeetingRoom", "meetingRoom")
                         .WithMany("reservationsMeetingRooms")
@@ -570,8 +561,8 @@ namespace worcobackend.Migrations
             modelBuilder.Entity("worco_backend.Models.ReservationsOffices", b =>
                 {
                     b.HasOne("worco_backend.Models.Account", "account")
-                        .WithMany()
-                        .HasForeignKey("accountid");
+                        .WithMany("reservationsOffices")
+                        .HasForeignKey("account_id");
 
                     b.HasOne("worco_backend.Models.Office", "office")
                         .WithMany("reservationsOffices")
@@ -585,8 +576,8 @@ namespace worcobackend.Migrations
             modelBuilder.Entity("worco_backend.Models.ReservationsPlaces", b =>
                 {
                     b.HasOne("worco_backend.Models.Account", "account")
-                        .WithMany()
-                        .HasForeignKey("accountid");
+                        .WithMany("reservationsPlaces")
+                        .HasForeignKey("account_id");
 
                     b.HasOne("worco_backend.Models.Place", "place")
                         .WithMany("reservationsPlaces")
@@ -595,6 +586,15 @@ namespace worcobackend.Migrations
                     b.Navigation("account");
 
                     b.Navigation("place");
+                });
+
+            modelBuilder.Entity("worco_backend.Models.Account", b =>
+                {
+                    b.Navigation("reservationsMeetingRooms");
+
+                    b.Navigation("reservationsOffices");
+
+                    b.Navigation("reservationsPlaces");
                 });
 
             modelBuilder.Entity("worco_backend.Models.Element", b =>

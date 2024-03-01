@@ -15,10 +15,20 @@ export const ApiRoutes = {
     },
 
     InteractiveMapEdit:{
+        GET_MAPS: "/InteractiveMapEdit/GetMaps",
+        GET_MAP: "/InteractiveMapEdit/GetInteractiveMap",
+
         SavePositionPlaces: "/InteractiveMapEdit/SavePositionPlaces",
         GetPlacesElements: "/InteractiveMapEdit/GetPlacesElements",
         AddUpdateElement: "/InteractiveMapEdit/AddUpdateElement",
         DeleteElement: "/InteractiveMapEdit/DeleteElement",
+
+        GetPlaceInfo: "/InteractiveMapEdit/GetPlaceInfo",
+        AddUpdatePlace: "/InteractiveMapEdit/AddUpdatePlace",
+        DeletePlace: "/InteractiveMapEdit/DeletePlace",
+
+        AddUpdateMap: "/InteractiveMapEdit/AddUpdateMap",
+        DeleteMap: "/InteractiveMapEdit/DeleteMap",
 
     }
 

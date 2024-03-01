@@ -69,6 +69,7 @@
     display: inline-flex;
     gap: 20px;
     align-items: center;
+    justify-content: space-between;
 }
 
 .addEditPlace-buttons{

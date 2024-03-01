@@ -17,7 +17,7 @@ namespace worco_backend.Models
         public bool opt_printer { get; set; }
         public bool opt_scanner { get; set; }
         public int price { get; set; }
-        public Element? element { get; set; }
+        public Element element { get; set; }
         [JsonIgnore]
         public Map? map { get; set; }
         [JsonIgnore]

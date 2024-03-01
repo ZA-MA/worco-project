@@ -9,8 +9,8 @@
         public string image { get; set; }
         public int width { get; set; }
         public int height { get; set; }
-        public List<Place> places { get; set; }
-        public List<MeetingRoom> meetingRooms { get; set;}
-        public List<Office> offices { get; set; }
+        public List<Place>? places { get; set; }
+        public List<MeetingRoom>? meetingRooms { get; set;}
+        public List<Office>? offices { get; set; }
     }
 }

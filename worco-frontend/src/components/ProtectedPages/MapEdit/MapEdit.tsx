@@ -1,21 +1,19 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import Canvas from "../../UI/Canvas/Canvas";
 import "./MapEdit.css"
 import "../Map/Map.css"
 import Draggable, {DraggableData, DraggableEvent} from 'react-draggable';
-import html2canvas from "html2canvas";
 import DropDown, {IDropdownOption} from "../../UI/DropDown/DropDown";
 import Button from "../../UI/Button/Button";
-import {IHint, IInteractiveMap, IMap, IPlace, IElement} from "../../../models/models";
+import {IElement, IHint, IInteractiveMap, IMap, IMeetingRoom, IOffice, IPlace} from "../../../models/models";
 import InteractiveMapService from "../../../services/InteractiveMapService";
 import {Context} from "../../../index";
-import {Switch, ConfigProvider} from "antd";
+import {ConfigProvider, Switch} from "antd";
 import InteractiveMapEditService from "../../../services/InteractiveMapEditService";
 import MapElements from "./MapElements/MapElements";
 import {JSX} from "react/jsx-runtime";
-import dayjs from "dayjs";
 import AddEditPlace from "./AddEditPlace/AddEditPlace";
 import AddEditElement from "./AddEditElement/AddEditElement";
+import AddEditMap from "./AddEditMap/AddEditMap";
 
 const MapEdit = () => {
     const {store} = useContext(Context)
@@ -25,6 +23,7 @@ const MapEdit = () => {
     const [maps, setMaps] = useState<IMap[]>([])
 
     const [mapSel, setMapSel] = useState<string | undefined>("Выберите карту")
+    const [map, setMap] = useState<IMap>()
     const [interactiveMap, setInteractiveMap] = useState<IInteractiveMap>()
     const [places, setPlaces] = useState<IPlace[]>()
     const [meetingRooms, setMeetingRooms] = useState<IPlace[]>()
@@ -47,6 +46,10 @@ const MapEdit = () => {
     const [elements, setElements] = useState<IElement[]>()
 
     const refMap = useRef<HTMLDivElement | null>(null)
+
+    const [addEditMapPopup, setAddEditMapPopup] = useState<JSX.Element | null>(null)
+
+    let listPlaces: JSX.Element[] = []
 
     // function downloadSVG() {
     //     // @ts-ignore
@@ -74,10 +77,12 @@ const MapEdit = () => {
 
     const getMaps = () => {
         store.DataLoadingON()
-        InteractiveMapService.getMaps()
+        InteractiveMapEditService.getMaps()
             .then((r) => {
+
                 setMaps(r.data)
                 setMapSel(r.data[0].name ? r.data[0].name : "Выберите карту")
+
             })
             .catch()
             .finally(() => store.DataLoadingOFF())
@@ -85,14 +90,31 @@ const MapEdit = () => {
 
     const getMap = () => {
         store.DataLoadingON()
-        InteractiveMapService.getMap({"Info1": mapSel})
+        InteractiveMapEditService.getMap({"Info1": mapSel})
             .then((r) => {
                 setInteractiveMap(r.data)
                 setPlaces(r.data.map.places)
+                setMap(r.data.map)
+                listPlaces = []
             })
             .catch()
             .finally(() => store.DataLoadingOFF())
     }
+
+    useEffect(() => {
+        if(mapSel !== "Выберите карту" && mapSel){
+            store.DataLoadingON()
+            InteractiveMapEditService.getMap({"Info1": mapSel})
+                .then((r) => {
+                    setInteractiveMap(r.data)
+                    setPlaces(r.data.map.places)
+                    setMap(r.data.map)
+                    listPlaces = []
+                })
+                .catch()
+                .finally(() => store.DataLoadingOFF())
+        }
+    }, [mapSel])
 
     const getElements = () => {
         store.DataLoadingON()
@@ -104,9 +126,10 @@ const MapEdit = () => {
             .finally(() => store.DataLoadingOFF())
     }
 
-    const changeFloor = (e: string) => {
+    const changeMap = (e: string) => {
         if (e !== mapSel) {
             setMapSel(e)
+            setScale(100)
         }
     }
 
@@ -114,7 +137,6 @@ const MapEdit = () => {
     maps.map((item) => {
         ArrayMaps.push({name: item.name})
     })
-
 
     const DragPlace = (e: DraggableEvent, data: DraggableData, id: number, width: number, height: number) => {
         if (places) {
@@ -134,7 +156,7 @@ const MapEdit = () => {
                         bottom: data.y + Number(height),
                         right: data.x + Number(width)
                     }
-                    let pCenterUD = Math.floor(((positionTarget.left + Number(width) / 2) - (positionElem.left + Number(places[i].element.width) / 2)) * 10 ) / 10
+                    let pCenterUD = Math.floor(((positionTarget.left + Number(width) / 2) - (positionElem.left + Number(places[i].element.width) / 2)) * 10) / 10
                     let pCenterLR = Math.floor(((positionTarget.top + Number(height) / 2) - (positionElem.top + Number(places[i].element.height) / 2)) * 10) / 10
 
                     if (positionTarget.bottom > positionElem.top && // Если позиция нижней части элемента больше позиции верхней чайти окна, то элемент виден сверху
@@ -199,6 +221,7 @@ const MapEdit = () => {
     }
 
     const onDragStop = (e: DraggableEvent, data: DraggableData, id: number) => {
+
         setShowHint(false)
 
         // @ts-ignore
@@ -208,36 +231,9 @@ const MapEdit = () => {
             pl.x = data.lastX
             pl.y = data.lastY
             setPlaces(arrPlaces)
+            console.log(pl.x)
         }
     }
-
-    let listPlaces: JSX.Element[] = []
-
-    places?.map((p, index) => {
-        listPlaces.push(
-            <Draggable
-                bounds={{top: 0, left: 0, right: interactiveMap?.map.width, bottom: interactiveMap?.map.height}}
-                axis={"both"}
-                defaultPosition={{x: p.x, y: p.y}}
-                scale={scale / 100}
-                key={p.id}
-                disabled={!canEditPosition}
-                grid={[1, 1]}
-                onDrag={(e, data) => DragPlace(e, data, p.id, p.element.width, p.element.height)}
-                onStop={(e, data) => onDragStop(e, data, p.id)}
-            >
-                <g className={"interactiveMap-place"} key={p.id} id={`place-${p.id}`} data-id={p.id}
-                   data-width={p.element.width} data-height={p.element.height}>
-                    {!p.element.only_indicator && <image href={p.element.image} width={p.element.width} x={0} y={0}/>}
-                    <circle className={"circle"}
-                            cx={p.element.indicator_x}
-                            cy={p.element.indicator_y}
-                            r={p.element.indicator_size}
-                            fill={"black"} stroke="#000000" strokeWidth="0"/>
-                </g>
-            </Draggable>
-        )
-    })
 
     const SavePositionPlace = () => {
         let data: object[] = []
@@ -268,7 +264,7 @@ const MapEdit = () => {
         setNewElemConfirm(false)
         setNewElemProps({
             id: newId,
-            number_place: null,
+            number_place: 0,
             can_bron: true,
             visible: true,
             x: 0,
@@ -277,7 +273,9 @@ const MapEdit = () => {
             opt_printer: false,
             opt_scanner: false,
             price: 0,
+            map_id: map?.id ? map.id : 0,
 
+            element_id: dataElem.id,
             element: dataElem
         })
     }
@@ -300,8 +298,13 @@ const MapEdit = () => {
         if (newElemProps && canAdd) {
             // if(places)
             //     setPlaces([...places, newElemProps])
-            setNewElemProps({...newElemProps, x: newElemPos.x, y: newElemPos.y})
+
+            setNewElemProps({...newElemProps, x: newElemPos.x - newElemProps.element.width / 2, y: newElemPos.y - newElemProps.element.height / 2})
+            //setNewElemProps({...newElemProps, x: newElemPos.x, y: newElemPos.y})
             setNewElemConfirm(true)
+            //let _places = places
+            //_places?.push({...newElemProps, x: newElemPos.x - newElemProps.element.width / 2, y: newElemPos.y - newElemProps.element.height / 2})
+
         } else {
             setNewElemProps(undefined)
             setNewElemConfirm(false)
@@ -347,18 +350,53 @@ const MapEdit = () => {
     }
 
     const addNewPlaceHandler = () => {
-        if(newElemProps)
-            setAddEditPlacePopup(<AddEditPlace placeProps={newElemProps} isAdd={true} onClose={() => setAddEditPlacePopup(null)}/>)
+        if (newElemProps)
+            setAddEditPlacePopup(<AddEditPlace placeProps={newElemProps} isAdd={true}
+                                               onClose={() => {
+                                                   setAddEditPlacePopup(null)
+                                               }}
+                                               onUpdateData={() => {
+                                                   getMap()
+                                                   setNewElemProps(undefined)
+                                                   setNewElemShow(false)
+                                                   setNewElemConfirm(false)
+                                               }}
+            />)
+    }
+
+    const editPlaceHandler = (id: number, place: IPlace | IMeetingRoom | IOffice) => {
+        setAddEditPlacePopup(null)
+        store.DataLoadingON()
+        InteractiveMapEditService.getPlaceInfo(id)
+            .then((r) => {
+                console.log(r)
+                store.DataLoadingOFF()
+                setAddEditPlacePopup(
+                    <AddEditPlace placeProps={place} isAdd={false} is_now_bron={r.data.is_now_bron}
+                                  is_any_bron={r.data.is_any_bron}
+                                  onClose={() => {
+                                      setAddEditPlacePopup(null)
+                                  }}
+                                  onUpdateData={() => getMap()}
+                    />)
+            })
+            .catch((e) => console.log("Что-то пошло не так"))
     }
 
     const [addEditElementPopup, setAddEditElementPopup] = useState<JSX.Element | null>(null)
 
     const AddNewElement = () => {
-        setAddEditElementPopup(<AddEditElement onClose={() => setAddEditElementPopup(null)} onAddEditEnd={() => {getMap(); getElements()}} isAdd={true}/>)
+        setAddEditElementPopup(<AddEditElement onClose={() => setAddEditElementPopup(null)} onAddEditEnd={() => {
+            getMap();
+            getElements()
+        }} isAdd={true}/>)
     }
 
     const EditElement = (element: IElement) => {
-        setAddEditElementPopup(<AddEditElement onClose={() => setAddEditElementPopup(null)} onAddEditEnd={() => {getMap(); getElements()}} elementProps={element} isAdd={false}/>)
+        setAddEditElementPopup(<AddEditElement onClose={() => setAddEditElementPopup(null)} onAddEditEnd={() => {
+            getMap();
+            getElements()
+        }} elementProps={element} isAdd={false}/>)
     }
 
     useEffect(() => {
@@ -366,8 +404,7 @@ const MapEdit = () => {
     }, [])
 
     useEffect(() => {
-        if (mapSel && mapSel !== "Выберите карту"){
-            getMap()
+        if (mapSel && mapSel !== "Выберите карту") {
             getElements()
         }
     }, [mapSel])
@@ -398,14 +435,31 @@ const MapEdit = () => {
                     <DropDown
                         value={mapSel}
                         options={ArrayMaps}
-                        onChange={(e) => changeFloor(e)}
+                        onChange={(e) => changeMap(e)}
                         placeHolder={"Выберите этаж"}
                         size={"small"}/>
                     <div className={"interactiveMapEdit-panel-floor-btn"}>
-                        <button>
+                        <button onClick={() => {
+                            setAddEditMapPopup(<AddEditMap isAdd={false}
+                                                           onClose={() => setAddEditMapPopup(null)}
+                                                           mapProps={map}
+                                                           onDataUpdate={() => {
+                                                               getMaps()
+                                                           }}
+                                />
+                            )
+                        }}>
                             <div></div>
                         </button>
-                        <button>
+                        <button onClick={() => {
+                            setAddEditMapPopup(<AddEditMap isAdd={true}
+                                                           onClose={() => setAddEditMapPopup(null)}
+                                                           onDataUpdate={() => {
+                                                               getMaps()
+                                                           }}
+                                />
+                            )
+                        }}>
                             <div></div>
                         </button>
                     </div>
@@ -416,7 +470,7 @@ const MapEdit = () => {
                                  openEditElement={(elem) => EditElement(elem)}
                                  elementsArray={elements}
                                  elementsUpdate={getElements}
-                                 newElementShow={(bool: boolean) => !bool&& setNewElemProps(undefined) }
+                                 newElementShow={(bool: boolean) => !bool && setNewElemProps(undefined)}
                     />
                 }
 
@@ -442,39 +496,79 @@ const MapEdit = () => {
 
                         <svg id={"svgMap"} viewBox={`0 0 ${interactiveMap?.map.width} ${interactiveMap?.map.height}`}
                              onMouseMove={(e) => moveMouseOnMap(e)}>
-                            {listPlaces}
+                            {places?.map((p, index) => {
+                                return(
+                                    <Draggable
+                                        bounds={
+                                            {
+                                                top: 0, left: 0,
+                                                right: interactiveMap?.map.width? interactiveMap?.map.width - p.element.width : interactiveMap?.map.width,
+                                                bottom: interactiveMap?.map.height? interactiveMap?.map.height - p.element.height :  interactiveMap?.map.height
+                                            }}
+                                        axis={"both"}
+                                        defaultPosition={{x: p.x, y: p.y}}
+                                        scale={scale / 100}
+                                        key={p.id}
+                                        disabled={!canEditPosition}
+                                        grid={[1, 1]}
+                                        onDrag={(e, data) => DragPlace(e, data, p.id, p.element.width, p.element.height)}
+                                        onStop={(e, data) => onDragStop(e, data, p.id)}
+                                    >
+                                        <g className={"interactiveMap-place"} key={p.id} id={`place-${p.id}`} data-id={p.id}
+                                           data-width={p.element.width} data-height={p.element.height}
+                                           onClick={() => canEditPosition ? undefined : editPlaceHandler(p.id, p)}
+                                           style={{cursor: canEditPosition ? "grab" : "pointer"}}
+                                        >
+                                            {!p.element.only_indicator &&
+                                                <image href={p.element.image} width={p.element.width} x={0} y={0}/>}
+                                            <circle className={"circle"}
+                                                    cx={p.element.indicator_x}
+                                                    cy={p.element.indicator_y}
+                                                    r={p.element.indicator_size}
+                                                    fill={"black"} stroke="#000000" strokeWidth="0"/>
+                                        </g>
+                                    </Draggable>
+                                )
+                            })}
                             {newElemConfirm && newElemProps &&
                                 <Draggable
                                     cancel={"foreignObject"}
                                     bounds={{
                                         top: 0,
                                         left: 0,
-                                        right: interactiveMap?.map.width,
-                                        bottom: interactiveMap?.map.height
+                                        right: interactiveMap?.map.width - newElemProps.element.width,
+                                        bottom: interactiveMap?.map.height - newElemProps.element.height
                                     }}
                                     axis={"both"}
                                     scale={scale / 100}
                                     defaultPosition={{
-                                        x: Math.floor(newElemProps.x - newElemProps.element.width / 2),
-                                        y: Math.floor(newElemProps.y - newElemProps.element.height / 2)
+                                        x: Math.floor(newElemProps.x),
+                                        y: Math.floor(newElemProps.y)
                                     }}
                                     key={newElemProps.id}
                                     grid={[2, 2]}
                                     onDrag={(e, data) => DragPlace(e, data, newElemProps.id, newElemProps.element.width, newElemProps.element.height)}
-                                    onStop={() => setShowHint(false)}
+                                    onStop={(e, data) => {
+                                        setNewElemProps({...newElemProps, x: data.x, y: data.y})
+                                        //onDragStop(e, data, newElemProps.id)
+                                        setShowHint(false)
+                                    }}
                                 >
                                     <g className={"interactiveMap-place"} key={newElemProps.id}
                                        id={`place-${newElemProps.id}`}
                                        data-id={newElemProps.id} data-width={newElemProps.element.width}
                                        data-height={newElemProps.element.height}>
-                                        {!newElemProps.element.only_indicator && <image href={newElemProps.element.image} width={newElemProps.element.width} x={0} y={0}/>}
+                                        {!newElemProps.element.only_indicator &&
+                                            <image href={newElemProps.element.image} width={newElemProps.element.width}
+                                                   x={0} y={0}/>}
                                         <circle className={"circle"}
                                                 cx={newElemProps.element.indicator_x}
                                                 cy={newElemProps.element.indicator_y}
                                                 r={newElemProps.element.indicator_size}
                                                 fill={"black"} stroke="#000000" strokeWidth="0"/>
                                         <foreignObject className={"mapEdit-newElem-confirm"} width="70" height="55"
-                                                       x={newElemProps.element.width / 2 - 35} y={newElemProps.element.height + 10}>
+                                                       x={newElemProps.element.width / 2 - 35}
+                                                       y={newElemProps.element.height + 10}>
                                             <div className="mapEdit-newElem-confirm-arrow"></div>
                                             <div className={"mapEdit-newElem-confirm-content"}>
                                                 <button onClick={addNewPlaceHandler}>
@@ -506,9 +600,11 @@ const MapEdit = () => {
                     top: `${posNewElem.y - newElemProps.element.height * scale / 100 / 2}px`,
                     left: `${posNewElem.x - newElemProps.element.width * scale / 100 / 2}px`
                 }} data-canAdd={canAdd}>
-                    <svg viewBox={`0 0 ${newElemProps.element.width * scale / 100} ${newElemProps.element.height * scale / 100}`}
-                         width={newElemProps.element.width * scale / 100}>
-                        {!newElemProps.element.only_indicator && <image href={newElemProps.element.image} x={0} y={0} width={newElemProps.element.width * scale / 100}/>}
+                    <svg
+                        viewBox={`0 0 ${newElemProps.element.width * scale / 100} ${newElemProps.element.height * scale / 100}`}
+                        width={newElemProps.element.width * scale / 100}>
+                        {!newElemProps.element.only_indicator && <image href={newElemProps.element.image} x={0} y={0}
+                                                                        width={newElemProps.element.width * scale / 100}/>}
                         <circle className={"circle"}
                                 cx={newElemProps.element.indicator_x * scale / 100}
                                 cy={newElemProps.element.indicator_y * scale / 100}
@@ -519,6 +615,7 @@ const MapEdit = () => {
             }
             {addEditElementPopup && addEditElementPopup}
             {addEditPlacePopup && addEditPlacePopup}
+            {addEditMapPopup && addEditMapPopup}
         </div>
     );
 };

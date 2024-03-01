@@ -25,7 +25,6 @@ function App() {
     return (
         <>
             <Routes>
-
                 <Route path={SpaRoutes.Home} element={<Home/>}/>
                 <Route path={SpaRoutes.LOGIN} element={<Login/>}/>
 
