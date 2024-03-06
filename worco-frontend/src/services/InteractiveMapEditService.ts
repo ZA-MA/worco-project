@@ -1,6 +1,6 @@
 import $api from "../api/axios";
 import {AxiosResponse} from "axios";
-import {IElement, IMap, IMeetingRoom, INewElement, IOffice, IPlace} from "../models/models";
+import {IElement, IMap, INewElement, IPlace} from "../models/models";
 const {ApiRoutes: { InteractiveMapEdit }} = require("../Routes/apiRoutes");
 
 export default class InteractiveMapEditService{
@@ -33,7 +33,7 @@ export default class InteractiveMapEditService{
         return $api.post(InteractiveMapEdit.GetPlaceInfo, {"place_id": id})
     }
 
-    static async addUpdatePlace(place: IPlace | IMeetingRoom | IOffice):Promise<AxiosResponse>{
+    static async addUpdatePlace(place: IPlace):Promise<AxiosResponse>{
         return $api.post(InteractiveMapEdit.AddUpdatePlace, {...place})
     }
 

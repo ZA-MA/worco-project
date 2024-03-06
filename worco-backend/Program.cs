@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using worco_backend.Auth;
 using cosmetic_project_backend.Controllers;
 using System.Text.Json.Serialization;
-
+using worco_backend.Models.Seeding;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -116,5 +116,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+/*Seeding.Initialize();*/
 
 app.Run();

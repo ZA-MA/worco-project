@@ -29,7 +29,6 @@ const Burger = () => {
         UserBurgerList.forEach((i:IBurgerList, index) =>  {
             list.push(
                 <Link to={i.link} className={"burger-link"} key={index}>
-                    <img/>
                     <div className={"burger-link-text"} >{i.name}</div>
                 </Link>
             )
@@ -38,7 +37,6 @@ const Burger = () => {
         CompanyBurgerList.forEach((i:IBurgerList, index) =>  {
             list.push(
                 <Link to={i.link} className={"burger-link"} key={index}>
-                    <img/>
                     <div className={"burger-link-text"}>{i.name}</div>
                 </Link>
             )
@@ -47,7 +45,6 @@ const Burger = () => {
         AdminBurgerList.forEach((i:IBurgerList, index) =>  {
             list.push(
                 <Link to={i.link} className={"burger-link"} key={index} onClick={handlerBurger}>
-                    <img/>
                     <div className={"burger-link-text"}>{i.name}</div>
                 </Link>
             )
@@ -79,8 +76,19 @@ const Burger = () => {
                         </div>
                     </div>
 
-                    <div className={"burger-links"}>
-                        {list}
+                    <div className={"burger-buttons-container"}>
+                        <div className={"burger-links"}>
+                            {list}
+                        </div>
+                        <div className={"burger-buttons-bottom"}>
+                            <div className={"burger-number"}>
+                                <div>Наш телефон:</div>
+                                <div>+7-919-444-48-90</div>
+                            </div>
+                            <div className={"burger-exit"}>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className={"burger-content-bottom"}>

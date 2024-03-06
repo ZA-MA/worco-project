@@ -4,7 +4,7 @@ import "../Map/Map.css"
 import Draggable, {DraggableData, DraggableEvent} from 'react-draggable';
 import DropDown, {IDropdownOption} from "../../UI/DropDown/DropDown";
 import Button from "../../UI/Button/Button";
-import {IElement, IHint, IInteractiveMap, IMap, IMeetingRoom, IOffice, IPlace} from "../../../models/models";
+import {IElement, IHint, IInteractiveMap, IMap, IOption, IPlace} from "../../../models/models";
 import InteractiveMapService from "../../../services/InteractiveMapService";
 import {Context} from "../../../index";
 import {ConfigProvider, Switch} from "antd";
@@ -26,8 +26,6 @@ const MapEdit = () => {
     const [map, setMap] = useState<IMap>()
     const [interactiveMap, setInteractiveMap] = useState<IInteractiveMap>()
     const [places, setPlaces] = useState<IPlace[]>()
-    const [meetingRooms, setMeetingRooms] = useState<IPlace[]>()
-    const [offices, setOffices] = useState<IPlace[]>()
 
     const [canEditPosition, setCanEditPosition] = useState(false)
 
@@ -81,7 +79,8 @@ const MapEdit = () => {
             .then((r) => {
 
                 setMaps(r.data)
-                setMapSel(r.data[0].name ? r.data[0].name : "Выберите карту")
+
+                setMapSel(r?.data[0]?.name ? r.data[0].name : "Выберите карту")
 
             })
             .catch()
@@ -260,6 +259,13 @@ const MapEdit = () => {
         if (places && places.length > 0) {
             newId = places.reduce((acc, curr) => acc.id > curr.id ? acc : curr).id + 1
         }
+        let options:IOption[] = dataElem.options.split(",").map((o) => {
+            let option:IOption = {
+               option: o,
+               active: false
+            }
+            return option
+        })
         setPosNewElem({x: 0, y: 0})
         setNewElemConfirm(false)
         setNewElemProps({
@@ -269,14 +275,12 @@ const MapEdit = () => {
             visible: true,
             x: 0,
             y: 0,
-            opt_conditioner: false,
-            opt_printer: false,
-            opt_scanner: false,
             price: 0,
             map_id: map?.id ? map.id : 0,
 
             element_id: dataElem.id,
-            element: dataElem
+            element: dataElem,
+            options: options
         })
     }
 
@@ -364,7 +368,7 @@ const MapEdit = () => {
             />)
     }
 
-    const editPlaceHandler = (id: number, place: IPlace | IMeetingRoom | IOffice) => {
+    const editPlaceHandler = (id: number, place: IPlace) => {
         setAddEditPlacePopup(null)
         store.DataLoadingON()
         InteractiveMapEditService.getPlaceInfo(id)

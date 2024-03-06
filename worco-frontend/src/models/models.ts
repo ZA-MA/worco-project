@@ -23,10 +23,9 @@ export interface IElement {
     indicator_x: number,
     indicator_y: number,
     indicator_size: number,
+    options: string,
 
-    places: IPlace[]
-    meeting_rooms: IMeetingRoom[],
-    offices: IOffice[]
+    places?: IPlace[]
 }
 
 export interface INewElement {
@@ -38,7 +37,8 @@ export interface INewElement {
     only_indicator?: boolean,
     indicator_x?: number,
     indicator_y?: number,
-    indicator_size?: number
+    indicator_size?: number,
+    options: string
 }
 
 export interface IPlace{
@@ -48,59 +48,22 @@ export interface IPlace{
     visible: boolean,
     x: number,
     y: number,
-    opt_conditioner: boolean,
-    opt_printer: boolean,
-    opt_scanner: boolean,
     price: number,
     map_id: number,
 
     element_id: number
     element: IElement
+    options: IOption[]
 }
 
-export interface IMeetingRoom{
-    id: number,
-    number_place: number,
-    can_bron: boolean,
-    visible: boolean,
-    x: number,
-    y: number,
-    opt_conditioner: boolean,
-    opt_projector: boolean,
-    opt_tv: boolean,
-    opt_soundproof: boolean,
-    price: number,
-    map_id: number,
-
-    element_id: number
-    element: IElement
-}
-
-export interface IOffice{
-    id: number,
-    number_place: number,
-    can_bron: boolean,
-    visible: boolean,
-    x: number,
-    y: number,
-    opt_conditioner: boolean,
-    opt_printer: boolean,
-    opt_scanner: boolean,
-    opt_video_control: boolean,
-    opt_internet: boolean,
-    opt_add_equipment: boolean,
-    price: number,
-    map_id: number,
-
-    element_id: number
-    element: IElement
+export interface IOption{
+    option: string,
+    active: boolean
 }
 
 export interface IInteractiveMap{
     map: IMap,
     places: IPlace[],
-    meetingRooms: IMeetingRoom[],
-    offices: IOffice[]
 }
 
 

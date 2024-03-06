@@ -126,7 +126,7 @@
     gap: 20px;
 }
 
-.addEditElement-preview-settings-content div {
+.addEditElement-preview-setting {
     display: inline-flex;
     justify-content: space-between;
     align-items: center;
@@ -134,9 +134,18 @@
     white-space: nowrap;
 }
 
-.addEditElement-preview-settings-content div .input,
-.addEditElement-preview-settings-content div div {
+.addEditElement-preview-setting div .input,
+.addEditElement-preview-setting div div {
     width: 40%;
+}
+
+.addEditElement-preview-setting-options{
+    all: unset;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    gap: 10px;
 }
 
 .addEditElement-preview-pos {

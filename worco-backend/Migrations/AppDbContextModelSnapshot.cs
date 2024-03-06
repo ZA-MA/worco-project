@@ -90,6 +90,9 @@ namespace worcobackend.Migrations
                     b.Property<bool>("only_indicator")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("options")
+                        .HasColumnType("text");
+
                     b.Property<string>("type")
                         .IsRequired()
                         .HasColumnType("text");
@@ -153,118 +156,6 @@ namespace worcobackend.Migrations
                     b.ToTable("Maps");
                 });
 
-            modelBuilder.Entity("worco_backend.Models.MeetingRoom", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
-
-                    b.Property<bool>("can_bron")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("element_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("map_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("number_meeting_room")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("opt_conditioner")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("opt_projector")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("opt_soundproof")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("opt_tv")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("price")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("visible")
-                        .HasColumnType("boolean");
-
-                    b.Property<float>("x")
-                        .HasColumnType("real");
-
-                    b.Property<float>("y")
-                        .HasColumnType("real");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("element_id");
-
-                    b.HasIndex("map_id");
-
-                    b.ToTable("MeetingRooms");
-                });
-
-            modelBuilder.Entity("worco_backend.Models.Office", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
-
-                    b.Property<bool>("can_bron")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("element_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("map_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("number_office")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("opt_add_equipment")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("opt_conditioner")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("opt_internet")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("opt_printer")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("opt_scanner")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("opt_video_control")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("price")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("visible")
-                        .HasColumnType("boolean");
-
-                    b.Property<float>("x")
-                        .HasColumnType("real");
-
-                    b.Property<float>("y")
-                        .HasColumnType("real");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("element_id");
-
-                    b.HasIndex("map_id");
-
-                    b.ToTable("Offices");
-                });
-
             modelBuilder.Entity("worco_backend.Models.Place", b =>
                 {
                     b.Property<int>("id")
@@ -285,14 +176,8 @@ namespace worcobackend.Migrations
                     b.Property<int>("number_place")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("opt_conditioner")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("opt_printer")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("opt_scanner")
-                        .HasColumnType("boolean");
+                    b.Property<string>("options")
+                        .HasColumnType("text");
 
                     b.Property<int>("price")
                         .HasColumnType("integer");
@@ -313,96 +198,6 @@ namespace worcobackend.Migrations
                     b.HasIndex("map_id");
 
                     b.ToTable("Places");
-                });
-
-            modelBuilder.Entity("worco_backend.Models.ReservationsMeetingRooms", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
-
-                    b.Property<int?>("account_id")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("end_datetime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("is_delete_meeting_room")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("is_paid")
-                        .HasColumnType("boolean");
-
-                    b.Property<int?>("meeting_room_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("meeting_room_number")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("name_map")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("price")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("start_datetime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("account_id");
-
-                    b.HasIndex("meeting_room_id");
-
-                    b.ToTable("ReservationsMeetingRooms");
-                });
-
-            modelBuilder.Entity("worco_backend.Models.ReservationsOffices", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
-
-                    b.Property<int?>("account_id")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("end_datetime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("is_delete_office")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("is_paid")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("name_map")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int?>("office_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("office_number")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("price")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("start_datetime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("account_id");
-
-                    b.HasIndex("office_id");
-
-                    b.ToTable("ReservationsOffices");
                 });
 
             modelBuilder.Entity("worco_backend.Models.ReservationsPlaces", b =>
@@ -486,44 +281,6 @@ namespace worcobackend.Migrations
                     b.Navigation("role");
                 });
 
-            modelBuilder.Entity("worco_backend.Models.MeetingRoom", b =>
-                {
-                    b.HasOne("worco_backend.Models.Element", "element")
-                        .WithMany("meetingRooms")
-                        .HasForeignKey("element_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("worco_backend.Models.Map", "map")
-                        .WithMany("meetingRooms")
-                        .HasForeignKey("map_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("element");
-
-                    b.Navigation("map");
-                });
-
-            modelBuilder.Entity("worco_backend.Models.Office", b =>
-                {
-                    b.HasOne("worco_backend.Models.Element", "element")
-                        .WithMany("offices")
-                        .HasForeignKey("element_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("worco_backend.Models.Map", "map")
-                        .WithMany("offices")
-                        .HasForeignKey("map_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("element");
-
-                    b.Navigation("map");
-                });
-
             modelBuilder.Entity("worco_backend.Models.Place", b =>
                 {
                     b.HasOne("worco_backend.Models.Element", "element")
@@ -543,36 +300,6 @@ namespace worcobackend.Migrations
                     b.Navigation("map");
                 });
 
-            modelBuilder.Entity("worco_backend.Models.ReservationsMeetingRooms", b =>
-                {
-                    b.HasOne("worco_backend.Models.Account", "account")
-                        .WithMany("reservationsMeetingRooms")
-                        .HasForeignKey("account_id");
-
-                    b.HasOne("worco_backend.Models.MeetingRoom", "meetingRoom")
-                        .WithMany("reservationsMeetingRooms")
-                        .HasForeignKey("meeting_room_id");
-
-                    b.Navigation("account");
-
-                    b.Navigation("meetingRoom");
-                });
-
-            modelBuilder.Entity("worco_backend.Models.ReservationsOffices", b =>
-                {
-                    b.HasOne("worco_backend.Models.Account", "account")
-                        .WithMany("reservationsOffices")
-                        .HasForeignKey("account_id");
-
-                    b.HasOne("worco_backend.Models.Office", "office")
-                        .WithMany("reservationsOffices")
-                        .HasForeignKey("office_id");
-
-                    b.Navigation("account");
-
-                    b.Navigation("office");
-                });
-
             modelBuilder.Entity("worco_backend.Models.ReservationsPlaces", b =>
                 {
                     b.HasOne("worco_backend.Models.Account", "account")
@@ -590,39 +317,17 @@ namespace worcobackend.Migrations
 
             modelBuilder.Entity("worco_backend.Models.Account", b =>
                 {
-                    b.Navigation("reservationsMeetingRooms");
-
-                    b.Navigation("reservationsOffices");
-
                     b.Navigation("reservationsPlaces");
                 });
 
             modelBuilder.Entity("worco_backend.Models.Element", b =>
                 {
-                    b.Navigation("meetingRooms");
-
-                    b.Navigation("offices");
-
                     b.Navigation("places");
                 });
 
             modelBuilder.Entity("worco_backend.Models.Map", b =>
                 {
-                    b.Navigation("meetingRooms");
-
-                    b.Navigation("offices");
-
                     b.Navigation("places");
-                });
-
-            modelBuilder.Entity("worco_backend.Models.MeetingRoom", b =>
-                {
-                    b.Navigation("reservationsMeetingRooms");
-                });
-
-            modelBuilder.Entity("worco_backend.Models.Office", b =>
-                {
-                    b.Navigation("reservationsOffices");
                 });
 
             modelBuilder.Entity("worco_backend.Models.Place", b =>

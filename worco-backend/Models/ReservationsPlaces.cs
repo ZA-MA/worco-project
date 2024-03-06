@@ -7,7 +7,7 @@ namespace worco_backend.Models
         public int id { get; set; }
         public int? account_id { get; set; }
         public int? place_id { get; set; }
-        public int place_number {  get; set; }
+        public int place_number { get; set; }
         public bool is_delete_place { get; set; }
         public string name_map { get; set; }
         public DateTime start_datetime { get; set; }

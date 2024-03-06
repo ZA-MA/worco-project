@@ -13,14 +13,17 @@ namespace worco_backend.Models
         public bool visible { get; set; }
         public float x { get; set; }
         public float y { get; set; }
-        public bool opt_conditioner { get; set; }
-        public bool opt_printer { get; set; }
-        public bool opt_scanner { get; set; }
+        public List<Option>? options { get; set; }
         public int price { get; set; }
         public Element element { get; set; }
         [JsonIgnore]
         public Map? map { get; set; }
         [JsonIgnore]
         public List<ReservationsPlaces>? reservationsPlaces { get; set; }
+    }
+    public class Option
+    {
+        public string option { get; set; }
+        public bool active { get; set; }
     }
 }

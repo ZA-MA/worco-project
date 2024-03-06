@@ -18,7 +18,18 @@ interface IAddEditElement {
 }
 
 const AddEditElement = ({onClose, elementProps, isAdd, onAddEditEnd}: IAddEditElement) => {
-    const [element, setElement] = useState<IElement | INewElement>()
+    const [element, setElement] = useState<IElement>({
+        id: 0,
+        type: "",
+        image: "",
+        width: 0,
+        height: 0,
+        only_indicator: false,
+        indicator_x: 0,
+        indicator_y: 0,
+        indicator_size: 0,
+        options: ""
+    })
 
 
     const [elementFile, setElementFile] = useState<File>()
@@ -390,24 +401,24 @@ const AddEditElement = ({onClose, elementProps, isAdd, onAddEditEnd}: IAddEditEl
 
                         <div className={"addEditElement-preview-settings"}>
                             <div className={"addEditElement-preview-settings-content"}>
-                                <div className={"addEditElement-preview-settings-width"}>
+                                <div className={"addEditElement-preview-setting"}>
                                     Ширина элемента <Input type={"number"} inputSize={"small"} value={element?.width}
                                                            disabled={!element?.type}
                                                            onChange={(event) => onChangeSettings("width", Number(event.target.value))}/>
                                 </div>
-                                <div className={"addEditElement-preview-settings-height"}>
+                                <div className={"addEditElement-preview-setting"}>
                                     Высота элемента <Input type={"number"} inputSize={"small"} value={element?.height}
                                                            disabled={!element?.type}
                                                            onChange={(event) => onChangeSettings("height", Number(event.target.value))}/>
                                 </div>
-                                <div className={"addEditElement-preview-settings-width"}>
+                                <div className={"addEditElement-preview-setting"}>
                                     Размер индикатора <Input type={"number"} inputSize={"small"}
                                                              disabled={!element?.type}
                                                              value={element?.indicator_size}
                                                              onChange={(event) => onChangeSettings("indicator_size", Number(event.target.value))}/>
                                 </div>
                                 {isAdd &&
-                                    <div className={"addEditElement-preview-settings-height"}>
+                                    <div className={"addEditElement-preview-setting"}>
                                         Только индикатор
                                         <div>
                                             <ConfigProvider
@@ -429,12 +440,18 @@ const AddEditElement = ({onClose, elementProps, isAdd, onAddEditEnd}: IAddEditEl
                                     </div>
                                 }
                                 {!onlyIndicator &&
-                                    <div className={"addEditElement-preview-settings-height"}>
+                                    <div className={"addEditElement-preview-setting"}>
                                         <div>
                                             <Button onClick={indicatorCenter} disabled={!element?.type}
                                                     size={"small"}> Отцентровать индикатор</Button>
                                         </div>
                                     </div>
+                                }
+                                {isAdd&&
+                                <div className={"addEditElement-preview-setting-options"}>
+                                    Опции
+                                    <Input type={"text"} inputSize={"small"} value={element.options} onChange={(e) => setElement({...element, options: e.target.value.trim()})}/>
+                                </div>
                                 }
                             </div>
                             <div className={"addEditElement-buttons"}>

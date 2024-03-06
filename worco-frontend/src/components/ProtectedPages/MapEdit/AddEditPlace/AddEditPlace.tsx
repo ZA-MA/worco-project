@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import "./AddEditPlace.css"
-import {IMeetingRoom, IOffice, IPlace} from "../../../../models/models";
+import {IPlace} from "../../../../models/models";
 import NavigateHeader from "../../../UI/NavigateHeader/NavigateHeader";
 import Input from "../../../UI/Input/Input";
 import {ConfigProvider, Switch} from "antd";
@@ -11,7 +11,7 @@ import InteractiveMapEditService from "../../../../services/InteractiveMapEditSe
 import {Context} from "../../../../index";
 
 interface IAddEditPlace {
-    placeProps: IPlace | IMeetingRoom | IOffice,
+    placeProps: IPlace,
     placeId?: number | undefined,
     isAdd: boolean,
     onClose: () => void,
@@ -26,10 +26,9 @@ const AddEditPlace = ({placeProps, placeId, isAdd, onClose, is_now_bron, is_any_
     const {store} = useContext(Context)
 
     const onSave = () => {
-
         InteractiveMapEditService.addUpdatePlace(place)
             .then(() => {
-                if(isAdd)
+                if (isAdd)
                     alert("Рабочее пространство успешно добавлено")
                 else
                     alert("Рабочее пространство успешно изменено")
@@ -39,7 +38,7 @@ const AddEditPlace = ({placeProps, placeId, isAdd, onClose, is_now_bron, is_any_
             .catch(() => alert("Что-то пошло не так"))
     }
     const onDelete = () => {
-        if(window.confirm("Вы точно хотите удалить это рабочее пространство?")){
+        if (window.confirm("Вы точно хотите удалить это рабочее пространство?")) {
             InteractiveMapEditService.deletePlace(place.id)
                 .then(() => {
                     alert("Рабочее пространство удалено")
@@ -49,6 +48,23 @@ const AddEditPlace = ({placeProps, placeId, isAdd, onClose, is_now_bron, is_any_
                 .catch(() => alert("Что-то пошло не так"))
         }
     }
+
+    let optionsList: JSX.Element[] = []
+
+    place?.options?.map((o, index) => {
+        console.log(place)
+        optionsList.push(
+            <div>
+                {o.option}
+                <Switch value={o.active}
+                        onChange={(e) => {
+                            let opt = place.options
+                            opt[index].active = e
+                            setPlace({...place, options: opt})
+                        }}/>
+            </div>
+        )
+    })
 
     return (
         <div className={"addEditPlace"}>
@@ -62,7 +78,8 @@ const AddEditPlace = ({placeProps, placeId, isAdd, onClose, is_now_bron, is_any_
                                 Тип: {place.element.type}
                             </div>
                             <div className={"addEditPlace-number"}>
-                                №<Input type={"number"} inputSize={"small"} value={place.number_place} onChange={(e) => setPlace({...place, number_place: Number(e.target.value)})}/>
+                                №<Input type={"number"} inputSize={"small"} value={place.number_place}
+                                        onChange={(e) => setPlace({...place, number_place: Number(e.target.value)})}/>
                             </div>
 
                         </div>
@@ -82,11 +99,13 @@ const AddEditPlace = ({placeProps, placeId, isAdd, onClose, is_now_bron, is_any_
                         <div className={"addEditPlace-preview-position"}>
                             <div>
                                 x
-                                <Input type={"number"} inputSize={"small"} value={place.x} onChange={(e) => setPlace({...place, x: Number(e.target.value)})}/>
+                                <Input type={"number"} inputSize={"small"} value={place.x}
+                                       onChange={(e) => setPlace({...place, x: Number(e.target.value)})}/>
                             </div>
                             <div>
                                 y
-                                <Input type={"number"} inputSize={"small"} value={place.y} onChange={(e) => setPlace({...place, y: Number(e.target.value)})}/>
+                                <Input type={"number"} inputSize={"small"} value={place.y}
+                                       onChange={(e) => setPlace({...place, y: Number(e.target.value)})}/>
                             </div>
                         </div>
                     </div>
@@ -94,7 +113,7 @@ const AddEditPlace = ({placeProps, placeId, isAdd, onClose, is_now_bron, is_any_
 
                         <div className={"addEditPlace-settings"}>
                             <div className={"addEditPlace-warning"}>
-                                {is_now_bron? <div>Это место сейчас забронировано</div> :
+                                {is_now_bron ? <div>Это место сейчас забронировано</div> :
                                     is_any_bron && <div>На это место есть бронирования</div>
                                 }
                             </div>
@@ -109,46 +128,7 @@ const AddEditPlace = ({placeProps, placeId, isAdd, onClose, is_now_bron, is_any_
                                     },
                                 }}
                             >
-                                <div>
-                                    Кондиционер
-                                    <Switch value={place.opt_conditioner}
-                                            onChange={(e) => setPlace({...place, opt_conditioner: e})}/>
-                                </div>
-                                {place.element.type !== "Переговорная" &&
-                                    <div>
-                                        Принтер
-                                        <Switch value={"opt_printer" in place ? place.opt_printer : false}
-                                                onChange={(e) => setPlace({...place, opt_printer: e})}/>
-                                    </div>
-                                }
-                                {place.element.type !== "Переговорная" &&
-                                    <div>
-                                        Сканнер
-                                        <Switch value={"opt_scanner" in place ? place.opt_scanner : false}
-                                                onChange={(e) => setPlace({...place, opt_scanner: e})}/>
-                                    </div>
-                                }
-                                {place.element.type === "Переговорная" &&
-                                    <div>
-                                        Проектор
-                                        <Switch value={"opt_projector" in place ? place.opt_projector : false}
-                                                onChange={(e) => setPlace({...place, opt_projector: e})}/>
-                                    </div>
-                                }
-                                {place.element.type === "Переговорная" &&
-                                    <div>
-                                        Телевизор
-                                        <Switch value={"opt_tv" in place ? place.opt_tv : false}
-                                                onChange={(e) => setPlace({...place, opt_tv: e})}/>
-                                    </div>
-                                }
-                                {place.element.type === "Переговорная" &&
-                                    <div>
-                                        Звуконепроницаемые стены
-                                        <Switch value={"opt_soundproof" in place ? place.opt_soundproof : false}
-                                                onChange={(e) => setPlace({...place, opt_soundproof: e})}/>
-                                    </div>
-                                }
+                                {optionsList&&optionsList}
                                 <div>
                                     Можно забронировать
                                     <Switch value={place.can_bron}
@@ -161,7 +141,8 @@ const AddEditPlace = ({placeProps, placeId, isAdd, onClose, is_now_bron, is_any_
                                 </div>
                                 <div>
                                     Цена
-                                    <Input type={"number"} inputSize={"small"} value={place.price} onChange={(val) => setPlace({...place, price: Number(val.target.value)})}/>
+                                    <Input type={"number"} inputSize={"small"} value={place.price}
+                                           onChange={(val) => setPlace({...place, price: Number(val.target.value)})}/>
                                 </div>
 
 

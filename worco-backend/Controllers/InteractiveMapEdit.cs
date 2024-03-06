@@ -42,10 +42,6 @@ namespace worco_backend.Controllers
                 var map = db.Maps
                     .Include(m => m.places)
                         .ThenInclude(p => p.element)
-                    .Include(m => m.meetingRooms)
-                        .ThenInclude(mr => mr.element)
-                    .Include(m => m.offices)
-                        .ThenInclude(o => o.element)
                     .Where(m => m.name == model.Info1)
                     .FirstOrDefault();
                 if (map == null) { return StatusCode(StatusCodes.Status500InternalServerError, new ResponseView { Status = "Error_1", Message = "Map was not found" }); }
@@ -94,7 +90,7 @@ namespace worco_backend.Controllers
             using (var serviceScope = ServiceActivator.GetScope())
             {
                 var db = serviceScope.ServiceProvider.GetService<AppDbContext>();
-                var elements = db.Elements.Include(e => e.places).Include(e => e.meetingRooms).Include(e => e.offices).ToArray();
+                var elements = db.Elements.Include(e => e.places).ToArray();
                 /*if (map == null) { return StatusCode(StatusCodes.Status500InternalServerError, new ResponseView { Status = "Error_1", Message = "Map was not found" }); }*/
 
                 return Ok(elements);
@@ -109,6 +105,7 @@ namespace worco_backend.Controllers
             {
                 var db = serviceScope.ServiceProvider.GetService<AppDbContext>();
 
+                
                 var element = new Element();
                 if (db.Elements.Where(e => e.id == elem.id).FirstOrDefault() != null)
                 {
@@ -122,11 +119,17 @@ namespace worco_backend.Controllers
                     element.indicator_y = elem.indicator_y;
                     element.indicator_size = elem.indicator_size;
 
+                    var options = elem.options;
+                    if (options == "") { options = null; }
+                    element.options = options;
+
                     await db.SaveChangesAsync();
                     return Ok(new { Status = "Success", Message = "Successfully update element." });
                 }
                 else
                 {
+                    var options = elem.options;
+                    if (options == "") { options = null; }
                     element = new Element
                     {
                         image = elem.image,
@@ -136,7 +139,8 @@ namespace worco_backend.Controllers
                         only_indicator = elem.only_indicator,
                         indicator_x = elem.indicator_x,
                         indicator_y = elem.indicator_y,
-                        indicator_size = elem.indicator_size
+                        indicator_size = elem.indicator_size,
+                        options = options
                     };
                     db.Elements.Add(element);
                     await db.SaveChangesAsync();
@@ -155,8 +159,6 @@ namespace worco_backend.Controllers
 
                 var element = await db.Elements
                 .Include(e => e.places)
-                .Include(e => e.meetingRooms)
-                .Include(e => e.offices)
                 .Where(e => e.id == elem.id)
                 .FirstOrDefaultAsync();
 
@@ -165,7 +167,7 @@ namespace worco_backend.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError, new ResponseView { Status = "Error_1", Message = "Could not find element." });
                 }
 
-                if (element.places.Count == 0 && element.meetingRooms.Count == 0 && element.offices.Count == 0)
+                if (element.places.Count == 0)
                 {
                     db.Elements.Remove(element);
                     db.SaveChanges();
@@ -187,7 +189,6 @@ namespace worco_backend.Controllers
                 var db = serviceScope.ServiceProvider.GetService<AppDbContext>();
 
                 var place = db.Places.Include(p => p.element).Where(p => p.id == model.place_id).FirstOrDefault();
-
                 
                 if (place == null) { return StatusCode(StatusCodes.Status500InternalServerError, new ResponseView { Status = "Error_1", Message = "Could not find place." }); }
 
@@ -230,9 +231,7 @@ namespace worco_backend.Controllers
                     place.visible = _place.visible;
                     place.x = _place.x;
                     place.y = _place.y;
-                    place.opt_conditioner = _place.opt_conditioner;
-                    place.opt_printer = _place.opt_printer;
-                    place.opt_scanner = _place.opt_scanner;
+                    place.options = _place.options;
                     place.price = _place.price;
 
                     await db.SaveChangesAsync();
@@ -247,9 +246,7 @@ namespace worco_backend.Controllers
                         visible = _place.visible,
                         x = _place.x,
                         y = _place.y,
-                        opt_conditioner = _place.opt_conditioner,
-                        opt_printer = _place.opt_printer,
-                        opt_scanner = _place.opt_scanner,
+                        options = _place.options,
                         price = _place.price,
                         element = db.Elements.Where(e => e.id == _place.element_id).FirstOrDefault(),
                         map = db.Maps.Where(m => m.id == _place.map_id).FirstOrDefault()
@@ -343,8 +340,6 @@ namespace worco_backend.Controllers
                 if (map == null) { return StatusCode(StatusCodes.Status500InternalServerError, new ResponseView { Status = "Error_1", Message = "Could not find map." }); }
 
                 var places = db.Places.Where(p => p.map_id == model.map_id).ToList();
-                var meetingRooms = db.MeetingRooms.Where(p => p.map_id == model.map_id).ToList();
-                var offices = db.Offices.Where(p => p.map_id == model.map_id).ToList();
 
                 if(places != null)
                 {
@@ -357,36 +352,6 @@ namespace worco_backend.Controllers
                             {
                                 rp.place_id = null;
                                 rp.is_delete_place = true;
-                            }
-                        }
-                    }
-                }
-                if (meetingRooms != null)
-                {
-                    foreach (MeetingRoom meetingRoom in meetingRooms)
-                    {
-                        var reservationMeetingRoomList = db.ReservationsMeetingRooms.Where(m => m.id == meetingRoom.id).ToList();
-                        if (reservationMeetingRoomList != null)
-                        {
-                            foreach (ReservationsMeetingRooms rp in reservationMeetingRoomList)
-                            {
-                                rp.meeting_room_id = null;
-                                rp.is_delete_meeting_room = true;
-                            }
-                        }
-                    }
-                }
-                if (offices != null)
-                {
-                    foreach (Office office in offices)
-                    {
-                        var reservationOfficeList = db.ReservationsOffices.Where(o => o.id == office.id).ToList();
-                        if (reservationOfficeList != null)
-                        {
-                            foreach (ReservationsOffices rp in reservationOfficeList)
-                            {
-                                rp.office_id = null;
-                                rp.is_delete_office = true;
                             }
                         }
                     }

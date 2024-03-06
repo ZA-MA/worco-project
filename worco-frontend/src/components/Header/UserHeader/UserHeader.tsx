@@ -19,7 +19,7 @@ const UserHeader = () => {
                 </div>
             </div>
             <Link to={"/"} className={"headerUser-logo"}>
-                <img src={"Pictures/logo.svg"} />
+                <img src={"Pictures/LogoCoworking.svg"} />
             </Link>
             <div className={"headerUser-notify"}>
                 <img src={"Pictures/alarm.svg"}/>

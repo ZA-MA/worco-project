@@ -13,11 +13,8 @@ namespace worco_backend.Models
         public float indicator_x { get; set; }
         public float indicator_y { get; set; }
         public int indicator_size { get; set; }
+        public string? options { get; set; }
         [JsonIgnore]
         public List<Place>? places { get; set; }
-        [JsonIgnore]
-        public List<MeetingRoom>? meetingRooms { get; set; }
-        [JsonIgnore]
-        public List<Office>? offices { get; set; }
     }
 }

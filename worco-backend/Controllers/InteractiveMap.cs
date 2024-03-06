@@ -40,10 +40,6 @@ namespace worco_backend.Controllers
                 var map = db.Maps
                     .Include(m => m.places)
                         .ThenInclude(p => p.element)
-                    .Include(m => m.meetingRooms)
-                        .ThenInclude(mr => mr.element)
-                    .Include(m => m.offices)
-                        .ThenInclude(o => o.element)
                     .Where(m => m.name == model.Info1)
                     /*.Select(m => new Map
                     {
