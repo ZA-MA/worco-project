@@ -15,7 +15,7 @@ namespace worco_backend.Models
         public int price { get; set; }
         public bool is_paid { get; set; }
         [JsonIgnore]
-        public Account? account { get; set; }
+        public User? account { get; set; }
         [JsonIgnore]
         public Place? place { get; set; }
     }

@@ -1,4 +1,6 @@
-﻿namespace worco_backend.Models.ViewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace worco_backend.Models.ViewModels
 {
     public class Registration
     {

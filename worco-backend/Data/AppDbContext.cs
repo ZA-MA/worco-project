@@ -13,7 +13,8 @@ namespace worco_backend.Data
         }
 
         public DbSet<Login> Login { get; set; }
-        public DbSet<Account> Accounts { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Company> Companies { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Map> Maps { get; set; }
         public DbSet<Place> Places { get; set; }
@@ -23,12 +24,22 @@ namespace worco_backend.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Account>()
+            modelBuilder.Entity<User>()
                 .HasOne(x => x.login)
                 .WithMany()
                 .HasForeignKey(x => x.login_id);
 
-            modelBuilder.Entity<Account>()
+            modelBuilder.Entity<User>()
+                .HasOne(x => x.role)
+                .WithMany()
+                .HasForeignKey(x => x.role_id);
+
+            modelBuilder.Entity<Company>()
+                .HasOne(x => x.login)
+                .WithMany()
+                .HasForeignKey(x => x.login_id);
+
+            modelBuilder.Entity<Company>()
                 .HasOne(x => x.role)
                 .WithMany()
                 .HasForeignKey(x => x.role_id);

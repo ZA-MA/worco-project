@@ -52,7 +52,7 @@ namespace JWTRefreshToken.NET6._0.Controllers
                 {
                     return StatusCode(StatusCodes.Status511NetworkAuthenticationRequired, new ResponseView { Status = "Error_1", Message = "Mail not found." });
                 }
-                var user = db.Accounts.Where(a => a.email == email).Include(a => a.login).Include(a => a.role).FirstOrDefault();
+                var user = db.Users.Where(a => a.email == email).Include(a => a.login).Include(a => a.role).FirstOrDefault();
                 if (user == null)
                 {
                     return StatusCode(StatusCodes.Status511NetworkAuthenticationRequired, new ResponseView { Status = "Error_2", Message = "User not found." });
@@ -62,10 +62,6 @@ namespace JWTRefreshToken.NET6._0.Controllers
 
                 return Ok(new
                 {
-                    /*Token = new JwtSecurityTokenHandler().WriteToken(token),
-                    RefreshToken = refreshToken,
-                    Expiration = token.ValidTo,*/
-
                     role = role,
                     user = new
                     {
@@ -94,7 +90,7 @@ namespace JWTRefreshToken.NET6._0.Controllers
                 if(login != null) { 
                     if (login.password == HashHelper.hashPassword(model.password))
                     {
-                        var user = db.Accounts.Where(a => a.login == login).Include(a => a.login).Include(a => a.role).FirstOrDefault();
+                        var user = db.Users.Where(a => a.login == login).Include(a => a.login).Include(a => a.role).FirstOrDefault();
                         string role = user.role.role;
 
                         var identity = GetIdentity(user.firstName + " " + user.patronymic , role);
@@ -119,9 +115,6 @@ namespace JWTRefreshToken.NET6._0.Controllers
 
                         return Ok(new
                         {
-                            /*Token = new JwtSecurityTokenHandler().WriteToken(token),
-                            RefreshToken = refreshToken,
-                            Expiration = token.ValidTo,*/
                             token = encodedJwt,
                             role = role,
                             user = new 
@@ -203,9 +196,9 @@ namespace JWTRefreshToken.NET6._0.Controllers
 
                 if(login_id == 0 || login_id == null) { return StatusCode(StatusCodes.Status500InternalServerError, new ResponseView { Status = "Error_2", Message = "Something went wrong" }); }
     */
-                var user = new Account
+                var user = new User
                 {
-                    id = db.Accounts.Count() + 1,
+                    id = db.Users.Count() + 1,
                     login_id = login_id,
                     role_id = 2,
                     email = email,
@@ -214,7 +207,7 @@ namespace JWTRefreshToken.NET6._0.Controllers
                     patronymic = patronymic
                 };
 
-                db.Accounts.Add(user);
+                db.Users.Add(user);
 
                 await db.SaveChangesAsync();
 

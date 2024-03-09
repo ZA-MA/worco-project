@@ -22,7 +22,7 @@ namespace worcobackend.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("worco_backend.Models.Account", b =>
+            modelBuilder.Entity("worco_backend.Models.Company", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -34,26 +34,27 @@ namespace worcobackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("firstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("in_company")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("lastName")
+                    b.Property<string>("inn")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("login_id")
                         .HasColumnType("integer");
 
-                    b.Property<string>("patronymic")
+                    b.Property<string>("name_company")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("phone")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("role_id")
                         .HasColumnType("integer");
+
+                    b.Property<string>("type_company")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("id");
 
@@ -61,7 +62,7 @@ namespace worcobackend.Migrations
 
                     b.HasIndex("role_id");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("worco_backend.Models.Element", b =>
@@ -208,6 +209,9 @@ namespace worcobackend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
+                    b.Property<int?>("Companyid")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("account_id")
                         .HasColumnType("integer");
 
@@ -238,6 +242,8 @@ namespace worcobackend.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("Companyid");
+
                     b.HasIndex("account_id");
 
                     b.HasIndex("place_id");
@@ -262,7 +268,53 @@ namespace worcobackend.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("worco_backend.Models.Account", b =>
+            modelBuilder.Entity("worco_backend.Models.User", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<string>("email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("firstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("in_company")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("lastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("login_id")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("patronymic")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("phone")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("role_id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("login_id");
+
+                    b.HasIndex("role_id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("worco_backend.Models.Company", b =>
                 {
                     b.HasOne("worco_backend.Models.Login", "login")
                         .WithMany()
@@ -302,7 +354,11 @@ namespace worcobackend.Migrations
 
             modelBuilder.Entity("worco_backend.Models.ReservationsPlaces", b =>
                 {
-                    b.HasOne("worco_backend.Models.Account", "account")
+                    b.HasOne("worco_backend.Models.Company", null)
+                        .WithMany("reservationsPlaces")
+                        .HasForeignKey("Companyid");
+
+                    b.HasOne("worco_backend.Models.User", "account")
                         .WithMany("reservationsPlaces")
                         .HasForeignKey("account_id");
 
@@ -315,7 +371,26 @@ namespace worcobackend.Migrations
                     b.Navigation("place");
                 });
 
-            modelBuilder.Entity("worco_backend.Models.Account", b =>
+            modelBuilder.Entity("worco_backend.Models.User", b =>
+                {
+                    b.HasOne("worco_backend.Models.Login", "login")
+                        .WithMany()
+                        .HasForeignKey("login_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("worco_backend.Models.Role", "role")
+                        .WithMany()
+                        .HasForeignKey("role_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("login");
+
+                    b.Navigation("role");
+                });
+
+            modelBuilder.Entity("worco_backend.Models.Company", b =>
                 {
                     b.Navigation("reservationsPlaces");
                 });
@@ -331,6 +406,11 @@ namespace worcobackend.Migrations
                 });
 
             modelBuilder.Entity("worco_backend.Models.Place", b =>
+                {
+                    b.Navigation("reservationsPlaces");
+                });
+
+            modelBuilder.Entity("worco_backend.Models.User", b =>
                 {
                     b.Navigation("reservationsPlaces");
                 });

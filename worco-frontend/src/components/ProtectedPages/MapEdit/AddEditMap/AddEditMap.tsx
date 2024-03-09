@@ -34,7 +34,6 @@ const AddEditMap = ({isAdd, onClose, mapProps, onDataUpdate}: IAddEditMap) => {
     const [mapFile, setMapFile] = useState<File>()
     const [mapPreview, setMapPreview] = useState<string | undefined>()
 
-
     useEffect(() => {
         if (!isAdd && mapProps) {
             setMap(mapProps)
