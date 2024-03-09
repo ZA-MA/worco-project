@@ -49,7 +49,7 @@ namespace worco_backend.Models.Seeding
                     var login = new Login 
                     { 
                         email = "admin@worco.ru",
-                        password = "123.Ru"
+                        password = HashHelper.hashPassword("123.Ru")
                     };
                     db.Login.Add(login);
                     db.SaveChanges();
@@ -59,7 +59,7 @@ namespace worco_backend.Models.Seeding
                     var login = new Login
                     {
                         email = "max@gmail.com",
-                        password = "123.Ru"
+                        password = HashHelper.hashPassword("123.Ru")
                     };
                     db.Login.Add(login);
                     db.SaveChanges();
@@ -71,6 +71,7 @@ namespace worco_backend.Models.Seeding
                     var account = new User
                     {
                         email = "admin@worco.ru",
+                        phone = "",
                         firstName = "Admin",
                         lastName = "Admin",
                         patronymic = "Admin",
@@ -86,6 +87,7 @@ namespace worco_backend.Models.Seeding
                     var account = new User
                     {
                         email = "max@gmail.com",
+                        phone = "1231312312",
                         firstName = "Максим",
                         lastName = "Зайцев",
                         patronymic = "Олегович",

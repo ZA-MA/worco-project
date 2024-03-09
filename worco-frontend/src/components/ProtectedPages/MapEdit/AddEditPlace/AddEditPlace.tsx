@@ -92,7 +92,7 @@ const AddEditPlace = ({placeProps, placeId, isAdd, onClose, is_now_bron, is_any_
                                 <circle className={"circle"}
                                         cx={place.element.indicator_x}
                                         cy={place.element.indicator_y}
-                                        r={place.element.indicator_size} fill={"black"}
+                                        r={place.element.indicator_size} fill={"red"}
                                         stroke="#000000" strokeWidth="0"/>
                             </svg>
                         </div>
@@ -157,7 +157,7 @@ const AddEditPlace = ({placeProps, placeId, isAdd, onClose, is_now_bron, is_any_
                             <Button onClick={onClose} type={"white2"} size={"small"}>
                                 Отменить
                             </Button>
-                            <Button onClick={onSave} type={"black"} size={"small"}>
+                            <Button onClick={onSave} type={"red"} size={"small"}>
                                 {isAdd ? "Добавить" : "Сохранить"}
                             </Button>
                         </div>

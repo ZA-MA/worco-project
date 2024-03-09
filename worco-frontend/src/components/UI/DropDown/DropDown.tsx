@@ -32,7 +32,7 @@ const DropDown = ({options, value, onChange, name, placeHolder, size, errorMsg, 
     const ListDropdown = options.map((item, index) => {
         return (
             <div
-                className={"dropdown-item"}
+                className={`dropdown-item ${value === item.name&& " dropdown-item-select"}`}
                 onClick={() => dropDownHandler(item.name)}
                 key={index}
             >

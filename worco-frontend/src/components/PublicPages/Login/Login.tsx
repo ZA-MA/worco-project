@@ -109,7 +109,7 @@ const Login = () => {
                         </div>
 
 
-                        <Button type={"black"}
+                        <Button type={"red"}
                                 data-canEnter={canEnter}
                                 onClick={Login}
                                 disabled={!canEnter}

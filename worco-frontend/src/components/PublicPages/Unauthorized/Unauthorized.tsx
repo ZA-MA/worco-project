@@ -11,10 +11,10 @@ const Unauthorized = () => {
                 У вас нет доступа к этой странице
             </div>
             <div className={"loggedIn-content"}>
-                <Button type={"black"} onClick={() => navigate(-1)}>
+                <Button type={"red"} onClick={() => navigate(-1)}>
                     Вернуться назад
                 </Button>
-                <Button type={"black"} onClick={() => navigate("/")}>
+                <Button type={"red"} onClick={() => navigate("/")}>
                     Перейти на главную страницу
                 </Button>
             </div>

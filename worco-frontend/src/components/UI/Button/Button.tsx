@@ -2,7 +2,7 @@ import React from 'react';
 import "./Button.css"
 
 interface IButton {
-    type?: "black" | "white1" | "white2",
+    type?: "red" | "white1" | "white2",
     children: React.ReactNode
     name?: string,
     size?: "small" | "medium" | "large",
@@ -11,7 +11,7 @@ interface IButton {
     disabled?: boolean
 }
 
-const Button = ({children, name, type="black", size="medium", onClick, selected, disabled}: IButton) => {
+const Button = ({children, name, type="red", size="medium", onClick, selected, disabled}: IButton) => {
     return (
         <button className={`button`}
                 name={name}

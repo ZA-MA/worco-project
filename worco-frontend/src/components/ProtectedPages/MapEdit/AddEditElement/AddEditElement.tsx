@@ -463,7 +463,7 @@ const AddEditElement = ({onClose, elementProps, isAdd, onAddEditEnd}: IAddEditEl
                                 <Button onClick={onClose} type={"white2"} size={"small"}>
                                     Отменить
                                 </Button>
-                                <Button onClick={onSave} type={"black"} size={"small"}>
+                                <Button onClick={onSave} type={"red"} size={"small"}>
                                     {isAdd ? "Добавить" : "Сохранить"}
                                 </Button>
                             </div>

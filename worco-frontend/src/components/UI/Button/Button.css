@@ -14,12 +14,10 @@
 .button[data-size="small"]{
     padding: 0 15px;
     height: 32px;
-    border-radius: 10px;
 }
 .button[data-size="medium"]{
     padding: 0 21px;
     height: 48px;
-    border-radius: 12px;
 }
 .button[data-size="large"]{
     height: 60px;
@@ -31,29 +29,28 @@
     color: #FFFFFF!important;
 }
 
-.button[data-sel="true"]{
-    background: #404040!important;
-    color: #FFFFFF!important;
-}
 
-.button[data-type="black"]{
-    background: #404040;
+
+.button[data-type="red"]{
+    background: #AA0A22;
     color: #FFFFFF;
-    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
 }
-.button[data-type="black"]:hover{
-    background: #606060;
+.button[data-type="red"]:hover{
+    background: #8F0E21;
     color: #FFF;
+    box-shadow: 0 1px 20px 0 rgba(170, 10, 34, 0.35);
 }
 
 .button[data-type="white1"]{
-    background: #EFEFEF;
+    background: #FFFFFF;
     color: #111111;
-    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    border: 1px solid #AA0A22;
 }
 .button[data-type="white1"]:hover{
-    background: #606060;
+    background: #8F0E21;
     color: #FFF;
+    box-shadow: 0 1px 20px 0 rgba(170, 10, 34, 0.35);
+    border: 1px solid #8F0E21;
 }
 
 .button[data-type="white2"]{
@@ -65,4 +62,10 @@
     border-color: #606060;
     background: #606060;
     color: #FFF;
+}
+
+.button[data-sel="true"]{
+    background: #AA0A22;
+    color: #FFFFFF!important;
+    box-shadow: 0 1px 20px 0 rgba(170, 10, 34, 0.35);
 }

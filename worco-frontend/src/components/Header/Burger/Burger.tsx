@@ -19,30 +19,30 @@ const Burger = () => {
 
     const ref = useRef(null)
 
-    const handlerBurger = () =>{
-        setTimeout(() => setIsOpen(!isOpen),  350)
+    const handlerBurger = () => {
+        setTimeout(() => setIsOpen(!isOpen), 350)
     }
 
-    let list:JSX.Element[] = [];
+    let list: JSX.Element[] = [];
 
-    if(store.role === "User")
-        UserBurgerList.forEach((i:IBurgerList, index) =>  {
-            list.push(
-                <Link to={i.link} className={"burger-link"} key={index}>
-                    <div className={"burger-link-text"} >{i.name}</div>
-                </Link>
-            )
-        })
-    else if(store.role === "Company")
-        CompanyBurgerList.forEach((i:IBurgerList, index) =>  {
+    if (store.role === "User")
+        UserBurgerList.forEach((i: IBurgerList, index) => {
             list.push(
                 <Link to={i.link} className={"burger-link"} key={index}>
                     <div className={"burger-link-text"}>{i.name}</div>
                 </Link>
             )
         })
-    else if(store.role === "Admin")
-        AdminBurgerList.forEach((i:IBurgerList, index) =>  {
+    else if (store.role === "Company")
+        CompanyBurgerList.forEach((i: IBurgerList, index) => {
+            list.push(
+                <Link to={i.link} className={"burger-link"} key={index}>
+                    <div className={"burger-link-text"}>{i.name}</div>
+                </Link>
+            )
+        })
+    else if (store.role === "Admin")
+        AdminBurgerList.forEach((i: IBurgerList, index) => {
             list.push(
                 <Link to={i.link} className={"burger-link"} key={index} onClick={handlerBurger}>
                     <div className={"burger-link-text"}>{i.name}</div>
@@ -51,28 +51,27 @@ const Burger = () => {
         })
 
 
-
     useOnClickOutside(ref, () => {
-        if(isOpen) handlerBurger()
+        if (isOpen) handlerBurger()
     });
 
     return (
         <>
-            <div className={"burger-button"} onClick={handlerBurger} >
+            <div className={"burger-button"} onClick={handlerBurger}>
                 <svg width="30" height="30" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect y="8.4071" width={isOpen? 10 : 15} height="5.18471" rx="2.59236" fill="#404040"/>
-                    <rect y="16.8156" width={isOpen? 12 : 22} height="5.18471" rx="2.59236" fill="#404040"/>
-                    <rect width={isOpen? 12 : 22} height="5.18471" rx="2.59236" fill="#404040"/>
+                    <rect y="8.4071" width={isOpen ? 10 : 15} height="5.18471" rx="2.59236" fill="#404040"/>
+                    <rect y="16.8156" width={isOpen ? 12 : 22} height="5.18471" rx="2.59236" fill="#404040"/>
+                    <rect width={isOpen ? 12 : 22} height="5.18471" rx="2.59236" fill="#404040"/>
                 </svg>
             </div>
 
-            <div className={`burger-content ${isOpen?"burger-open" : "burger-close"}`} ref={ref} >
+            <div className={`burger-content ${isOpen ? "burger-open" : "burger-close"}`} ref={ref}>
                 <div className={"burger-content-top"}>
                     <div className={"burger-info"}>
                         <img src={"Pictures/NiceImage.png"} className={"burger-info-image"}/>
 
                         <div className={"burger-info-names"}>
-                           {store.user.lastName} {store.user.firstName}
+                            {store.user.lastName} {store.user.firstName}
                         </div>
                     </div>
 
@@ -80,19 +79,16 @@ const Burger = () => {
                         <div className={"burger-links"}>
                             {list}
                         </div>
-                        <div className={"burger-buttons-bottom"}>
-                            <div className={"burger-number"}>
-                                <div>Наш телефон:</div>
-                                <div>+7-919-444-48-90</div>
-                            </div>
-                            <div className={"burger-exit"}>
-
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div className={"burger-content-bottom"}>
-                    <Button onClick={() => store.logout()} type={"white1"} size={"small"}>Выйти</Button>
+                    <div className={"burger-number"}>
+                        <div>Наш телефон:</div>
+                        <div>+7-919-444-48-90</div>
+                    </div>
+                    <div className={"burger-exit"}>
+                        <Button onClick={() => store.logout()} type={"white1"} size={"small"}>Выйти</Button>
+                    </div>
                 </div>
             </div>
         </>

@@ -13,7 +13,7 @@ interface IMapElements {
     openEditElement: (element: IElement) => void,
     elementsArray: IElement[] | undefined,
     elementsUpdate: () => void,
-    newElementShow: (bool:boolean) => void
+    newElementShow: (bool: boolean) => void
 }
 
 const MapElements = ({
@@ -50,9 +50,9 @@ const MapElements = ({
                     }
                 })
                 .catch((error) => {
-                    if(error.response.data.status === "Error_1")
+                    if (error.response.data.status === "Error_1")
                         alert("Такого элемента не существует")
-                    else if(error.response.data.status === "Error_2")
+                    else if (error.response.data.status === "Error_2")
                         alert("Этот элемент нельзя удалить, так как он уже используется")
                     else
                         alert("Что-то пошло не так, попробуйте позже")
@@ -62,7 +62,10 @@ const MapElements = ({
 
     return (
         <>
-            <div className={"mapElements-button"} onClick={() => setIsOpen(!isOpen)}>Элементы</div>
+            {/*<div className={"mapElements-button"} onClick={() => setIsOpen(!isOpen)}>Элементы</div>*/}
+            <div className={"mapElements-button"}>
+                <Button onClick={() => setIsOpen(!isOpen)} size={"small"} type={"white1"} selected={isOpen}>Элементы</Button>
+            </div>
             <div className={"mapElements-content"} ref={ref} data-show={isOpen}>
                 <div className={"mapElements-items"}>
                     {elements?.map((e, index) => {
@@ -102,7 +105,10 @@ const MapElements = ({
                     })}
                 </div>
                 <div className={"mapElements-add-container"}>
-                    <Button onClick={() => {openAddElement(); newElementShow(false)}} size={"medium"} type={"black"}>Добавить элемент</Button>
+                    <Button onClick={() => {
+                        openAddElement();
+                        newElementShow(false)
+                    }} size={"medium"} type={"red"}>Добавить элемент</Button>
                 </div>
             </div>
         </>

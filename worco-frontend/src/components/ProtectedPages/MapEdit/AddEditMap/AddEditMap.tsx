@@ -210,7 +210,7 @@ const AddEditMap = ({isAdd, onClose, mapProps, onDataUpdate}: IAddEditMap) => {
                     <Button onClick={onClose} type={"white2"} size={"small"}>
                         Отменить
                     </Button>
-                    <Button onClick={onSave} type={"black"} size={"small"}>
+                    <Button onClick={onSave} type={"red"} size={"small"}>
                         {isAdd ? "Добавить" : "Сохранить"}
                     </Button>
                 </div>

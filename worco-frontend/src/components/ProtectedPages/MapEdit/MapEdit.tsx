@@ -423,17 +423,17 @@ const MapEdit = () => {
                             token: {
 
                                 fontFamily: "Montserrat",
-                                colorPrimary: '#404040',
-                                colorPrimaryActive: "#404040",
+                                colorPrimary: '#AA0A22',
+                                colorPrimaryActive: "#AA0A22",
                                 borderRadius: 10,
-                                colorBgContainer: '#EFEFEF',
+                                colorBgContainer: '#FFFFFF',
                             },
                         }}
                     >
                         <Switch onChange={(e) => setCanEditPosition(e)}/>
                     </ConfigProvider>
                     <div>Редактировать расположение</div>
-                    <Button onClick={() => SavePositionPlace()} size={"small"} type={"black"}>Сохранить</Button>
+                    <Button onClick={() => SavePositionPlace()} size={"small"} type={"red"}>Сохранить</Button>
                 </div>
                 <div className={"interactiveMapEdit-panel-floor"}>
                     <DropDown
