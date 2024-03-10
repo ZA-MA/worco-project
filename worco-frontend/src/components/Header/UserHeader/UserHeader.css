@@ -35,8 +35,15 @@
     display: inline-flex;
     align-items: center;
     justify-content: right;
+    gap: 40px;
 }
 
-.headerUser-notify img{
+.headerUser-notify img:first-child{
+    cursor: pointer;
+    height: 40px;
+}
+
+.headerUser-notify img:last-child{
+    cursor: pointer;
     height: 25px;
 }

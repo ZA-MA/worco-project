@@ -15,6 +15,7 @@ const AdminHeader = () => {
                 <img src={"Pictures/LogoCoworking.svg"} />
             </Link>
             <div className={"headerUser-notify"}>
+                <img src={"Pictures/morionLogo.svg"}/>
                 <img src={"Pictures/alarm.svg"}/>
             </div>
         </div>

@@ -58,10 +58,22 @@ const Burger = () => {
     return (
         <>
             <div className={"burger-button"} onClick={handlerBurger}>
-                <svg width="30" height="30" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect y="8.4071" width={isOpen ? 10 : 15} height="5.18471" rx="2.59236" fill="#404040"/>
-                    <rect y="16.8156" width={isOpen ? 12 : 22} height="5.18471" rx="2.59236" fill="#404040"/>
-                    <rect width={isOpen ? 12 : 22} height="5.18471" rx="2.59236" fill="#404040"/>
+                <svg width="60" height="30" viewBox="0 0 60 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/*<rect width={isOpen ? 12 : 22} height="1" rx="2.59236" fill="#000000"/>
+                    <rect y="8.4071" width={isOpen ? 10 : 15} height="1" rx="2.59236" fill="#000000"/>
+                    <rect y="16.8156" width={isOpen ? 12 : 22} height="1" rx="2.59236" fill="#000000"/>*/}
+
+                    {/*<line x1="0" y1="1" x2="60" y2="1" stroke="black" strokeWidth={2}/>
+                    <line x1="0" y1="15" x2="60" y2="15" stroke="black" strokeWidth={2}/>
+                    <line x1="0" y1="29" x2="60" y2="29" stroke="black" strokeWidth={2}/>*/}
+
+                    <path d={isOpen ? "M0 1H20" : "M0 1H60"} stroke="black"/>
+                    <path d={isOpen ? "M0 15H35" : "M0 15H45"} stroke="black"/>
+                    <path d={isOpen ? "M0 29H50" : "M0 29H30"} stroke="black"/>
+
+                    {/*<line x1="0" y1="1" x2={isOpen ? 50 : 60} y2="1" stroke="black" strokeWidth={2}/>
+                    <line x1="0" y1="15" x2={isOpen ? 35 : 45} y2="15" stroke="black" strokeWidth={2}/>
+                    <line x1="0" y1="29" x2={isOpen ? 20 : 30} y2="29" stroke="black" strokeWidth={2}/>*/}
                 </svg>
             </div>
 
