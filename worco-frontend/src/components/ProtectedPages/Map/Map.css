@@ -23,13 +23,21 @@
     justify-items: center;
 }
 
-.interactiveMap-panel-places{
+.interactiveMap-panel-time{
     width: 100%;
-    display: inline-grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    display: inline-flex;
     align-items: center;
-    gap: 25px;
+    gap: 20px;
     padding: 0 20px;
+    margin-left: 40px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.interactiveMap-panel-time img{
+    width: 30px;
+    aspect-ratio: 1;
+    object-fit: cover;
 }
 
 .interactiveMap-panel-map{

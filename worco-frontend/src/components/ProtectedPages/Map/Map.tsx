@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useMemo, useRef, useState} from 'react';
 import Canvas from "../../UI/Canvas/Canvas";
 import "./Map.css"
 import Draggable, {DraggableData, DraggableEvent} from 'react-draggable';
@@ -17,6 +17,7 @@ import AddEditElement from "../MapEdit/AddEditElement/AddEditElement";
 import {ConfigProvider, Switch} from "antd";
 import AddEditMap from "../MapEdit/AddEditMap/AddEditMap";
 import MapElements from "../MapEdit/MapElements/MapElements";
+import {useDate} from "../../../hooks/useDate";
 
 const Map = () => {
     const {store} = useContext(Context)
@@ -117,12 +118,14 @@ const Map = () => {
         getMaps()
     }, [])
 
-    //console.log(window.innerWidth / window.innerHeight) 100-
+    const time = useDate()
+
     return (
         <div className={"interactiveMap"}>
             <div className={"interactiveMap-panel"}>
-                <div className={"interactiveMapEdit-panel-editPosition"}>
-
+                <div className={"interactiveMap-panel-time"}>
+                    <img src={"Pictures/timeIcon.svg"} alt={"time"}/>
+                    {time.time}
                 </div>
                 <div className={"interactiveMap-panel-map"}>
                     <DropDown

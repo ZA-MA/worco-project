@@ -103,10 +103,11 @@ const MapFilter = () => {
                         token: {
 
                             fontFamily: "Montserrat",
-                            colorPrimary: '#b0b0b0',
-                            colorPrimaryActive: "#404040",
-                            borderRadius: 10,
-                            colorBgContainer: '#EFEFEF',
+                            colorPrimary: '#AA0A22',
+                            colorPrimaryActive: "#8F0E21",
+                            borderRadius: 0,
+                            colorBgContainer: '#FFFFFF',
+                            colorTextDisabled: "#AA0A22"
                         },
                     }}
                 >
