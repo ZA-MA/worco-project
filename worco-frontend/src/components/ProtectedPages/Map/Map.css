@@ -32,7 +32,7 @@
     padding: 0 20px;
 }
 
-.interactiveMap-panel-floor{
+.interactiveMap-panel-map{
     width: 40%;
 }
 
@@ -41,6 +41,10 @@
     display: inline-flex;
     justify-content: right;
     margin-right: 20%;
+}
+
+.interactiveMap-panel-filter button{
+    width: 30%;
 }
 
 .interactiveMap-content{

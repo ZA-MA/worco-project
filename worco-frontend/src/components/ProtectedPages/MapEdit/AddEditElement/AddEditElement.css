@@ -32,8 +32,7 @@
 
 .addEditElement {
     width: 800px;
-    background-color: #EFEFEF;
-    border-radius: 12px;
+    background-color: #FFFFFF;
     box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.25);
     padding: 20px;
 }
@@ -47,7 +46,7 @@
 }
 
 .addEditElement-name {
-    width: 50%;
+    width: 45%;
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -74,7 +73,6 @@
     width: 100%;
     aspect-ratio: 1;
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
-    border-radius: 15px;
 }
 
 .addEditElement-photo-image-dragEnter {
@@ -192,30 +190,4 @@
 
 .addEditElement-buttons button {
     width: 30%;
-}
-
-.addEditElement-buttons-delete {
-    padding: 5px;
-    width: 32px!important;
-    height: 32px!important;
-    background-color: #EFEFEF;
-    border-radius: 8px;
-    box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.25);
-}
-
-.addEditElement-buttons-delete div {
-    width: 22px;
-    height: 22px;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-image: url("/public/Pictures/trash.svg");
-}
-
-.addEditElement-buttons-delete:hover{
-    background: #606060;
-    color: #FFF;
-}
-
-.addEditElement-buttons-delete:hover div {
-    background-image: url("/public/Pictures/trashWhite.svg");
 }

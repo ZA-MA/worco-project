@@ -2,7 +2,7 @@ import React from 'react';
 import "./Button.css"
 
 interface IButton {
-    type?: "default" | "edit" | "add" | "delete"
+    type?: "default" | "edit" | "add" | "delete" | "back"
     styleProps?: "red" | "white1" | "white2",
     children?: React.ReactNode
     name?: string,
@@ -77,6 +77,20 @@ const Button = ({
                     <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1 4.2H2.6H15.4" stroke="#AA0A22" stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M13.8001 4.2V15.4C13.8001 15.8243 13.6315 16.2313 13.3315 16.5314C13.0314 16.8314 12.6244 17 12.2001 17H4.2001C3.77575 17 3.36878 16.8314 3.06873 16.5314C2.76867 16.2313 2.6001 15.8243 2.6001 15.4V4.2M5.0001 4.2V2.6C5.0001 2.17565 5.16867 1.76869 5.46873 1.46863C5.76879 1.16857 6.17575 1 6.6001 1H9.8001C10.2244 1 10.6314 1.16857 10.9315 1.46863C11.2315 1.76869 11.4001 2.17565 11.4001 2.6V4.2" stroke="#AA0A22" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            }
+            {type === "back" &&
+                <button className={`button-delete`}
+                        name={name}
+                        disabled={disabled}
+                        data-style={styleProps}
+                        data-size={size}
+                        data-sel={selected}
+                        onClick={onClick}
+                >
+                    <svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M26 13.5C26.8284 13.5 27.5 12.8284 27.5 12C27.5 11.1716 26.8284 10.5 26 10.5V13.5ZM0.93934 10.9393C0.353553 11.5251 0.353553 12.4749 0.93934 13.0607L10.4853 22.6066C11.0711 23.1924 12.0208 23.1924 12.6066 22.6066C13.1924 22.0208 13.1924 21.0711 12.6066 20.4853L4.12132 12L12.6066 3.51472C13.1924 2.92893 13.1924 1.97918 12.6066 1.3934C12.0208 0.807612 11.0711 0.807612 10.4853 1.3934L0.93934 10.9393ZM26 10.5H2V13.5H26V10.5Z" fill="#AA0A22" />
                     </svg>
                 </button>
             }

@@ -90,15 +90,11 @@ const MapElements = ({
                                     </div>
                                 </Draggable>
                                 <div className={"mapElements-item-buttons"}>
-                                    <button onClick={() => {
+                                    <Button onClick={() => {
                                         openEditElement(e);
                                         newElementShow(false)
-                                    }}>
-                                        <div></div>
-                                    </button>
-                                    <button onClick={() => deleteElement(e.id)}>
-                                        <div></div>
-                                    </button>
+                                    }} size={"small"} styleProps={"white1"} type={"edit"}/>
+                                    <Button onClick={() => deleteElement(e.id)} size={"small"} styleProps={"white1"} type={"delete"}/>
                                 </div>
                             </div>
                         )

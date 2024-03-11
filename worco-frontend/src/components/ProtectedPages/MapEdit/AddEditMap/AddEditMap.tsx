@@ -153,11 +153,12 @@ const AddEditMap = ({isAdd, onClose, mapProps, onDataUpdate}: IAddEditMap) => {
                         <ConfigProvider
                             theme={{
                                 token: {
+
                                     fontFamily: "Montserrat",
-                                    colorPrimary: '#404040',
-                                    colorPrimaryActive: "#404040",
+                                    colorPrimary: '#AA0A22',
+                                    colorPrimaryActive: "#AA0A22",
                                     borderRadius: 10,
-                                    colorBgContainer: '#EFEFEF',
+                                    colorBgContainer: '#FFFFFF',
                                 },
                             }}
                         >
@@ -203,9 +204,7 @@ const AddEditMap = ({isAdd, onClose, mapProps, onDataUpdate}: IAddEditMap) => {
                 </div>
                 <div className={"addEditMap-buttons"}>
                     {!isAdd &&
-                        <button className={"addEditMap-buttons-delete"} onClick={onDelete}>
-                            <div></div>
-                        </button>
+                        <Button onClick={onDelete} type={"delete"} size={"small"} styleProps={"white1"}/>
                     }
                     <Button onClick={onClose} styleProps={"white1"} size={"small"}>
                         Отменить

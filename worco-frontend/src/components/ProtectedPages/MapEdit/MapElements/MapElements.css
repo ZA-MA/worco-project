@@ -81,7 +81,7 @@
     justify-content: right;
 }
 
-.mapElements-item-buttons button{
+/*.mapElements-item-buttons button{
     padding: 5px;
     width: 32px;
     height: 32px;
@@ -116,7 +116,7 @@
 
 .mapElements-item-buttons button:last-child:hover div{
     background-image: url("/public/Pictures/trashWhite.svg");
-}
+}*/
 
 .mapElements-add-container{
     width: 100%;

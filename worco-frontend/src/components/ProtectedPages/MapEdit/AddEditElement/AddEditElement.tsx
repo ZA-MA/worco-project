@@ -249,9 +249,9 @@ const AddEditElement = ({onClose, elementProps, isAdd, onAddEditEnd}: IAddEditEl
                     <div className={"addEditElement-name"}>
                         Тип
                         <DropDown
-                        options={[{name: "Место"}, {name: "Переговорная"}, {name: "Кабинет"}]} value={element?.type}
-                        onChange={(val) => setElement({...element, type: val})} placeHolder={"Выберите название"}
-                        disabled={!!element?.type}
+                        options={[{name: "Место"}, {name: "Переговорная"}, {name: "Офис"}]} value={element?.type}
+                        onChange={(val) => setElement({...element, type: val})} placeHolder={"Выберите тип"}
+                        disabled={!isAdd}
                         size={"small"}/>
                     </div>
 
@@ -426,10 +426,10 @@ const AddEditElement = ({onClose, elementProps, isAdd, onAddEditEnd}: IAddEditEl
                                                     token: {
 
                                                         fontFamily: "Montserrat",
-                                                        colorPrimary: '#404040',
-                                                        colorPrimaryActive: "#404040",
+                                                        colorPrimary: '#AA0A22',
+                                                        colorPrimaryActive: "#AA0A22",
                                                         borderRadius: 10,
-                                                        colorBgContainer: '#EFEFEF',
+                                                        colorBgContainer: '#FFFFFF',
                                                     },
                                                 }}
                                             >
@@ -456,9 +456,7 @@ const AddEditElement = ({onClose, elementProps, isAdd, onAddEditEnd}: IAddEditEl
                             </div>
                             <div className={"addEditElement-buttons"}>
                                 {!isAdd &&
-                                    <button className={"addEditElement-buttons-delete"} onClick={onDelete}>
-                                        <div></div>
-                                    </button>
+                                    <Button onClick={onDelete} type={"delete"} size={"small"} styleProps={"white1"}/>
                                 }
                                 <Button onClick={onClose} styleProps={"white1"} size={"small"}>
                                     Отменить

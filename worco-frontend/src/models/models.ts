@@ -10,7 +10,8 @@ export interface IMap{
     activity: boolean,
     image: string,
     width: number,
-    height: number
+    height: number,
+    places?: IPlace[]
 }
 
 export interface IElement {

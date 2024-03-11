@@ -259,13 +259,16 @@ const MapEdit = () => {
         if (places && places.length > 0) {
             newId = places.reduce((acc, curr) => acc.id > curr.id ? acc : curr).id + 1
         }
-        let options: IOption[] = dataElem.options.split(",").map((o) => {
-            let option: IOption = {
-                option: o,
-                active: false
-            }
-            return option
-        })
+        let options: IOption[] = []
+        if(dataElem.options){
+            options = dataElem.options.split(",").map((o) => {
+                let option: IOption = {
+                    option: o,
+                    active: false
+                }
+                return option
+            })
+        }
         setPosNewElem({x: 0, y: 0})
         setNewElemConfirm(false)
         setNewElemProps({

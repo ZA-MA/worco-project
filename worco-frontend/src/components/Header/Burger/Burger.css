@@ -3,7 +3,6 @@
     cursor: pointer;
     width: 60px;
     height: 30px;
-    padding: 5px 10px 5px 0px;
     transition: 300ms;
 }
 
@@ -111,10 +110,16 @@
     transition: 300ms;*/
 }
 
-.burger-link:hover{
-    color: #AA0A2290;
+.burger-link[data-sel="true"]{
+    color: #AA0A22!important;
     text-decoration: underline;
 }
+
+.burger-link:hover{
+    color: #8F0E21;
+}
+
+
 
 .burger-link img{
     width: 25px;
@@ -140,3 +145,4 @@
 .burger-number div:last-child{
     color: #AA0A22;
 }
+

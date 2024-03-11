@@ -9,7 +9,7 @@ interface Interface {
 export const Loader = ({load}:Interface) => {
     return(
         <div style={load?{display:"flex"}:{display:"none"}} id={'loader-container'}>
-            <BeatLoader color="black" loading={load} />
+            <BeatLoader color="#AA0A22" loading={load} />
         </div>
     )
 }

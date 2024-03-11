@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import './Burger.css';
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {Context} from "../../../index";
 import {SpaRoutes} from "../../../Routes/spaRoutes";
 import {UserBurgerList} from "../../../data/BurgerData/UserBurgerList";
@@ -19,6 +19,8 @@ const Burger = () => {
 
     const ref = useRef(null)
 
+    const location = useLocation()
+
     const handlerBurger = () => {
         setTimeout(() => setIsOpen(!isOpen), 350)
     }
@@ -28,24 +30,24 @@ const Burger = () => {
     if (store.role === "User")
         UserBurgerList.forEach((i: IBurgerList, index) => {
             list.push(
-                <Link to={i.link} className={"burger-link"} key={index}>
-                    <div className={"burger-link-text"}>{i.name}</div>
+                <Link to={i.link} className={"burger-link"} key={index} data-sel={location.pathname === i.link}>
+                    {i.name}
                 </Link>
             )
         })
     else if (store.role === "Company")
         CompanyBurgerList.forEach((i: IBurgerList, index) => {
             list.push(
-                <Link to={i.link} className={"burger-link"} key={index}>
-                    <div className={"burger-link-text"}>{i.name}</div>
+                <Link to={i.link} className={"burger-link"} key={index} data-sel={location.pathname === i.link}>
+                    {i.name}
                 </Link>
             )
         })
     else if (store.role === "Admin")
         AdminBurgerList.forEach((i: IBurgerList, index) => {
             list.push(
-                <Link to={i.link} className={"burger-link"} key={index} onClick={handlerBurger}>
-                    <div className={"burger-link-text"}>{i.name}</div>
+                <Link to={i.link} className={"burger-link"} key={index} onClick={handlerBurger} data-sel={location.pathname === i.link}>
+                    {i.name}
                 </Link>
             )
         })
@@ -96,7 +98,7 @@ const Burger = () => {
                 <div className={"burger-content-bottom"}>
                     <div className={"burger-number"}>
                         <div>Наш телефон:</div>
-                        <div>+7-919-444-48-90</div>
+                        <div className={"enable-select"}>+7-919-444-48-90</div>
                     </div>
                     <div className={"burger-exit"}>
                         <Button onClick={() => store.logout()} styleProps={"white1"} size={"small"}>Выйти</Button>

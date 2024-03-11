@@ -120,11 +120,12 @@ const AddEditPlace = ({placeProps, placeId, isAdd, onClose, is_now_bron, is_any_
                             <ConfigProvider
                                 theme={{
                                     token: {
+
                                         fontFamily: "Montserrat",
-                                        colorPrimary: '#404040',
-                                        colorPrimaryActive: "#404040",
+                                        colorPrimary: '#AA0A22',
+                                        colorPrimaryActive: "#AA0A22",
                                         borderRadius: 10,
-                                        colorBgContainer: '#EFEFEF',
+                                        colorBgContainer: '#FFFFFF',
                                     },
                                 }}
                             >
@@ -150,9 +151,7 @@ const AddEditPlace = ({placeProps, placeId, isAdd, onClose, is_now_bron, is_any_
                         </div>
                         <div className={"addEditPlace-buttons"}>
                             {!isAdd &&
-                                <button className={"addEditElement-buttons-delete"} onClick={onDelete}>
-                                    <div></div>
-                                </button>
+                                <Button onClick={onDelete} size={"small"} type={"delete"} styleProps={"white1"}/>
                             }
                             <Button onClick={onClose} styleProps={"white1"} size={"small"}>
                                 Отменить

@@ -16,28 +16,21 @@
     height: 60px;
 }
 
-.navigate-header button{
-    filter: drop-shadow(0px 4px 5px rgba(129, 129, 129, 0.70));
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-image: url("/public/Pictures/whiteArrow.svg");
-    aspect-ratio: 1;
-}
-
-.navigate-header button:hover{
-    background-image: url("/public/Pictures/blackArrow.svg");
-}
-
-.navigate-header button:first-child{
+.navigate-header svg{
     cursor: pointer;
+    height: inherit;
 }
 
-.navigate-header button[data-size="small"]{
+.navigate-header svg:hover path{
+    fill: #8F0E21;
+}
+
+.navigate-header[data-size="small"] svg{
     width: 32px;
 }
-.navigate-header button[data-size="medium"]{
+.navigate-header[data-size="medium"] svg{
     width: 48px;
 }
-.navigate-header button[data-size="large"]{
+.navigate-header[data-size="large"] svg{
     width: 60px;
 }
