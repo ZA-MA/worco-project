@@ -99,7 +99,7 @@ const Burger = () => {
                         <div>+7-919-444-48-90</div>
                     </div>
                     <div className={"burger-exit"}>
-                        <Button onClick={() => store.logout()} type={"white1"} size={"small"}>Выйти</Button>
+                        <Button onClick={() => store.logout()} styleProps={"white1"} size={"small"}>Выйти</Button>
                     </div>
                 </div>
             </div>

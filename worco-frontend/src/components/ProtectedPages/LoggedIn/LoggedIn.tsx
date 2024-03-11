@@ -13,13 +13,13 @@ const LoggedIn = () => {
                 Вы уже авторизованы
             </div>
             <div className={"loggedIn-content"}>
-                <Button type={"red"} onClick={() => navigate(-1)}>
+                <Button styleProps={"red"} onClick={() => navigate(-1)}>
                     Вернуться назад
                 </Button>
-                <Button type={"red"} onClick={() => navigate("/")}>
+                <Button styleProps={"red"} onClick={() => navigate("/")}>
                     Перейти на главную страницу
                 </Button>
-                <Button type={"white2"} onClick={() => store.logout()}>
+                <Button styleProps={"white1"} onClick={() => store.logout()}>
                     Выйти из системы
                 </Button>
             </div>

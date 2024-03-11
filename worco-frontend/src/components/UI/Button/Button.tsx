@@ -2,8 +2,9 @@ import React from 'react';
 import "./Button.css"
 
 interface IButton {
-    type?: "red" | "white1" | "white2",
-    children: React.ReactNode
+    type?: "default" | "edit" | "add" | "delete"
+    styleProps?: "red" | "white1" | "white2",
+    children?: React.ReactNode
     name?: string,
     size?: "small" | "medium" | "large",
     onClick: () => any,
@@ -11,18 +12,75 @@ interface IButton {
     disabled?: boolean
 }
 
-const Button = ({children, name, type="red", size="medium", onClick, selected, disabled}: IButton) => {
+const Button = ({
+                    children,
+                    name,
+                    type = "default",
+                    styleProps = "red",
+                    size = "medium",
+                    onClick,
+                    selected,
+                    disabled
+                }: IButton) => {
     return (
-        <button className={`button`}
-                name={name}
-                disabled={disabled}
-                data-type={type}
-                data-size={size}
-                data-sel={selected}
-                onClick={onClick}
-        >
-            {children}
-        </button>
+        <>
+            {type === "default" &&
+                <button className={`button`}
+                        name={name}
+                        disabled={disabled}
+                        data-style={styleProps}
+                        data-size={size}
+                        data-sel={selected}
+                        onClick={onClick}
+                >
+                    {children}
+                </button>
+            }
+            {type === "edit" &&
+                <button className={`button-edit`}
+                        name={name}
+                        disabled={disabled}
+                        data-style={styleProps}
+                        data-size={size}
+                        data-sel={selected}
+                        onClick={onClick}
+                >
+                    <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13.8603 1.71026C14.0855 1.48508 14.3528 1.30646 14.647 1.18459C14.9413 1.06272 15.2566 1 15.575 1C15.8935 1 16.2088 1.06272 16.503 1.18459C16.7972 1.30646 17.0646 1.48508 17.2897 1.71026C17.5149 1.93544 17.6935 2.20276 17.8154 2.49697C17.9373 2.79118 18 3.10651 18 3.42497C18 3.74342 17.9373 4.05875 17.8154 4.35296C17.6935 4.64717 17.5149 4.9145 17.2897 5.13968L5.71545 16.714L1 18L2.28603 13.2845L13.8603 1.71026Z" stroke="#AA0A22" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            }
+            {type === "add" &&
+                <button className={`button-add`}
+                        name={name}
+                        disabled={disabled}
+                        data-style={styleProps}
+                        data-size={size}
+                        data-sel={selected}
+                        onClick={onClick}
+                >
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.76733 0V20" stroke="#AA0A22" />
+                        <path d="M0 10L20 10" stroke="#AA0A22" />
+                    </svg>
+                </button>
+            }
+            {type === "delete" &&
+                <button className={`button-delete`}
+                        name={name}
+                        disabled={disabled}
+                        data-style={styleProps}
+                        data-size={size}
+                        data-sel={selected}
+                        onClick={onClick}
+                >
+                    <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 4.2H2.6H15.4" stroke="#AA0A22" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M13.8001 4.2V15.4C13.8001 15.8243 13.6315 16.2313 13.3315 16.5314C13.0314 16.8314 12.6244 17 12.2001 17H4.2001C3.77575 17 3.36878 16.8314 3.06873 16.5314C2.76867 16.2313 2.6001 15.8243 2.6001 15.4V4.2M5.0001 4.2V2.6C5.0001 2.17565 5.16867 1.76869 5.46873 1.46863C5.76879 1.16857 6.17575 1 6.6001 1H9.8001C10.2244 1 10.6314 1.16857 10.9315 1.46863C11.2315 1.76869 11.4001 2.17565 11.4001 2.6V4.2" stroke="#AA0A22" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            }
+        </>
     );
 };
 

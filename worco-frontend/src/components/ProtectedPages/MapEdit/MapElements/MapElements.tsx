@@ -64,7 +64,7 @@ const MapElements = ({
         <>
             {/*<div className={"mapElements-button"} onClick={() => setIsOpen(!isOpen)}>Элементы</div>*/}
             <div className={"mapElements-button"}>
-                <Button onClick={() => setIsOpen(!isOpen)} size={"small"} type={"white1"} selected={isOpen}>Элементы</Button>
+                <Button onClick={() => setIsOpen(!isOpen)} size={"small"} styleProps={"white1"} selected={isOpen}>Элементы</Button>
             </div>
             <div className={"mapElements-content"} ref={ref} data-show={isOpen}>
                 <div className={"mapElements-items"}>
@@ -108,7 +108,7 @@ const MapElements = ({
                     <Button onClick={() => {
                         openAddElement();
                         newElementShow(false)
-                    }} size={"medium"} type={"red"}>Добавить элемент</Button>
+                    }} size={"medium"} styleProps={"red"} type={"default"}>Добавить элемент</Button>
                 </div>
             </div>
         </>

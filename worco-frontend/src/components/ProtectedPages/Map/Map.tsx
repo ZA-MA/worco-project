@@ -110,13 +110,13 @@ const Map = () => {
         <div className={"interactiveMap"}>
             <div className={"interactiveMap-panel"}>
                 <div className={"interactiveMap-panel-places"}>
-                    <Button type={"white1"} onClick={() => console.log(123)} size={"small"} selected={true}>
+                    <Button styleProps={"white1"} onClick={() => console.log(123)} size={"small"} selected={true}>
                         Места
                     </Button>
-                    <Button type={"white1"} onClick={() => console.log(123)} size={"small"}>
+                    <Button styleProps={"white1"} onClick={() => console.log(123)} size={"small"}>
                         Переговорные
                     </Button>
-                    <Button type={"white1"} onClick={() => console.log(123) } size={"small"}>
+                    <Button styleProps={"white1"} onClick={() => console.log(123) } size={"small"}>
                         Кабинеты
                     </Button>
                 </div>

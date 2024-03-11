@@ -109,14 +109,14 @@ const Login = () => {
                         </div>
 
 
-                        <Button type={"red"}
+                        <Button styleProps={"red"}
                                 data-canEnter={canEnter}
                                 onClick={Login}
                                 disabled={!canEnter}
                         >
                             Войти
                         </Button>
-                        <Button type={"white2"} onClick={() => navigate("/registration")}>Зарегистрироваться</Button>
+                        <Button styleProps={"white1"} onClick={() => navigate("/registration")}>Зарегистрироваться</Button>
 
                         <div className={"login-forgotPass"}>Забыли пароль?</div>
                     </form>

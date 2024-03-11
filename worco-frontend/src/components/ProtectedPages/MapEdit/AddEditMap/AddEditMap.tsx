@@ -196,7 +196,7 @@ const AddEditMap = ({isAdd, onClose, mapProps, onDataUpdate}: IAddEditMap) => {
                                 onChange={selectProductPicture}
                                 accept="image/jpeg, image/png"
                             />
-                            <Button size={"small"} type={"white2"}
+                            <Button size={"small"} styleProps={"white1"}
                                     onClick={onBtnPictureClick}>Обзор</Button>
                         </div>
                     }
@@ -207,10 +207,10 @@ const AddEditMap = ({isAdd, onClose, mapProps, onDataUpdate}: IAddEditMap) => {
                             <div></div>
                         </button>
                     }
-                    <Button onClick={onClose} type={"white2"} size={"small"}>
+                    <Button onClick={onClose} styleProps={"white1"} size={"small"}>
                         Отменить
                     </Button>
-                    <Button onClick={onSave} type={"red"} size={"small"}>
+                    <Button onClick={onSave} styleProps={"red"} size={"small"}>
                         {isAdd ? "Добавить" : "Сохранить"}
                     </Button>
                 </div>

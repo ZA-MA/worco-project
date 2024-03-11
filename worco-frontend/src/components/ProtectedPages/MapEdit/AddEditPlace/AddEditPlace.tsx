@@ -154,10 +154,10 @@ const AddEditPlace = ({placeProps, placeId, isAdd, onClose, is_now_bron, is_any_
                                     <div></div>
                                 </button>
                             }
-                            <Button onClick={onClose} type={"white2"} size={"small"}>
+                            <Button onClick={onClose} styleProps={"white1"} size={"small"}>
                                 Отменить
                             </Button>
-                            <Button onClick={onSave} type={"red"} size={"small"}>
+                            <Button onClick={onSave} styleProps={"red"} size={"small"}>
                                 {isAdd ? "Добавить" : "Сохранить"}
                             </Button>
                         </div>

@@ -101,7 +101,7 @@ const MapEdit = () => {
     }
 
     useEffect(() => {
-        if(mapSel !== "Выберите карту" && mapSel){
+        if (mapSel !== "Выберите карту" && mapSel) {
             store.DataLoadingON()
             InteractiveMapEditService.getMap({"Info1": mapSel})
                 .then((r) => {
@@ -259,10 +259,10 @@ const MapEdit = () => {
         if (places && places.length > 0) {
             newId = places.reduce((acc, curr) => acc.id > curr.id ? acc : curr).id + 1
         }
-        let options:IOption[] = dataElem.options.split(",").map((o) => {
-            let option:IOption = {
-               option: o,
-               active: false
+        let options: IOption[] = dataElem.options.split(",").map((o) => {
+            let option: IOption = {
+                option: o,
+                active: false
             }
             return option
         })
@@ -303,7 +303,11 @@ const MapEdit = () => {
             // if(places)
             //     setPlaces([...places, newElemProps])
 
-            setNewElemProps({...newElemProps, x: newElemPos.x - newElemProps.element.width / 2, y: newElemPos.y - newElemProps.element.height / 2})
+            setNewElemProps({
+                ...newElemProps,
+                x: newElemPos.x - newElemProps.element.width / 2,
+                y: newElemPos.y - newElemProps.element.height / 2
+            })
             //setNewElemProps({...newElemProps, x: newElemPos.x, y: newElemPos.y})
             setNewElemConfirm(true)
             //let _places = places
@@ -433,7 +437,7 @@ const MapEdit = () => {
                         <Switch onChange={(e) => setCanEditPosition(e)}/>
                     </ConfigProvider>
                     <div>Редактировать расположение</div>
-                    <Button onClick={() => SavePositionPlace()} size={"small"} type={"red"}>Сохранить</Button>
+                    <Button onClick={() => SavePositionPlace()} size={"small"} styleProps={"red"}>Сохранить</Button>
                 </div>
                 <div className={"interactiveMapEdit-panel-floor"}>
                     <DropDown
@@ -443,7 +447,8 @@ const MapEdit = () => {
                         placeHolder={"Выберите этаж"}
                         size={"small"}/>
                     <div className={"interactiveMapEdit-panel-floor-btn"}>
-                        <button onClick={() => {
+                        <Button type={"edit"} styleProps={"white1"} size={"small"}
+                            onClick={() => {
                             setAddEditMapPopup(<AddEditMap isAdd={false}
                                                            onClose={() => setAddEditMapPopup(null)}
                                                            mapProps={map}
@@ -452,10 +457,9 @@ const MapEdit = () => {
                                                            }}
                                 />
                             )
-                        }}>
-                            <div></div>
-                        </button>
-                        <button onClick={() => {
+                        }} />
+                        <Button type={"add"} styleProps={"white1"} size={"small"}
+                            onClick={() => {
                             setAddEditMapPopup(<AddEditMap isAdd={true}
                                                            onClose={() => setAddEditMapPopup(null)}
                                                            onDataUpdate={() => {
@@ -463,9 +467,7 @@ const MapEdit = () => {
                                                            }}
                                 />
                             )
-                        }}>
-                            <div></div>
-                        </button>
+                        }} />
                     </div>
                 </div>
                 {elements &&
@@ -501,13 +503,13 @@ const MapEdit = () => {
                         <svg id={"svgMap"} viewBox={`0 0 ${interactiveMap?.map.width} ${interactiveMap?.map.height}`}
                              onMouseMove={(e) => moveMouseOnMap(e)}>
                             {places?.map((p, index) => {
-                                return(
+                                return (
                                     <Draggable
                                         bounds={
                                             {
                                                 top: 0, left: 0,
-                                                right: interactiveMap?.map.width? interactiveMap?.map.width - p.element.width : interactiveMap?.map.width,
-                                                bottom: interactiveMap?.map.height? interactiveMap?.map.height - p.element.height :  interactiveMap?.map.height
+                                                right: interactiveMap?.map.width ? interactiveMap?.map.width - p.element.width : interactiveMap?.map.width,
+                                                bottom: interactiveMap?.map.height ? interactiveMap?.map.height - p.element.height : interactiveMap?.map.height
                                             }}
                                         axis={"both"}
                                         defaultPosition={{x: p.x, y: p.y}}
@@ -518,7 +520,8 @@ const MapEdit = () => {
                                         onDrag={(e, data) => DragPlace(e, data, p.id, p.element.width, p.element.height)}
                                         onStop={(e, data) => onDragStop(e, data, p.id)}
                                     >
-                                        <g className={"interactiveMap-place"} key={p.id} id={`place-${p.id}`} data-id={p.id}
+                                        <g className={"interactiveMap-place"} key={p.id} id={`place-${p.id}`}
+                                           data-id={p.id}
                                            data-width={p.element.width} data-height={p.element.height}
                                            onClick={() => canEditPosition ? undefined : editPlaceHandler(p.id, p)}
                                            style={{cursor: canEditPosition ? "grab" : "pointer"}}
