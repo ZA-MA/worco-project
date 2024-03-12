@@ -32,6 +32,7 @@ using cosmetic_project_backend.Controllers;
 using Azure;
 using worco_backend.Models.ViewModels;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 
 namespace JWTRefreshToken.NET6._0.Controllers
 {
@@ -87,48 +88,101 @@ namespace JWTRefreshToken.NET6._0.Controllers
                 var db = serviceScope.ServiceProvider.GetService<AppDbContext>();
 
                 var login = await db.Login.Where(l => l.email == model.email).FirstOrDefaultAsync();
+
                 if(login != null) { 
+
                     if (login.password == HashHelper.hashPassword(model.password))
                     {
                         var user = db.Users.Where(a => a.login == login).Include(a => a.login).Include(a => a.role).FirstOrDefault();
-                        string role = user.role.role;
+                        var company = db.Companies.Where(a => a.login == login).Include(a => a.login).Include(a => a.role).FirstOrDefault();
 
-                        var identity = GetIdentity(user.firstName + " " + user.patronymic , role);
-
-                        DateTime expires = DateTime.UtcNow.AddDays(1);
-
-                        if(model.rememberMe == true) { expires = DateTime.UtcNow.AddDays(7); }
-
-                        //DateTime.UtcNow.AddMinutes(-5)
-                        
-                        var jwt = new JwtSecurityToken(
-                                issuer: AuthOptions.ISSUER,
-                                audience: AuthOptions.AUDIENCE,
-                                notBefore: DateTime.UtcNow,
-                                claims: identity.Claims,
-                                expires: expires,
-                                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-                        var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-                        HttpContext.Response.Cookies.Append("token", encodedJwt, new Microsoft.AspNetCore.Http.CookieOptions { Expires = expires });
-                        HttpContext.Response.Cookies.Append("Email", user.email, new Microsoft.AspNetCore.Http.CookieOptions { Expires = expires });
-
-                        return Ok(new
+                        if (user != null && company == null)
                         {
-                            token = encodedJwt,
-                            role = role,
-                            user = new 
+
+                            string role = user.role.role;
+
+                            var identity = GetIdentity(user.firstName + " " + user.patronymic, role);
+
+                            DateTime expires = DateTime.UtcNow.AddDays(1);
+
+                            if (model.rememberMe == true) { expires = DateTime.UtcNow.AddDays(7); }
+
+                            //DateTime.UtcNow.AddMinutes(-5)
+
+                            var jwt = new JwtSecurityToken(
+                                    issuer: AuthOptions.ISSUER,
+                                    audience: AuthOptions.AUDIENCE,
+                                    notBefore: DateTime.UtcNow,
+                                    claims: identity.Claims,
+                                    expires: expires,
+                                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+                            HttpContext.Response.Cookies.Append("token", encodedJwt, new Microsoft.AspNetCore.Http.CookieOptions { Expires = expires });
+                            HttpContext.Response.Cookies.Append("Email", user.email, new Microsoft.AspNetCore.Http.CookieOptions { Expires = expires });
+
+                            return Ok(new
                             {
-                                id = user.id,
-                                email = user.email,
-                                firstName = user.firstName,
-                                lastName = user.lastName,
-                                patronymic = user.patronymic,
-                                image = "",
-                                isActivated = true
-                            },
-                            helpNumber = "8900000000"
-                        });
+                                token = encodedJwt,
+                                role = role,
+                                user = new
+                                {
+                                    id = user.id,
+                                    email = user.email,
+                                    firstName = user.firstName,
+                                    lastName = user.lastName,
+                                    patronymic = user.patronymic,
+                                    image = "",
+                                    isActivated = true
+                                },
+                                helpNumber = "8900000000"
+                            });
+
+                        }
+                        else if(user == null && company != null){
+
+                            string role = company.role.role;
+
+                            var identity = GetIdentity(company.name_company , role);
+
+                            DateTime expires = DateTime.UtcNow.AddDays(1);
+
+                            if (model.rememberMe == true) { expires = DateTime.UtcNow.AddDays(7); }
+
+                            //DateTime.UtcNow.AddMinutes(-5)
+
+                            var jwt = new JwtSecurityToken(
+                                    issuer: AuthOptions.ISSUER,
+                                    audience: AuthOptions.AUDIENCE,
+                                    notBefore: DateTime.UtcNow,
+                                    claims: identity.Claims,
+                                    expires: expires,
+                                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+                            HttpContext.Response.Cookies.Append("token", encodedJwt, new Microsoft.AspNetCore.Http.CookieOptions { Expires = expires });
+                            HttpContext.Response.Cookies.Append("Email", company.email, new Microsoft.AspNetCore.Http.CookieOptions { Expires = expires });
+
+                            return Ok(new
+                            {
+                                token = encodedJwt,
+                                role = role,
+                                company = new
+                                {
+                                    id = company.id,
+                                    email = company.email,
+                                    companyName = company.name_company,
+                                    image = "",
+                                    isActivated = true
+                                },
+                                helpNumber = "8900000000"
+                            });
+
+                        }
+                        else{
+                            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseView { Status = "Error_3", Message = "Required role missing" });
+                        }
+                    
                     }
                     else
                     {
