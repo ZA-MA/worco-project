@@ -162,7 +162,7 @@ namespace JWTRefreshToken.NET6._0.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> UserRegistration(Registration model)
+        public async Task<IActionResult> UserRegistration(UserRegistration model)
         {
             using (var serviceScope = ServiceActivator.GetScope())
             {
@@ -173,38 +173,24 @@ namespace JWTRefreshToken.NET6._0.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError, new ResponseView { Status = "Error_1", Message = "User already exists!" });
                 }
 
-                string firstName = model.FirstName;
-                string lastName = model.LastName;
-                string patronymic = model.Patronymic;
-                string email = model.Email;
-                string phoneNumber = model.PhoneNumber;
-                string password = model.Password;
-                int login_id = db.Login.Count() + 1;
-
-
                 var login = new Login
                 {
-                    id = login_id,
-                    email = email,
-                    password = HashHelper.hashPassword(password),
+                    email = model.Email,
+                    password = HashHelper.hashPassword(model.Password),
                 };
 
                 db.Login.Add(login);
                 db.SaveChanges();
 
-                /*login_id = db.Login.Where(l => l.email == email).Select(l => l.id).First();
-
-                if(login_id == 0 || login_id == null) { return StatusCode(StatusCodes.Status500InternalServerError, new ResponseView { Status = "Error_2", Message = "Something went wrong" }); }
-    */
                 var user = new User
                 {
-                    id = db.Users.Count() + 1,
-                    login_id = login_id,
-                    role_id = 2,
-                    email = email,
-                    firstName = firstName,
-                    lastName = lastName,
-                    patronymic = patronymic
+                    login = db.Login.Where(l => l.email == model.Email).FirstOrDefault(),
+                    role = db.Roles.Where(r => r.role == "User").FirstOrDefault(),
+                    email = model.Email,
+                    phone = model.Phone,
+                    firstName = model.FirstName,
+                    lastName = model.LastName,
+                    patronymic = model.Patronymic
                 };
 
                 db.Users.Add(user);
@@ -212,6 +198,48 @@ namespace JWTRefreshToken.NET6._0.Controllers
                 await db.SaveChangesAsync();
 
                 return Ok(new ResponseView { Status = "Success", Message = "User created successfully!" });
+            }
+        }
+
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> CompanyRegistration(CompanyRegistration model)
+        {
+
+            using (var serviceScope = ServiceActivator.GetScope())
+            {
+                var db = serviceScope.ServiceProvider.GetService<AppDbContext>();
+
+                if (db.Login.Any(l => l.email == model.Email))
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new ResponseView { Status = "Error_1", Message = "Company already exists!" });
+                }
+
+                var login = new Login
+                {
+                    email = model.Email,
+                    password = HashHelper.hashPassword(model.Password),
+                };
+
+                db.Login.Add(login);
+                db.SaveChanges();
+
+                var company = new Company
+                {
+                    login = db.Login.Where(l => l.email == model.Email).FirstOrDefault(),
+                    role = db.Roles.Where(r => r.role == "Company").FirstOrDefault(),
+                    email = model.Email,
+                    phone = model.Phone,
+                    name_company = model.CompanyName,
+                    type_company = model.TypeOfOrganization,
+                    inn = model.Inn
+                };
+
+                db.Companies.Add(company);
+                await db.SaveChangesAsync();
+
+                return Ok(new ResponseView { Status = "Success", Message = "Company created successfully!" });
             }
         }
 

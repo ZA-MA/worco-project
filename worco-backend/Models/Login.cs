@@ -5,7 +5,7 @@ namespace worco_backend.Models
 {
     public class Login
     {
-        public int id { get; set; }
+        public int? id { get; set; }
 
         public string email { get; set; }
         public string password { get; set; }
