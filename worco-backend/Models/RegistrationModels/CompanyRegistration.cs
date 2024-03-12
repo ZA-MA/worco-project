@@ -25,6 +25,5 @@ namespace worco_backend.Models
         [Required(ErrorMessage = "Требуется ввести пароль")]
         [DataType(DataType.Password)]
         public string? Password { get; set; }
-
     }
 }
