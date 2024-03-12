@@ -5,24 +5,24 @@ namespace worco_backend.Models
 {
     public class CompanyRegistration
     {
-        [Required(ErrorMessage = "Требуется ввести E-mail")]
-        [EmailAddress(ErrorMessage = "Неверный E-mail")]
+        [Required(ErrorMessage = "РўСЂРµР±СѓРµС‚СЃСЏ РІРІРµСЃС‚Рё E-mail")]
+        [EmailAddress(ErrorMessage = "РќРµРІРµСЂРЅС‹Р№ E-mail")]
         public string? Email { get; set; }
 
-        [Required(ErrorMessage = "Требуется ввести номер телефона")]
+        [Required(ErrorMessage = "РўСЂРµР±СѓРµС‚СЃСЏ РІРІРµСЃС‚Рё РЅРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°")]
         [DataType(DataType.PhoneNumber)]
         public string? Phone { get; set; }
 
-        [Required(ErrorMessage = "Требуется ввести название организации")]
+        [Required(ErrorMessage = "РўСЂРµР±СѓРµС‚СЃСЏ РІРІРµСЃС‚Рё РЅР°Р·РІР°РЅРёРµ РѕСЂРіР°РЅРёР·Р°С†РёРё")]
         public string? CompanyName { get; set; }
 
-        [Required(ErrorMessage = "Требуется ввести ИНН организации")]
+        [Required(ErrorMessage = "РўСЂРµР±СѓРµС‚СЃСЏ РІРІРµСЃС‚Рё РРќРќ РѕСЂРіР°РЅРёР·Р°С†РёРё")]
         public string? Inn { get; set; }
 
-        [Required(ErrorMessage = "Требуется ввести тип организации")]
+        [Required(ErrorMessage = "РўСЂРµР±СѓРµС‚СЃСЏ РІРІРµСЃС‚Рё С‚РёРї РѕСЂРіР°РЅРёР·Р°С†РёРё")]
         public string? TypeOfOrganization { get; set; }
 
-        [Required(ErrorMessage = "Требуется ввести пароль")]
+        [Required(ErrorMessage = "РўСЂРµР±СѓРµС‚СЃСЏ РІРІРµСЃС‚Рё РїР°СЂРѕР»СЊ")]
         [DataType(DataType.Password)]
         public string? Password { get; set; }
     }

@@ -9,17 +9,16 @@ namespace worco_backend.Models
         public string? LastName { get; set; }
         public string? Patronymic { get; set; }
 
-        [Required(ErrorMessage = "Требуется ввести E-mail")]
-        [EmailAddress(ErrorMessage = "Неверный E-mail")]
+        [Required(ErrorMessage = "РўСЂРµР±СѓРµС‚СЃСЏ РІРІРµСЃС‚Рё E-mail")]
+        [EmailAddress(ErrorMessage = "РќРµРІРµСЂРЅС‹Р№ E-mail")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Требуется ввести номер телефона")]
+        [Required(ErrorMessage = "РўСЂРµР±СѓРµС‚СЃСЏ РІРІРµСЃС‚Рё РЅРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°")]
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
 
-        [Required(ErrorMessage = "Требуется ввести пароль")]
+        [Required(ErrorMessage = "РўСЂРµР±СѓРµС‚СЃСЏ РІРІРµСЃС‚Рё РїР°СЂРѕР»СЊ")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
     }
 }
