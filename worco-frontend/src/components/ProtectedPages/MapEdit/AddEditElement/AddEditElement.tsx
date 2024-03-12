@@ -250,7 +250,7 @@ const AddEditElement = ({onClose, elementProps, isAdd, onAddEditEnd}: IAddEditEl
                         Тип
                         <DropDown
                         options={[{name: "Место"}, {name: "Переговорная"}, {name: "Офис"}]} value={element?.type}
-                        onChange={(val) => setElement({...element, type: val})} placeHolder={"Выберите тип"}
+                        onChange={(val) => setElement({...element, type: val.name})} placeHolder={"Выберите тип"}
                         disabled={!isAdd}
                         size={"small"}/>
                     </div>

@@ -25,14 +25,14 @@ const Map = () => {
     const [scale, setScale] = useState(100)
     const [maps, setMaps] = useState<IMap[]>([])
 
-    const [mapSel, setMapSel] = useState<string | undefined>("Выберите карту")
+    const [mapSel, setMapSel] = useState<{ name: string, id: number | null }>({name: "Выберите карту", id: null})
     const [map, setMap] = useState<IMap>()
     const [interactiveMap, setInteractiveMap] = useState<IInteractiveMap>()
     const [places, setPlaces] = useState<IPlace[]>()
 
-    const [canEditPosition, setCanEditPosition] = useState(false)
-
     const refMap = useRef<HTMLDivElement | null>(null)
+
+    const [pos, setPos] = useState({x: 0, y: 0})
 
     let listPlaces: JSX.Element[] = []
 
@@ -64,19 +64,20 @@ const Map = () => {
         store.DataLoadingON()
         InteractiveMapService.getMaps()
             .then((r) => {
-
                 setMaps(r.data)
-
-                setMapSel(r?.data[0]?.name ? r.data[0].name : "Выберите карту")
+                setMapSel(r?.data[0]?.name ? {name: r.data[0].name, id: r.data[0].id} : {
+                    name: "Выберите карту",
+                    id: null
+                })
 
             })
             .catch()
             .finally(() => store.DataLoadingOFF())
     }
 
-    const getMap = () => {
+    const getMap = (id: number) => {
         store.DataLoadingON()
-        InteractiveMapService.getMap({"Info1": mapSel})
+        InteractiveMapService.getMap({"map_id": id})
             .then((r) => {
                 setInteractiveMap(r.data)
                 setPlaces(r.data.map.places)
@@ -88,30 +89,22 @@ const Map = () => {
     }
 
     useEffect(() => {
-        if (mapSel !== "Выберите карту" && mapSel) {
-            store.DataLoadingON()
-            InteractiveMapService.getMap({"Info1": mapSel})
-                .then((r) => {
-                    setInteractiveMap(r.data)
-                    setPlaces(r.data.map.places)
-                    setMap(r.data.map)
-                    listPlaces = []
-                })
-                .catch()
-                .finally(() => store.DataLoadingOFF())
+        if (mapSel.name !== "Выберите карту" && mapSel.id) {
+            getMap(mapSel.id)
         }
     }, [mapSel])
 
-    const changeMap = (e: string) => {
-        if (e !== mapSel) {
-            setMapSel(e)
+    const changeMap = (e: IDropdownOption) => {
+        if (e.name !== mapSel.name && e.id) {
+            setMapSel({name: e.name, id: e.id})
             setScale(100)
+            setPos({x: 0, y: 0})
         }
     }
 
     let ArrayMaps: IDropdownOption[] = []
     maps.map((item) => {
-        ArrayMaps.push({name: item.name})
+        ArrayMaps.push({id: item.id, name: item.name})
     })
 
     useEffect(() => {
@@ -119,6 +112,10 @@ const Map = () => {
     }, [])
 
     const time = useDate()
+
+    const getFilteredMap = (selectedTypes:any, selectedDates:any, selectedOptions:any) => {
+        console.log(selectedDates)
+    }
 
     return (
         <div className={"interactiveMap"}>
@@ -129,14 +126,13 @@ const Map = () => {
                 </div>
                 <div className={"interactiveMap-panel-map"}>
                     <DropDown
-                        value={mapSel}
+                        value={mapSel.name}
                         options={ArrayMaps}
                         onChange={(e) => changeMap(e)}
                         placeHolder={"Выберите этаж"}
                         size={"small"}/>
                 </div>
-                <MapFilter/>
-
+                <MapFilter options={interactiveMap?.options} onSelect={getFilteredMap}/>
 
             </div>
             {/*1509 903*/}
@@ -146,7 +142,12 @@ const Map = () => {
                     left: -interactiveMap?.map.width / 2,
                     right: interactiveMap?.map.width / 2,
                     bottom: interactiveMap?.map.height / 2
-                }}>
+                }}
+                           position={pos}
+                           onStop={(e, data) => {
+                               setPos({x: data.x, y: data.y})
+                           }}
+                >
                     <div className={"interactiveMap-content"} style={{
                         scale: `${scale}%`,
                         width: `${interactiveMap?.map.width}px`,
@@ -167,11 +168,27 @@ const Map = () => {
                                         >
                                             {!p.element.only_indicator &&
                                                 <image href={p.element.image} width={p.element.width} x={0} y={0}/>}
-                                            <circle className={"circle"}
+
+
+                                            {/*<circle className={"circle"}
                                                     cx={p.element.indicator_x}
                                                     cy={p.element.indicator_y}
                                                     r={p.element.indicator_size}
-                                                    fill={"black"} stroke="#000000" strokeWidth="0"/>
+                                                    fill={'url("#image'} stroke="#000000" strokeWidth="0">
+                                            </circle>*/}
+                                            <defs>
+                                                <clipPath id={`circleView${index}`}>
+                                                    <circle cx={p.element.indicator_x} cy={p.element.indicator_y} r={p.element.indicator_size} fill="#FFFFFF" />
+                                                </clipPath>
+                                            </defs>
+                                            <image
+                                                x={p.element.indicator_x - p.element.indicator_size}
+                                                y={p.element.indicator_y - p.element.indicator_size}
+                                                width={p.element.indicator_size * 2}
+                                                height={p.element.indicator_size * 2}
+                                                href="/Pictures/canBronIcon.svg"
+                                                clipPath={`url(#circleView${index})`}
+                                            />
                                         </g>
                                     </Draggable>
                                 )

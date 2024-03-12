@@ -65,6 +65,7 @@ export interface IOption{
 export interface IInteractiveMap{
     map: IMap,
     places: IPlace[],
+    options: string[]
 }
 
 

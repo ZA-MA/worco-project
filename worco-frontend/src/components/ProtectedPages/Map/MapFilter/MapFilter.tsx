@@ -1,4 +1,4 @@
-import React, {useContext, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import "./MapFilter.css"
 import {Context} from "../../../../index";
 import useOnClickOutside from "../../../../hooks/useOnClickOutside";
@@ -8,11 +8,22 @@ import 'dayjs/locale/ru';
 import dayjs from 'dayjs';
 import Button from "../../../UI/Button/Button";
 
-const MapFilter = () => {
+interface IMapFilter{
+    options?: string[],
+    onSelect: (selectedTypes: any, selectedDate: any, selectedOptions: any) => void
+}
+
+const MapFilter = ({options, onSelect}:IMapFilter) => {
     const {store} = useContext(Context)
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState<[]>([])
+    const [selectedTypes, setSelectedTypes] = useState({
+        place: true,
+        meetingRoom: true,
+        office: true,
+    })
+    const [selectedOptions, setSelectedOptions] = useState<{name: string, sel:boolean}[]>([])
     const ref = useRef(null)
 
     const handlerFilter = () => {
@@ -88,45 +99,95 @@ const MapFilter = () => {
         }
     }
 
+    useEffect(() => {
+        if(options)
+            setSelectedOptions(options.map(o => {
+                return {name: o, sel: false}
+            }))
+    }, [options])
+
     return (
         <>
             <div className={"interactiveMap-panel-filter"}>
                 <Button onClick={() => setIsOpen(!isOpen)} styleProps={"white1"} size={"small"}
                         selected={isOpen}>Фильтр</Button>
             </div>
-            <div className={"interactiveMap-filter-content"} ref={ref} data-show={isOpen}>
-                <div className={"interactiveMap-filter-type"}>
+            <div className={"interactiveMap-filter-container"} ref={ref} data-show={isOpen}>
+                <div className={"interactiveMap-filter-content"}>
+                    <div className={"interactiveMap-filter-type"}>
+                        Рабочее пространство
+                        <Button onClick={() => setSelectedTypes({...selectedTypes, place: !selectedTypes.place})}
+                                styleProps={"white1"}
+                                selected={selectedTypes.place}
+                        >
+                            Место
+                        </Button>
+                        <Button onClick={() => setSelectedTypes({...selectedTypes, meetingRoom: !selectedTypes.meetingRoom})}
+                                styleProps={"white1"}
+                                selected={selectedTypes.meetingRoom}
+                        >
+                            Переговорная
+                        </Button>
+                        <Button onClick={() => setSelectedTypes({...selectedTypes, office: !selectedTypes.office})}
+                                styleProps={"white1"}
+                                selected={selectedTypes.office}
+                        >
+                            Офис
+                        </Button>
+                    </div>
+                    Календарь
+                    <ConfigProvider
+                        theme={{
+                            token: {
 
-                </div>
-                <ConfigProvider
-                    theme={{
-                        token: {
+                                fontFamily: "Montserrat",
+                                colorPrimary: '#AA0A22',
+                                colorPrimaryActive: "#8F0E21",
+                                borderRadius: 0,
+                                colorBgContainer: '#FFFFFF',
+                                colorTextDisabled: "#AA0A22"
+                            },
+                        }}
+                    >
+                        <Calendar
+                            headerRender={(e) => headerRender(e)}
+                            className={"interactiveMap-filter-calendar"}
+                            locale={locale}
+                            mode={"month"}
+                            fullscreen={false}
+                            disabledDate={(current) => disabledDate(current)}
+                            fullCellRender={(e, info) => dateRender(e, info)}
 
-                            fontFamily: "Montserrat",
-                            colorPrimary: '#AA0A22',
-                            colorPrimaryActive: "#8F0E21",
-                            borderRadius: 0,
-                            colorBgContainer: '#FFFFFF',
-                            colorTextDisabled: "#AA0A22"
-                        },
-                    }}
-                >
-                    <Calendar
-                        headerRender={(e) => headerRender(e)}
-                        className={"interactiveMap-filter-calendar"}
-                        locale={locale}
-                        mode={"month"}
-                        fullscreen={false}
-                        disabledDate={(current) => disabledDate(current)}
-                        fullCellRender={(e, info) => dateRender(e, info)}
-
-                    />
-                </ConfigProvider>
-                <div className={"interactiveMap-filter-time"}>
-                    Время
-                </div>
-                <div className={"interactiveMap-filter-additionally"}>
+                        />
+                    </ConfigProvider>
                     Дополнительно
+                    <div className={"interactiveMap-filter-additionally"}>
+                        <Button onClick={() => undefined} styleProps={"white1"} size={"small"}
+                                selected={!selectedOptions?.some(o => o.sel)}
+                        >--</Button>
+                        {selectedOptions && selectedOptions.map((o, i) => (
+                            <Button
+                                onClick={() => {
+                                    setSelectedOptions(prevOptions => {
+                                        const updatedOptions = [...prevOptions];
+                                        updatedOptions[i].sel = !updatedOptions[i].sel;
+                                        return updatedOptions;
+                                    });
+                                }}
+                                styleProps={"white1"}
+                                size={"small"}
+                                selected={o.sel}
+                                key={i}
+                            >
+                                {o.name}
+                            </Button>
+                        ))}
+                    </div>
+                </div>
+                <div className={"interactiveMap-filter-select"}>
+                    <Button onClick={() => onSelect(selectedTypes, selectedDate, selectedOptions)}>
+                        Применить
+                    </Button>
                 </div>
             </div>
         </>

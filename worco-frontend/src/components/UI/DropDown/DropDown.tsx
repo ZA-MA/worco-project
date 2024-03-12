@@ -3,6 +3,7 @@ import "./DropDown.css"
 import useOnClickOutside from "../../../hooks/useOnClickOutside";
 export interface IDropdownOption{
     key?: string | number;
+    id?: number;
     name:string;
     visible?: boolean;
     notBlocked?: boolean;
@@ -33,7 +34,7 @@ const DropDown = ({options, value, onChange, name, placeHolder, size, errorMsg, 
         return (
             <div
                 className={`dropdown-item ${value === item.name&& " dropdown-item-select"}`}
-                onClick={() => dropDownHandler(item.name)}
+                onClick={() => dropDownHandler(item)}
                 key={index}
             >
                 <div>{item.name}</div>
