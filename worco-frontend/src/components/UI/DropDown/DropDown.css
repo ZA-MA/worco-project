@@ -61,8 +61,6 @@
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
     transition: 300ms;
     overflow: hidden;
-    max-height: 0;
-    --max-height: 0;
     --top: 0;
     z-index: 1;
     border: 1px solid #AA0A22;
@@ -72,10 +70,10 @@
     --max-height: 125px;
 }
 .dropDown-list[data-size="medium"]{
-    top: 48px;
+    --top: 48px;
 }
 .dropDown-list[data-size="large"]{
-    top: 60px;
+    --top: 60px;
 }
 
 .dropDown-list[data-show="true"]{

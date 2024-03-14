@@ -12,6 +12,9 @@ import Login from "./components/PublicPages/Login/Login";
 import LoggedIn from "./components/ProtectedPages/LoggedIn/LoggedIn";
 import {observer} from "mobx-react-lite";
 import MapEdit from "./components/ProtectedPages/MapEdit/MapEdit";
+import Registration from "./components/Registration/CompanyRegistration/CompanyRegistration";
+import CompanyRegistration from "./components/Registration/CompanyRegistration/CompanyRegistration";
+import UserRegistration from "./components/Registration/UserRegistration/UserRegistration";
 
 
 const ROLES = {
@@ -27,6 +30,9 @@ function App() {
             <Routes>
                 <Route path={SpaRoutes.Home} element={<Home/>}/>
                 <Route path={SpaRoutes.LOGIN} element={<Login/>}/>
+                <Route path={SpaRoutes.USER_REGISTRATION} element={<UserRegistration/>}/>
+                <Route path={SpaRoutes.COMPANY_REGISTRATION} element={<CompanyRegistration/>}/>
+
 
                 {/*<Route element={<RequireAuth allowedRole={[ROLES.Guest]}/>}>
 

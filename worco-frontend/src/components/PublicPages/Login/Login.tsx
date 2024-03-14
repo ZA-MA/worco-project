@@ -73,7 +73,6 @@ const Login = () => {
         <>
             {store.isAuth? <LoggedIn/> :
                 <div className={"login-content"}>
-                    <NavigateHeader/>
                     <form className={"login-form"} autoComplete={"off"}>
                         <div className={"login-text"}>Вход</div>
 

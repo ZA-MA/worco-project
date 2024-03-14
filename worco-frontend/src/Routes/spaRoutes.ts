@@ -3,7 +3,8 @@ export const SpaRoutes = {
     UNAUTHORIZED: "/unauthorized",
     MAIN: "/main",
     LOGIN: "/login",
-    REGISTRATION: "/registration",
+    USER_REGISTRATION: "/userRegistration",
+    COMPANY_REGISTRATION: "/companyRegistration",
 
     USER:{
         PROFILE: "/profile",
