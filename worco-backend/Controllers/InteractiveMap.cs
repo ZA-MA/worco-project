@@ -72,18 +72,5 @@ namespace worco_backend.Controllers
                 });
             }
         }
-        [HttpPost]
-        [Route("[action]")]
-        public async Task<IActionResult> GetFilteredPlaces(FilterMapView model)
-        {
-            using (var serviceScope = ServiceActivator.GetScope())
-            {
-                var db = serviceScope.ServiceProvider.GetService<AppDbContext>();
-
-                /*if()*/
-
-                return Ok();
-            }
-        }
     }
 }
