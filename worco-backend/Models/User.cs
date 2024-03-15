@@ -14,6 +14,9 @@ namespace worco_backend.Models
         public string patronymic { get; set; }
         public string phone { get; set; }
         public bool in_company { get; set; }
+
+        public string avatar_url { get; set; }
+        
         public Login login { get; set; }
         public Role role { get; set; }
         public List<ReservationsPlaces>? reservationsPlaces { get; set; }
