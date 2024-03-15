@@ -64,6 +64,18 @@ export default class Store{
             return response
     }
 
+    async RegisterUser(userinfo: any){
+        this.setLogout(false)
+        const response = await AuthenticateService.registerUser(userinfo);
+        return response;
+    }
+
+    async RegisterCompany(companyinfo: any){
+        this.setLogout(false)
+        const response = await AuthenticateService.registerCompany(companyinfo);
+        return response;
+    }
+
     // async register(userinfo: any, URL:string):Promise<boolean>{
     //         this.setLogout(false)
     //         AuthenticateService.register(userinfo, URL)

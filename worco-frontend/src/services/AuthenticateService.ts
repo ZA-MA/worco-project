@@ -12,9 +12,13 @@ export default class AuthenticateService {
     }
     //Registration
 
-    static async register(userinfo: any, URL: string) {
-        return $api.post(URL, userinfo, { headers: { "Content-Type": "multipart/form-data" } })
+    static async registerUser(userinfo: any):Promise<AxiosResponse>{
+        return $api.post( Authenticate.REGISTER_USER, userinfo)
     }
+    static async registerCompany(companyinfo: any):Promise<AxiosResponse>{
+        return $api.post( Authenticate.REGISTER_COMPANY, companyinfo)
+    }
+
     //Logout
     static async logout():Promise<void>{
         return $api.post(Authenticate.LOGOUT)

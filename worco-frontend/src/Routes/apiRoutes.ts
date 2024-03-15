@@ -2,7 +2,8 @@ export const ApiRoutes = {
     Authenticate: {
         LOGIN: "/Authenticate/login",
         LOGOUT: "/Authenticate/logout",
-        REGISTER: "/Authenticate/register",
+        REGISTER_USER: "/Authenticate/registerUser",
+        REGISTER_COMPANY: "/Authenticate/registerCompany",
         CHECK_AUTH: "/Authenticate/CheckAuth",
         REFRESH_TOKEN: "/Authenticate/refresh-token",
         USER_INFO: "/Authenticate/userInfo",
