@@ -14,6 +14,8 @@ namespace worco_backend.Models
         public string inn { get; set; }
         public string type_company { get; set; }
 
+        public string avatar_url { get; set; }
+
         public Login login { get; set; }
         public Role role { get; set; }
         public List<ReservationsPlaces>? reservationsPlaces { get; set; }
